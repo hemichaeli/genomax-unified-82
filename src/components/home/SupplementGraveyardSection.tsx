@@ -1,68 +1,67 @@
-import { cn } from "@/lib/utils";
-
-interface SupplementBottle {
-  name: string;
-  percentUsed: string;
-  opacity: number;
-}
-
-const bottles: SupplementBottle[] = [
-  { name: "Generic Multi", percentUsed: "45%", opacity: 0.3 },
-  { name: "Random B12", percentUsed: "62%", opacity: 0.35 },
-  { name: "One-size Omega", percentUsed: "28%", opacity: 0.25 },
-  { name: "Mystery Stack", percentUsed: "71%", opacity: 0.4 },
-];
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { Pill, AlertTriangle } from "lucide-react";
 
 export const SupplementGraveyardSection = () => {
+  const navigate = useNavigate();
+
   return (
-    <section className="py-24 px-6 relative bg-card/20">
-      <div className="max-w-6xl mx-auto text-center space-y-12">
-        <div className="space-y-4">
-          <h2 className="text-4xl md:text-5xl font-bold">
-            Your cabinet of forgotten bottles
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            People waste hundreds yearly on random supplement stacks. You've tried "personalized supplements" — but still have half-full bottles you never finished.
-          </p>
-          <div className="inline-flex items-center gap-2 px-6 py-3 bg-os-error/10 border border-os-error/20 rounded-lg backdrop-blur mt-4">
-            <span className="text-2xl font-bold text-os-error">$300-800</span>
-            <span className="text-muted-foreground">wasted per year on average</span>
+    <section className="py-32 px-6 relative overflow-hidden">
+      {/* Background gradient */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(circle at 50% 50%, hsl(354 100% 62% / 0.06) 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="max-w-5xl mx-auto text-center space-y-12 relative z-10">
+        {/* Messy Cabinet Visual */}
+        <div 
+          className="relative rounded-3xl p-12 overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, hsl(222 17% 11% / 0.8) 0%, hsl(225 19% 6% / 0.9) 100%)",
+            backdropFilter: "blur(10px)",
+            border: "1px solid hsl(var(--border))",
+          }}
+        >
+          {/* Scattered pill bottles */}
+          <div className="grid grid-cols-4 md:grid-cols-6 gap-4 opacity-40">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-16 bg-muted/20 rounded-lg flex items-center justify-center"
+                style={{
+                  transform: `rotate(${(i % 3) * 5 - 5}deg)`,
+                  opacity: 0.3 + (i % 4) * 0.1,
+                }}
+              >
+                <Pill className="w-6 h-6 text-muted-foreground/40" />
+              </div>
+            ))}
+          </div>
+
+          {/* Warning badge */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card/95 backdrop-blur-sm border border-os-error/30 rounded-2xl px-8 py-6 space-y-3">
+            <div className="flex items-center justify-center gap-3">
+              <AlertTriangle className="w-8 h-8 text-os-error" />
+              <span className="text-3xl md:text-4xl font-bold text-os-error">$600/year</span>
+            </div>
+            <p className="text-sm text-muted-foreground max-w-xs">
+              Most people waste this much on supplements they don't need
+            </p>
           </div>
         </div>
-        
-        <div className="grid md:grid-cols-4 gap-4">
-          {bottles.map((item, index) => (
-            <div
-              key={item.name}
-              className={cn(
-                "p-6 rounded-2xl transition-all duration-[280ms] hover:opacity-70",
-                "bg-gradient-to-b from-card/50 to-card/20",
-                "border border-border/30"
-              )}
-              style={{
-                opacity: item.opacity,
-                animationDelay: `${index * 80}ms`,
-              }}
-            >
-              <div className="space-y-3">
-                <div className="h-24 bg-muted/20 rounded-xl relative overflow-hidden">
-                  {/* Pill bottle visual */}
-                  <div 
-                    className="absolute bottom-0 left-0 right-0 bg-muted/40 transition-all duration-[650ms]"
-                    style={{ height: item.percentUsed }}
-                  />
-                </div>
-                <p className="font-medium text-muted-foreground">{item.name}</p>
-                <p className="text-sm text-os-error">{item.percentUsed} used</p>
-              </div>
-            </div>
-          ))}
-        </div>
 
-        <div className="pt-8">
-          <p className="text-lg text-os-cyan font-medium">
-            Smart OS Supply eliminates waste → perfectly timed refills based on YOUR protocol
-          </p>
+        {/* CTA */}
+        <div className="pt-4">
+          <Button
+            size="lg"
+            onClick={() => navigate('/assessment')}
+            className="h-14 px-8 text-lg bg-gradient-to-r from-primary to-os-cyan hover:opacity-90 transition-all duration-[280ms]"
+          >
+            Fix My Protocol
+          </Button>
         </div>
       </div>
     </section>

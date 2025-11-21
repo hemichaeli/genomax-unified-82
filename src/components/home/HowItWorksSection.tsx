@@ -11,13 +11,13 @@ export const HowItWorksSection = () => {
     {
       icon: Cpu,
       title: "Analyze",
-      description: "Our OS analyzes your data and configures a gender-optimized protocol version (v1.0–v2.0).",
+      description: "AI builds your Gender-Optimized Biological OS tailored to your unique biology.",
       color: "hsl(213 100% 55%)", // primary
     },
     {
       icon: Zap,
       title: "Activate",
-      description: "Receive your personalized protocol with Smart OS Supply and daily MAXync² execution.",
+      description: "Smart OS Supply ships only what you need, updating monthly as your biology changes.",
       color: "hsl(330 100% 68%)", // maxima-light
     },
   ];

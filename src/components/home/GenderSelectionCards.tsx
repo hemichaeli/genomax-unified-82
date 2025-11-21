@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { UserRound, Sparkles } from "lucide-react";
+import { useState } from "react";
 
 export const GenderSelectionCards = () => {
   const navigate = useNavigate();
+  const [selectedGender, setSelectedGender] = useState<"maxima" | "maximo" | null>(null);
 
   const handleGenderSelect = (gender: "maxima" | "maximo") => {
-    navigate(`/onboarding?gender=${gender}`);
+    setSelectedGender(gender);
   };
 
   return (
@@ -14,7 +16,7 @@ export const GenderSelectionCards = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center space-y-4 mb-16">
           <h2 className="text-4xl md:text-5xl font-bold">
-            Choose Your Biological <span className="text-[#FF2A2A]">OS</span>
+            Choose Your Biological <span className="text-accent">OS</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Gender-optimized protocols designed for your unique biology
@@ -36,7 +38,7 @@ export const GenderSelectionCards = () => {
               {/* Header */}
               <div className="flex items-center justify-between">
                 <h3 className="text-4xl font-bold">
-                  <span className="text-[#FF2A2A]">MAX</span>
+                  <span className="text-accent">MAX</span>
                   <span className="bg-gradient-to-r from-maxima to-maxima-light bg-clip-text text-transparent">
                     ima²
                   </span>
@@ -71,7 +73,7 @@ export const GenderSelectionCards = () => {
               <Button
                 className="w-full bg-gradient-to-r from-maxima to-maxima-light hover:opacity-90 text-white font-medium h-12 transition-all duration-[280ms]"
               >
-                Build My <span className="text-[#FF2A2A] font-bold">MAX</span>ima² Protocol
+                Build My <span className="text-accent font-bold">MAX</span>ima² Protocol
               </Button>
             </div>
 
@@ -93,7 +95,7 @@ export const GenderSelectionCards = () => {
               {/* Header */}
               <div className="flex items-center justify-between">
                 <h3 className="text-4xl font-bold">
-                  <span className="text-[#FF2A2A]">MAX</span>
+                  <span className="text-accent">MAX</span>
                   <span className="bg-gradient-to-r from-maximo to-maximo-light bg-clip-text text-transparent">
                     imo²
                   </span>
@@ -128,7 +130,7 @@ export const GenderSelectionCards = () => {
               <Button
                 className="w-full bg-gradient-to-r from-maximo to-maximo-light hover:opacity-90 text-white font-medium h-12 transition-all duration-[280ms]"
               >
-                Build My <span className="text-[#FF2A2A] font-bold">MAX</span>imo² Protocol
+                Build My <span className="text-accent font-bold">MAX</span>imo² Protocol
               </Button>
             </div>
 
@@ -136,6 +138,32 @@ export const GenderSelectionCards = () => {
             <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-maximo to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-[280ms]" />
           </div>
         </div>
+
+        {/* CTAs appear after gender selection */}
+        {selectedGender && (
+          <div 
+            className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in"
+            style={{
+              animation: "fade-up-reveal 400ms cubic-bezier(0.25, 0.8, 0.25, 1) backwards"
+            }}
+          >
+            <Button
+              size="lg"
+              onClick={() => navigate('/upload')}
+              className="min-w-64 bg-gradient-to-r from-primary to-os-cyan hover:opacity-90 transition-all duration-[280ms] text-lg h-14"
+            >
+              Upload Blood Work
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => navigate(`/assessment?gender=${selectedGender}`)}
+              className="min-w-64 transition-all duration-[280ms] text-lg border-2 border-primary h-14"
+            >
+              Start Assessment
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

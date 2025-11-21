@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { CinematicOSHero } from "@/components/os/CinematicOSHero";
 import { GenderSelectionCards } from "@/components/home/GenderSelectionCards";
+import { SecretProblem } from "@/components/home/SecretProblem";
 import { SupplementGraveyardSection } from "@/components/home/SupplementGraveyardSection";
+import { GenderMattersSection } from "@/components/home/GenderMattersSection";
 import { HowItWorksSection } from "@/components/home/HowItWorksSection";
-import { SmartOSSupplyTimeline } from "@/components/home/SmartOSSupplyTimeline";
+import { SmartSupplySection } from "@/components/home/SmartSupplySection";
 import { MAXyncHeroSection } from "@/components/maxync/MAXyncHeroSection";
 import { VideoPlaceholder } from "@/components/home/VideoPlaceholder";
 
@@ -19,32 +21,13 @@ const Home = () => {
           {/* Main Headline */}
           <div className="space-y-4">
             <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-              Turn your bloodwork into a protocol
+              Stop guessing. Build a protocol
               <br />
-              that fits <span className="text-[#FF2A2A]">YOUR</span> biology.
+              that fits <span className="text-accent">YOUR</span> biology.
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-              A gender-optimized Biological OS designed for real results.
+              Gender-specific. Blood-based. Smart OS Supply. No more random supplement stacks.
             </p>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button
-              size="lg"
-              onClick={() => navigate('/assessment')}
-              className="min-w-64 bg-gradient-to-r from-primary to-os-cyan hover:opacity-90 transition-all duration-[280ms] text-lg"
-            >
-              Start Assessment
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => navigate('/upload')}
-              className="min-w-64 transition-all duration-[280ms] text-lg border-2 border-primary"
-            >
-              Upload Bloodwork
-            </Button>
           </div>
         </div>
       </CinematicOSHero>
@@ -52,14 +35,20 @@ const Home = () => {
       {/* Gender Selection Cards - Immediately after hero */}
       <GenderSelectionCards />
 
+      {/* Secret Problem Section */}
+      <SecretProblem />
+
       {/* Supplement Graveyard Section */}
       <SupplementGraveyardSection />
+
+      {/* Gender Matters Section */}
+      <GenderMattersSection />
 
       {/* How It Works - 3 Steps */}
       <HowItWorksSection />
 
-      {/* Smart OS Supply Timeline */}
-      <SmartOSSupplyTimeline />
+      {/* Smart OS Supply Section */}
+      <SmartSupplySection />
 
       {/* MAXync² Hero Section */}
       <MAXyncHeroSection />
@@ -69,7 +58,7 @@ const Home = () => {
         <div className="max-w-6xl mx-auto space-y-12">
           <div className="text-center space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold">
-              See Geno<span className="text-[#FF2A2A]">MAX²</span> in Action
+              See Geno<span className="text-accent">MAX²</span> in Action
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Watch how our Biological OS transforms bloodwork into personalized protocols
@@ -110,17 +99,17 @@ const Home = () => {
           <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             <Button
               size="lg"
-              onClick={() => navigate('/onboarding?gender=maxima')}
+              onClick={() => navigate('/assessment?gender=maxima')}
               className="h-16 text-lg bg-gradient-to-r from-maxima to-maxima-light hover:opacity-90 transition-all duration-[280ms]"
             >
-              Build My <span className="text-[#FF2A2A] font-bold">MAX</span>ima² Protocol
+              Build My <span className="text-accent font-bold">MAX</span>ima² Protocol
             </Button>
             <Button
               size="lg"
-              onClick={() => navigate('/onboarding?gender=maximo')}
+              onClick={() => navigate('/assessment?gender=maximo')}
               className="h-16 text-lg bg-gradient-to-r from-maximo to-maximo-light hover:opacity-90 transition-all duration-[280ms]"
             >
-              Build My <span className="text-[#FF2A2A] font-bold">MAX</span>imo² Protocol
+              Build My <span className="text-accent font-bold">MAX</span>imo² Protocol
             </Button>
           </div>
         </div>
