@@ -18,6 +18,25 @@ const Home = () => {
       {/* Cinematic Hero Section */}
       <CinematicOSHero>
         <div className="text-center space-y-10">
+          {/* Hero Video Container */}
+          <div className="mb-12 relative rounded-2xl overflow-hidden" style={{ maxHeight: '480px' }}>
+            <video
+              className="w-full h-auto object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/placeholder-hero-video.jpg"
+              style={{ maxHeight: '480px' }}
+            >
+              <source src="/videos/hero-genomax.mp4" type="video/mp4" />
+              {/* Fallback for mobile or unsupported browsers */}
+              <img src="/placeholder-hero-video.jpg" alt="GenoMAX² Hero" className="w-full h-auto" />
+            </video>
+            {/* Subtle overlay gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
+          </div>
+
           {/* Main Headline */}
           <div className="space-y-4">
             <h1 className="text-5xl md:text-7xl font-bold leading-tight">

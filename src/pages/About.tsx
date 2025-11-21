@@ -75,6 +75,28 @@ const About = () => {
             </Button>
           </div>
         </div>
+
+        {/* Founder Video Section */}
+        <div className="max-w-4xl mx-auto mt-16">
+          <div 
+            className="relative rounded-2xl overflow-hidden"
+            style={{
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.35)",
+            }}
+          >
+            <video
+              className="w-full h-auto"
+              controls
+              poster="/placeholder-founder-video.jpg"
+            >
+              <source src="/videos/founder-story.mp4" type="video/mp4" />
+              {/* Fallback */}
+              <img src="/placeholder-founder-video.jpg" alt="GenoMAX² Founder Story" className="w-full h-auto" />
+            </video>
+            {/* Warm overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background/30 to-transparent pointer-events-none" />
+          </div>
+        </div>
       </section>
 
       {/* The Founding Story - Full-width narrative */}
