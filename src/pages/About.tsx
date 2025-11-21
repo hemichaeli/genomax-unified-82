@@ -46,10 +46,12 @@ const About = () => {
         
         <div className="max-w-4xl mx-auto text-center relative z-10 space-y-8 animate-fade-up-reveal">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight group">
-            Why Geno<span className="text-[#FF2A2A] transition-all duration-[280ms] group-hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.6)]">MAX²</span> Exists
+            The supplement industry is broken.
+            <br />
+            We're fixing it.
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
-            We're building a new category to move people beyond guesswork and into true biological clarity.
+            Most people waste money on random pills. We built a biological operating system instead.
           </p>
           
           <div className="pt-8">
@@ -104,20 +106,20 @@ const About = () => {
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div className="space-y-6 animate-fade-up-reveal" style={{ animationDelay: "200ms" }}>
             <h2 className="text-4xl md:text-5xl font-bold transition-all duration-[340ms] hover:drop-shadow-[0_0_20px_hsl(var(--primary)/0.4)]">
-              The Founding Story
+              How it started
             </h2>
             <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
               <p>
-                It started with a simple question: <span className="text-foreground font-medium">Why do most people fail at biological optimization?</span>
+                I spent $400/month on supplements and felt exactly the same.
               </p>
               <p>
-                We realized the answer wasn't about willpower or discipline. It was about a fundamental mismatch between static protocols and dynamic biology.
+                My bloodwork showed I was deficient in iron but taking way too much magnesium. Nobody told me. The stack just kept coming.
               </p>
               <p>
-                Your body changes daily. Hormones fluctuate. Biomarkers shift. But your supplement stack stays the same?
+                That's when I realized: <span className="text-foreground font-medium">supplement companies profit from confusion, not results.</span>
               </p>
               <p className="text-foreground font-medium">
-                That's when we decided to build something different—a system that evolves with you.
+                So we built something different—a system that actually listens to your biology.
               </p>
             </div>
           </div>
@@ -153,13 +155,13 @@ const About = () => {
         
         <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold">
-            The Problem
+            Why most supplements fail
           </h2>
           <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
-            People spend hundreds each month on supplements without understanding what their biology actually needs.
+            Generic stacks ignore your bloodwork. Random pills with zero feedback.
           </p>
           <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            No feedback loop. No adaptation. No clarity. Just empty promises and wasted money. The industry profits from confusion, not results.
+            The industry profits when you keep guessing. We built GenoMAX² to fix that—blood-based protocols that adapt as you improve.
           </p>
           
           {/* Subtle supporting visual */}
@@ -243,20 +245,20 @@ const About = () => {
         
         <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
-            Our Mission
+            Our mission
           </h2>
-          <p className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight" style={{
+          <p className="text-2xl md:text-3xl font-bold leading-tight" style={{
             background: "linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--foreground) / 0.7) 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text"
           }}>
-            To give every person a biological operating system they can trust.
+            Give every person a protocol they can actually trust
           </p>
-          <div className="space-y-4 text-lg text-muted-foreground max-w-2xl mx-auto pt-4">
-            <p>To replace confusion with clarity.</p>
-            <p>To replace hype with evidence.</p>
-            <p>To replace randomness with precision.</p>
+          <div className="space-y-3 text-lg text-muted-foreground max-w-2xl mx-auto pt-4">
+            <p>Replace confusion with clarity</p>
+            <p>Replace marketing with science</p>
+            <p>Replace guesswork with your actual bloodwork</p>
           </div>
         </div>
       </section>

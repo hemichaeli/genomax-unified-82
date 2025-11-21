@@ -1,4 +1,4 @@
-import { Package, CheckCircle2, AlertCircle } from "lucide-react";
+import { Package, CheckCircle2, AlertCircle, Pill } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -35,49 +35,85 @@ export const SmartOSSupplyTimeline = () => {
           </p>
         </div>
 
+        {/* Capsule Icons Row - Staggered Animation */}
+        <div className="flex justify-center gap-4 mb-12">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <div
+              key={i}
+              className="w-16 h-16 rounded-full flex items-center justify-center"
+              style={{
+                background: "linear-gradient(135deg, hsl(189 100% 60% / 0.2) 0%, hsl(323 100% 42% / 0.1) 100%)",
+                border: "1px solid hsl(189 100% 60% / 0.3)",
+                animation: `supply-pulse 4s ease-in-out infinite`,
+                animationDelay: `${i * 200}ms`,
+              }}
+            >
+              <Pill className="w-8 h-8 text-os-cyan" />
+            </div>
+          ))}
+        </div>
+
         {/* Timeline Container */}
         <Card className="p-8 bg-card/50 backdrop-blur border-primary/20">
           <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute top-8 left-0 right-0 h-0.5 bg-gradient-to-r from-os-cyan via-primary to-os-cyan opacity-30" />
+            {/* Timeline line with gradient glow */}
+            <div 
+              className="absolute top-8 left-0 right-0 h-1 rounded-full"
+              style={{
+                background: "linear-gradient(90deg, hsl(189 100% 60% / 0.3) 0%, hsl(213 100% 55% / 0.5) 50%, hsl(189 100% 60% / 0.3) 100%)",
+                boxShadow: "0 0 12px hsl(189 100% 60% / 0.4)",
+              }}
+            />
             
             {/* Timeline events */}
             <div className="relative flex justify-between items-start">
               {timelineEvents.map((event, index) => (
                 <div 
                   key={index}
-                  className="flex flex-col items-center space-y-3 relative"
+                  className="flex flex-col items-center space-y-3 relative animate-fade-up-reveal"
                   style={{
-                    animationDelay: `${index * 100}ms`,
+                    animationDelay: `${index * 120}ms`,
                   }}
                 >
-                  {/* Event marker */}
+                  {/* Event marker with enhanced glow */}
                   <div 
                     className={cn(
-                      "w-16 h-16 rounded-full flex items-center justify-center transition-all duration-[280ms]",
-                      "border-2 backdrop-blur",
-                      event.type === "start" && "bg-os-cyan/20 border-os-cyan animate-os-breathing",
+                      "w-16 h-16 rounded-full flex items-center justify-center transition-all duration-[280ms] relative group",
+                      "border-2 backdrop-blur cursor-pointer",
+                      event.type === "start" && "bg-os-cyan/20 border-os-cyan",
                       event.type === "refill" && "bg-primary/20 border-primary hover:scale-110",
-                      event.type === "alert" && "bg-os-warning/20 border-os-warning animate-supply-pulse",
+                      event.type === "alert" && "bg-os-warning/20 border-os-warning",
                       event.type === "complete" && "bg-os-success/20 border-os-success"
                     )}
+                    style={{
+                      boxShadow: event.type === "start" 
+                        ? "0 0 24px hsl(189 100% 60% / 0.6)"
+                        : event.type === "refill"
+                        ? "0 0 16px hsl(213 100% 55% / 0.4)"
+                        : undefined,
+                    }}
                   >
                     {event.type === "start" && <Package className="w-6 h-6 text-os-cyan" />}
-                    {event.type === "refill" && <Package className="w-6 h-6 text-primary" />}
+                    {event.type === "refill" && <Pill className="w-6 h-6 text-primary" />}
                     {event.type === "alert" && <AlertCircle className="w-6 h-6 text-os-warning" />}
                     {event.type === "complete" && <CheckCircle2 className="w-6 h-6 text-os-success" />}
+                    
+                    {/* Pulse ring on hover */}
+                    <div className="absolute inset-0 rounded-full border-2 border-current opacity-0 group-hover:opacity-50 group-hover:scale-150 transition-all duration-500" />
                   </div>
 
                   {/* Day label */}
                   <div className="text-center space-y-1">
-                    <p className="text-2xl font-bold">Day {event.day}</p>
+                    <p className="text-xl font-bold font-mono text-os-cyan">Day {event.day}</p>
                     <p className="text-sm text-muted-foreground max-w-[120px]">
                       {event.label}
                     </p>
                     {event.module && (
-                      <p className="text-xs text-os-cyan font-medium">
-                        {event.module}
-                      </p>
+                      <div className="px-2 py-1 rounded-full bg-primary/10 border border-primary/20">
+                        <p className="text-xs text-primary font-medium">
+                          {event.module}
+                        </p>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -94,7 +130,7 @@ export const SmartOSSupplyTimeline = () => {
             
             <Button 
               size="lg" 
-              className="bg-os-cyan hover:bg-os-cyan/90 text-background font-medium"
+              className="bg-os-cyan hover:bg-os-cyan/90 text-background font-medium transition-all duration-140 hover:scale-103"
             >
               Activate Smart Supply
             </Button>

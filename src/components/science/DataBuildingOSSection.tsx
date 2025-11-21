@@ -12,9 +12,12 @@ export const DataBuildingOSSection = () => {
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Title */}
-        <h2 className="text-4xl md:text-5xl font-bold text-center md:text-left mb-16">
-          THE DATA THAT BUILDS OUR OS
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">
+          Blood Biomarkers Beat DNA
         </h2>
+        <p className="text-xl text-muted-foreground text-center max-w-3xl mx-auto mb-16">
+          We analyzed 500,000+ clinical trials. Here's what actually works.
+        </p>
 
         {/* 3-Card Grid */}
         <div className="grid md:grid-cols-3 gap-8 mb-12">
@@ -50,14 +53,14 @@ export const DataBuildingOSSection = () => {
 
             <div className="space-y-3">
               <h3 className="text-2xl font-bold">
-                Mass market supplements fail.
+                DNA tests don't work
               </h3>
               <p className="text-muted-foreground leading-relaxed text-sm">
-                We reviewed 524,592 people in major clinical trials. DNA-based nutrition showed no measurable benefit beyond standard assessment.
+                524,592 people in trials. Zero measurable benefit from DNA-based nutrition beyond standard assessment.
               </p>
               <p className="text-xs text-os-cyan flex items-center gap-2 pt-2">
                 <span className="text-os-cyan">→</span>
-                So you don't waste money on guesswork.
+                Blood markers show what's happening now
               </p>
             </div>
           </div>
@@ -98,14 +101,14 @@ export const DataBuildingOSSection = () => {
 
             <div className="space-y-3">
               <h3 className="text-2xl font-bold">
-                Your biology isn't generic. Your protocol shouldn't be either.
+                Gender biology is real
               </h3>
               <p className="text-muted-foreground leading-relaxed text-sm">
-                Validated biomarkers + gender-specific biology drive the strongest improvements in hormones, energy, recovery, and metabolism.
+                Male and female biology respond differently. Iron, hormones, metabolism—your gender dictates your protocol.
               </p>
               <p className="text-xs text-os-cyan flex items-center gap-2 pt-2">
                 <span className="text-os-cyan">→</span>
-                Finally get a plan built for you.
+                One protocol for everyone fails everyone
               </p>
             </div>
           </div>
@@ -138,14 +141,14 @@ export const DataBuildingOSSection = () => {
 
             <div className="space-y-3">
               <h3 className="text-2xl font-bold">
-                Not another supplement company.
+                A biological operating system
               </h3>
               <p className="text-muted-foreground leading-relaxed text-sm">
-                We built a Biological Operating System — with modules, update cycles, and adaptive protocols that evolve with your body.
+                Not pills—an OS. Modules, updates, sync cycles. Your protocol evolves as your biology changes.
               </p>
               <p className="text-xs text-os-cyan flex items-center gap-2 pt-2">
                 <span className="text-os-cyan">→</span>
-                Because your biology deserves an upgrade.
+                Built like software, backed by science
               </p>
             </div>
           </div>
