@@ -35,7 +35,7 @@ All colors MUST be HSL.
     --destructive: 0 84% 60%;
     --destructive-foreground: 220 10% 98%;
 
-    --border: 222 17% 15%; /* Subtle border */
+    --border: 0 0% 100% / 0.08; /* rgba(255,255,255,0.08) */
     --input: 222 17% 15%;
     --ring: 189 100% 60%;
 
@@ -79,12 +79,15 @@ All colors MUST be HSL.
     --shadow-ambient-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
     --shadow-ambient-md: 0 8px 24px rgba(0, 0, 0, 0.35);
     --shadow-ambient-lg: 0 16px 48px rgba(0, 0, 0, 0.35);
-    --shadow-glow-cyan: 0 0 32px hsl(189 100% 60% / 0.4), 0 0 16px hsl(189 100% 60% / 0.2);
-    --shadow-glow-maxima: 0 0 32px hsl(323 100% 42% / 0.4), 0 0 16px hsl(323 100% 42% / 0.2);
-    --shadow-glow-maximo: 0 0 32px hsl(189 100% 60% / 0.4), 0 0 16px hsl(189 100% 60% / 0.2);
-    --shadow-glow-max-red: 0 0 24px hsl(354 100% 56% / 0.5), 0 0 12px hsl(354 100% 56% / 0.3);
-    --shadow-inner-glow: inset 0 0 24px hsl(189 100% 60% / 0.1);
-    --shadow-os-module: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 0 1px hsl(189 100% 60% / 0.1);
+    --shadow-glow-cyan: 0 0 20px hsl(189 100% 60% / 0.3), 0 0 10px hsl(189 100% 60% / 0.15);
+    --shadow-glow-maxima: 0 0 20px hsl(323 100% 42% / 0.3), 0 0 10px hsl(323 100% 42% / 0.15);
+    --shadow-glow-maximo: 0 0 20px hsl(189 100% 60% / 0.3), 0 0 10px hsl(189 100% 60% / 0.15);
+    --shadow-glow-max-red: 0 0 16px hsl(354 100% 56% / 0.4), 0 0 8px hsl(354 100% 56% / 0.2);
+    --shadow-inner-glow-cyan: inset 0 0 20px hsl(189 100% 60% / 0.08);
+    --shadow-inner-glow-magenta: inset 0 0 20px hsl(323 100% 42% / 0.08);
+    --shadow-os-module: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    --shadow-panel: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --shadow-button-hover: 0 4px 16px hsl(var(--primary) / 0.3);
     
     /* Motion System - GENOMAX² BRAND DNA */
     --ease-genomax: cubic-bezier(0.25, 0.1, 0.25, 1); /* Global easing */
@@ -374,11 +377,23 @@ All colors MUST be HSL.
   
   /* GENOMAX² Micro-Interaction Classes */
   .os-hover-scale {
-    transition: transform var(--transition-hover) var(--ease-genomax);
+    transition: transform var(--transition-hover) var(--ease-genomax),
+                box-shadow var(--transition-hover) var(--ease-genomax);
   }
   
   .os-hover-scale:hover {
-    transform: scale(1.03);
+    transform: scale(1.03) translateY(-2px);
+  }
+  
+  /* OS Module Card Hover with Glow */
+  .os-module-hover {
+    transition: transform var(--transition-hover) var(--ease-genomax),
+                box-shadow var(--transition-hover) var(--ease-genomax);
+  }
+  
+  .os-module-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-glow-cyan);
   }
   
   .os-hover-glow {
@@ -666,7 +681,8 @@ All colors MUST be HSL.
   /* Glow Ring Expand on Hover */
   .btn-glow-ring {
     position: relative;
-    transition: transform var(--transition-hover) var(--ease-genomax);
+    transition: transform var(--transition-hover) var(--ease-genomax),
+                box-shadow var(--transition-hover) var(--ease-genomax);
   }
 
   .btn-glow-ring::before {
@@ -679,6 +695,10 @@ All colors MUST be HSL.
     pointer-events: none;
   }
 
+  .btn-glow-ring:hover {
+    transform: scale(1.03);
+  }
+
   .btn-glow-ring:hover::before {
     opacity: 1;
     animation: glow-ring-expand var(--transition-hover) var(--ease-genomax) forwards;
@@ -686,10 +706,17 @@ All colors MUST be HSL.
 
   @keyframes glow-ring-expand {
     from {
-      box-shadow: 0 0 0 0 hsl(189 100% 60% / 0.4);
+      box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4);
     }
     to {
-      box-shadow: 0 0 0 4px hsl(189 100% 60% / 0.2);
+      box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
     }
+  }
+  
+  /* Panel Surface Styling */
+  .os-panel {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: var(--shadow-panel);
   }
 }

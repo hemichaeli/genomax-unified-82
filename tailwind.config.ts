@@ -202,11 +202,19 @@ export default {
       },
       transitionTimingFunction: {
         'genomax': 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+        'os-smooth': 'cubic-bezier(0.25, 0.1, 0.25, 1)',
       },
       transitionDuration: {
         'hover': '140ms',
         'press': '80ms',
         'reveal': '220ms',
+        'glow': '280ms',
+      },
+      boxShadow: {
+        'glow-cyan': '0 0 20px hsl(189 100% 60% / 0.3), 0 0 10px hsl(189 100% 60% / 0.15)',
+        'glow-magenta': '0 0 20px hsl(323 100% 42% / 0.3), 0 0 10px hsl(323 100% 42% / 0.15)',
+        'glow-primary': '0 0 20px hsl(var(--primary) / 0.3)',
+        'panel': '0 8px 24px rgba(0, 0, 0, 0.35)',
       },
     },
   },
