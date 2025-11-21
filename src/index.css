@@ -8,19 +8,19 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* HIGH-TECH HUMAN OS™ Color System */
-    /* Base Neutrals */
-    --background: 225 19% 6%; /* Onyx Black #0C0D0F */
+    /* GENOMAX² NEON TECH COLOR SYSTEM */
+    /* Base Neutrals - Deep Tech */
+    --background: 222 70% 3%; /* Deep Tech Blue #000715 */
     --foreground: 220 10% 98%; /* OS White #FAFAFC */
 
-    --card: 222 17% 11%; /* Soft Graphite #1C1D20 */
+    --card: 225 65% 8%; /* Dark Tech #0A0F2A */
     --card-foreground: 220 10% 98%;
 
-    --popover: 222 17% 11%;
+    --popover: 225 65% 8%;
     --popover-foreground: 220 10% 98%;
 
     /* Core OS Colors */
-    --primary: 213 100% 55%; /* System Cyan #1A73FF */
+    --primary: 225 65% 8%; /* Deep Tech Blue #0A0F2A */
     --primary-foreground: 220 10% 98%;
 
     --secondary: 222 14% 14%;
@@ -29,7 +29,7 @@ All colors MUST be HSL.
     --muted: 222 14% 14%;
     --muted-foreground: 220 9% 87%; /* Silver Mist #DDE1E6 */
 
-    --accent: 354 100% 62%; /* MAX Red #FF3B47 */
+    --accent: 354 100% 56%; /* MAX Red #FF1A1A */
     --accent-foreground: 220 10% 98%;
 
     --destructive: 0 84% 60%;
@@ -37,17 +37,19 @@ All colors MUST be HSL.
 
     --border: 222 17% 15%; /* Subtle border */
     --input: 222 17% 15%;
-    --ring: 213 100% 55%;
+    --ring: 189 100% 60%;
 
     --radius: 1rem; /* Rounded corners */
     
-    /* Gender-specific colors */
-    --maxima: 280 85% 45%; /* Deep Plum */
-    --maxima-light: 330 100% 68%; /* Fuchsia #FF5FB6 */
+    /* Gender-specific colors with NEON GLOW */
+    --maxima: 323 100% 42%; /* Magenta #D400A5 */
+    --maxima-light: 323 100% 55%; /* Lighter Magenta */
+    --maxima-glow: 323 100% 42%; /* Magenta glow */
     --maxima-foreground: 220 10% 98%;
     
-    --maximo: 213 100% 40%; /* Deep Blue */
-    --maximo-light: 186 100% 64%; /* Electric Cyan #4DE4FF */
+    --maximo: 189 100% 60%; /* Cyan #35E6FF */
+    --maximo-light: 189 100% 70%; /* Lighter Cyan */
+    --maximo-glow: 189 100% 60%; /* Cyan glow */
     --maximo-foreground: 220 10% 98%;
     
     /* Biological Colors */
@@ -59,42 +61,42 @@ All colors MUST be HSL.
     /* OS System Colors */
     --os-success: 151 83% 80%;
     --os-warning: 44 93% 63%;
-    --os-error: 354 100% 62%;
-    --os-info: 186 100% 64%;
-    --os-cyan: 186 100% 64%; /* System Cyan #4DE4FF */
+    --os-error: 354 100% 56%;
+    --os-info: 189 100% 60%;
+    --os-cyan: 189 100% 60%; /* Cyan #35E6FF */
     
-    /* Gradients - High-Tech OS */
-    --gradient-hero: linear-gradient(135deg, hsl(225 19% 6%) 0%, hsl(222 17% 11%) 100%);
-    --gradient-os-ring: conic-gradient(from 180deg at 50% 50%, hsl(213 100% 55%), hsl(330 100% 68%), hsl(213 100% 55%));
-    --gradient-maxima: linear-gradient(135deg, hsl(330 100% 68%) 0%, hsl(330 100% 78%) 100%);
-    --gradient-maximo: linear-gradient(135deg, hsl(213 100% 55%) 0%, hsl(186 100% 64%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(225 19% 6%) 0%, hsl(222 17% 11%) 100%);
-    --gradient-radial-glow: radial-gradient(circle at 50% 50%, hsl(186 100% 64% / 0.12), transparent 70%);
-    --gradient-warm-spotlight: radial-gradient(ellipse at 50% 20%, hsl(354 100% 62% / 0.08), transparent 60%);
+    /* Gradients - NEON TECH OS */
+    --gradient-hero: linear-gradient(135deg, hsl(222 70% 3%) 0%, hsl(225 65% 5%) 100%);
+    --gradient-os-ring: conic-gradient(from 180deg at 50% 50%, hsl(189 100% 60%), hsl(323 100% 42%), hsl(189 100% 60%));
+    --gradient-maxima: linear-gradient(135deg, hsl(323 100% 42%) 0%, hsl(323 100% 55%) 100%);
+    --gradient-maximo: linear-gradient(135deg, hsl(189 100% 60%) 0%, hsl(189 100% 70%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(222 70% 3%) 0%, hsl(225 65% 5%) 100%);
+    --gradient-radial-glow: radial-gradient(circle at 50% 50%, hsl(189 100% 60% / 0.15), transparent 70%);
+    --gradient-warm-spotlight: radial-gradient(ellipse at 50% 20%, hsl(354 100% 56% / 0.1), transparent 60%);
     --gradient-glassmorphism: linear-gradient(135deg, hsl(220 10% 98% / 0.05) 0%, hsl(220 10% 98% / 0.02) 100%);
     
-    /* Shadows - OS Depth */
-    --shadow-ambient-sm: 0 2px 8px hsl(225 19% 2% / 0.4);
-    --shadow-ambient-md: 0 8px 24px hsl(225 19% 2% / 0.5);
-    --shadow-ambient-lg: 0 16px 48px hsl(225 19% 2% / 0.6);
-    --shadow-glow-cyan: 0 0 32px hsl(186 100% 64% / 0.3);
-    --shadow-glow-maxima: 0 0 32px hsl(330 100% 68% / 0.25);
-    --shadow-glow-maximo: 0 0 32px hsl(213 100% 55% / 0.25);
-    --shadow-inner-glow: inset 0 0 24px hsl(186 100% 64% / 0.1);
-    --shadow-os-module: 0 4px 16px hsl(225 19% 2% / 0.5), 0 0 0 1px hsl(186 100% 64% / 0.1);
+    /* Shadows - NEON TECH DEPTH */
+    --shadow-ambient-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+    --shadow-ambient-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --shadow-ambient-lg: 0 16px 48px rgba(0, 0, 0, 0.35);
+    --shadow-glow-cyan: 0 0 32px hsl(189 100% 60% / 0.4), 0 0 16px hsl(189 100% 60% / 0.2);
+    --shadow-glow-maxima: 0 0 32px hsl(323 100% 42% / 0.4), 0 0 16px hsl(323 100% 42% / 0.2);
+    --shadow-glow-maximo: 0 0 32px hsl(189 100% 60% / 0.4), 0 0 16px hsl(189 100% 60% / 0.2);
+    --shadow-glow-max-red: 0 0 24px hsl(354 100% 56% / 0.5), 0 0 12px hsl(354 100% 56% / 0.3);
+    --shadow-inner-glow: inset 0 0 24px hsl(189 100% 60% / 0.1);
+    --shadow-os-module: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 0 1px hsl(189 100% 60% / 0.1);
     
-    /* Motion System - Brand-Wide Timing & Easing */
-    --ease-os-precision: cubic-bezier(0.22, 1, 0.36, 1); /* Science page - crisp, precise */
-    --ease-cinematic: cubic-bezier(0.32, 0.72, 0, 1); /* About page - warm, emotional */
-    --ease-micro: cubic-bezier(0.24, 0.8, 0.44, 1); /* Buttons & micro-interactions */
-    --ease-breathing: cubic-bezier(0.18, 0.89, 0.32, 1.28); /* MAXync breathing */
+    /* Motion System - GENOMAX² BRAND DNA */
+    --ease-genomax: cubic-bezier(0.25, 0.1, 0.25, 1); /* Global easing */
+    --ease-micro: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --ease-cinematic: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --ease-breathing: cubic-bezier(0.18, 0.89, 0.32, 1.28);
     
-    /* Transitions - Brand Timing Scale (120–650ms) */
-    --transition-micro: 120ms var(--ease-micro); /* Icon pops, checkmarks */
-    --transition-snap: 200ms var(--ease-os-precision); /* Card snaps, precision enters */
-    --transition-hover: 280ms var(--ease-micro); /* Button hover, lifts */
-    --transition-reveal: 340ms var(--ease-cinematic); /* About page reveals */
-    --transition-smooth: 450ms var(--ease-cinematic); /* Smooth section transitions */
+    /* Transitions - Brand Timing Scale */
+    --transition-micro: 80ms var(--ease-genomax); /* Press motion */
+    --transition-hover: 140ms var(--ease-genomax); /* Hover motion */
+    --transition-reveal: 220ms var(--ease-genomax); /* Scroll reveal */
+    --transition-smooth: 450ms var(--ease-genomax); /* Smooth section transitions */
     --transition-breathing: 1400ms var(--ease-breathing); /* MAXync pulse */
 
     --sidebar-background: 217 25% 6%;
@@ -122,20 +124,25 @@ All colors MUST be HSL.
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     font-feature-settings: "liga" 1, "calt" 1;
+    background: linear-gradient(135deg, #000715 0%, #020A18 100%);
   }
   
   html {
     scroll-behavior: smooth;
   }
   
-  /* OS Typography System */
+  /* GENOMAX² Typography System */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    letter-spacing: 0.02em;
-    font-weight: 600;
+    font-family: 'Inter Tight', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    letter-spacing: -0.01em;
+    font-weight: 700;
   }
   
-  /* Scroll-Based Reveal Animations */
+  .font-mono, .os-digits {
+    font-family: 'JetBrains Mono', monospace;
+  }
+  
+  /* GENOMAX² Scroll-Based Reveal Animations */
   @keyframes reveal-up {
     from {
       opacity: 0;
@@ -158,23 +165,74 @@ All colors MUST be HSL.
     }
   }
   
-  /* OS Glow Pulse Animation */
+  /* NEON OS Glow Pulse Animation - 4s loop with 12% brightness oscillation */
   @keyframes os-glow-pulse {
     0%, 100% {
-      box-shadow: 0 0 20px hsl(var(--primary) / 0.2);
+      filter: brightness(1);
+      box-shadow: 0 0 20px hsl(var(--os-cyan) / 0.3);
     }
     50% {
-      box-shadow: 0 0 40px hsl(var(--primary) / 0.4);
+      filter: brightness(1.12);
+      box-shadow: 0 0 40px hsl(var(--os-cyan) / 0.5);
     }
   }
   
-  /* OS Ring Rotation */
+  /* Cyan Glow Pulse (Male) */
+  @keyframes cyan-glow-pulse {
+    0%, 100% {
+      filter: brightness(1);
+      box-shadow: var(--shadow-glow-maximo);
+    }
+    50% {
+      filter: brightness(1.12);
+      box-shadow: 0 0 48px hsl(189 100% 60% / 0.6), 0 0 24px hsl(189 100% 60% / 0.3);
+    }
+  }
+  
+  /* Magenta Glow Pulse (Female) */
+  @keyframes magenta-glow-pulse {
+    0%, 100% {
+      filter: brightness(1);
+      box-shadow: var(--shadow-glow-maxima);
+    }
+    50% {
+      filter: brightness(1.12);
+      box-shadow: 0 0 48px hsl(323 100% 42% / 0.6), 0 0 24px hsl(323 100% 42% / 0.3);
+    }
+  }
+  
+  /* MAX Red Glow (Static - no animation on text) */
+  .max-red-glow {
+    text-shadow: var(--shadow-glow-max-red);
+  }
+  
+  /* OS Ring Rotation - MAXync² DNA */
   @keyframes os-ring-rotate {
     from {
       transform: rotate(0deg);
     }
     to {
       transform: rotate(360deg);
+    }
+  }
+  
+  /* MAXync² Inner Ring - 12s rotation */
+  @keyframes maxync-inner-ring {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* MAXync² Outer Ring - 18s rotation (opposite direction) */
+  @keyframes maxync-outer-ring {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
     }
   }
   
@@ -261,54 +319,75 @@ All colors MUST be HSL.
     }
   }
   
-  /* OS Breathing Animation */
+  /* GENOMAX² OS Breathing Animation - 4s pulse */
   @keyframes os-breathing {
     0%, 100% {
       opacity: 0.08;
       transform: scale(1);
     }
     50% {
-      opacity: 0.12;
+      opacity: 0.2;
       transform: scale(1.02);
     }
   }
   
-  /* Utility Animation Classes */
+  /* Utility Animation Classes - NEON TECH */
   .animate-reveal-up {
-    animation: reveal-up 500ms var(--ease-soft) both;
+    animation: reveal-up var(--transition-reveal) var(--ease-genomax) both;
   }
   
   .animate-reveal-scale {
-    animation: reveal-scale 400ms var(--ease-os) both;
+    animation: reveal-scale var(--transition-reveal) var(--ease-genomax) both;
   }
   
   .animate-os-glow-pulse {
-    animation: os-glow-pulse 2s ease-in-out infinite;
+    animation: os-glow-pulse 4s ease-in-out infinite;
+  }
+  
+  .animate-cyan-glow-pulse {
+    animation: cyan-glow-pulse 4s ease-in-out infinite;
+  }
+  
+  .animate-magenta-glow-pulse {
+    animation: magenta-glow-pulse 4s ease-in-out infinite;
   }
   
   .animate-os-ring-rotate {
     animation: os-ring-rotate 20s linear infinite;
   }
   
+  .animate-maxync-inner-ring {
+    animation: maxync-inner-ring 12s linear infinite;
+  }
+  
+  .animate-maxync-outer-ring {
+    animation: maxync-outer-ring 18s linear infinite;
+  }
+  
   .animate-float-slow {
     animation: float-slow 6s ease-in-out infinite;
   }
   
-  /* Micro-Interaction Classes */
+  .animate-os-breathing {
+    animation: os-breathing 4s ease-in-out infinite;
+  }
+  
+  /* GENOMAX² Micro-Interaction Classes */
   .os-hover-scale {
-    @apply transition-transform duration-200;
+    transition: transform var(--transition-hover) var(--ease-genomax);
   }
   
   .os-hover-scale:hover {
-    transform: scale(1.02);
+    transform: scale(1.03);
   }
   
   .os-hover-glow {
-    @apply transition-shadow duration-300;
+    transition: box-shadow var(--transition-hover) var(--ease-genomax), filter var(--transition-hover) var(--ease-genomax);
   }
   
   .os-hover-glow:hover {
-    box-shadow: var(--shadow-glow-primary);
+    box-shadow: var(--shadow-glow-cyan);
+    filter: brightness(1.05);
   }
   
   .os-button-ripple {
@@ -330,7 +409,7 @@ All colors MUST be HSL.
     animation: ripple 600ms var(--ease-os);
   }
   
-  /* OS Depth Layers */
+  /* GENOMAX² OS Depth Layers - NEON SHADOWS */
   .os-depth-1 {
     box-shadow: var(--shadow-ambient-sm);
   }
@@ -341,6 +420,19 @@ All colors MUST be HSL.
   
   .os-depth-3 {
     box-shadow: var(--shadow-ambient-lg);
+  }
+  
+  /* Neon Glow Effects */
+  .cyan-glow {
+    box-shadow: var(--shadow-glow-cyan);
+  }
+  
+  .magenta-glow {
+    box-shadow: var(--shadow-glow-maxima);
+  }
+  
+  .max-red-text-glow {
+    text-shadow: var(--shadow-glow-max-red);
   }
   
   /* OS Gradient Backgrounds */
@@ -555,4 +647,49 @@ All colors MUST be HSL.
   .stagger-children > *:nth-child(4) { animation-delay: 240ms; }
   .stagger-children > *:nth-child(5) { animation-delay: 320ms; }
   .stagger-children > *:nth-child(6) { animation-delay: 400ms; }
+
+  /* GENOMAX² NEON TECH Button Hover Effects */
+  .btn-hover-scale {
+    transition: transform var(--transition-hover) var(--ease-genomax), 
+                box-shadow var(--transition-hover) var(--ease-genomax);
+  }
+
+  .btn-hover-scale:hover {
+    transform: scale(1.03);
+  }
+
+  .btn-hover-scale:active {
+    transform: scale(0.98);
+    transition: transform var(--transition-micro) var(--ease-genomax);
+  }
+
+  /* Glow Ring Expand on Hover */
+  .btn-glow-ring {
+    position: relative;
+    transition: transform var(--transition-hover) var(--ease-genomax);
+  }
+
+  .btn-glow-ring::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity var(--transition-hover) var(--ease-genomax);
+    pointer-events: none;
+  }
+
+  .btn-glow-ring:hover::before {
+    opacity: 1;
+    animation: glow-ring-expand var(--transition-hover) var(--ease-genomax) forwards;
+  }
+
+  @keyframes glow-ring-expand {
+    from {
+      box-shadow: 0 0 0 0 hsl(189 100% 60% / 0.4);
+    }
+    to {
+      box-shadow: 0 0 0 4px hsl(189 100% 60% / 0.2);
+    }
+  }
 }
