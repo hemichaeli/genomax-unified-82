@@ -151,8 +151,37 @@ export const DataBuildingOSSection = () => {
           </div>
         </div>
 
+        {/* High-Tech OS Scan Video Container */}
+        <div className="mt-20 relative">
+          <div 
+            className="relative rounded-3xl overflow-hidden"
+            style={{
+              background: "linear-gradient(135deg, hsl(225 65% 8% / 0.9) 0%, hsl(222 70% 3% / 0.95) 100%)",
+              border: "1px solid hsl(189 100% 60% / 0.2)",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.35), 0 0 24px hsl(189 100% 60% / 0.15)",
+            }}
+          >
+            <video
+              className="w-full h-auto"
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/placeholder-os-scan.jpg"
+            >
+              <source src="/videos/os-scan-animation.mp4" type="video/mp4" />
+              {/* Fallback */}
+              <div className="w-full h-64 flex items-center justify-center bg-card/50">
+                <Cpu className="w-16 h-16 text-os-cyan animate-os-glow-pulse" />
+              </div>
+            </video>
+            {/* Dark overlay for high-tech feel */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent pointer-events-none" />
+          </div>
+        </div>
+
         {/* CTA Button */}
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-12">
           <Button
             size="lg"
             onClick={() => navigate("/assessment")}
