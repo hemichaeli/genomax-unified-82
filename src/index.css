@@ -1,0 +1,558 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* HIGH-TECH HUMAN OS™ Color System */
+    /* Base Neutrals */
+    --background: 225 19% 6%; /* Onyx Black #0C0D0F */
+    --foreground: 220 10% 98%; /* OS White #FAFAFC */
+
+    --card: 222 17% 11%; /* Soft Graphite #1C1D20 */
+    --card-foreground: 220 10% 98%;
+
+    --popover: 222 17% 11%;
+    --popover-foreground: 220 10% 98%;
+
+    /* Core OS Colors */
+    --primary: 213 100% 55%; /* System Cyan #1A73FF */
+    --primary-foreground: 220 10% 98%;
+
+    --secondary: 222 14% 14%;
+    --secondary-foreground: 220 10% 98%;
+
+    --muted: 222 14% 14%;
+    --muted-foreground: 220 9% 87%; /* Silver Mist #DDE1E6 */
+
+    --accent: 354 100% 62%; /* MAX Red #FF3B47 */
+    --accent-foreground: 220 10% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 220 10% 98%;
+
+    --border: 222 17% 15%; /* Subtle border */
+    --input: 222 17% 15%;
+    --ring: 213 100% 55%;
+
+    --radius: 1rem; /* Rounded corners */
+    
+    /* Gender-specific colors */
+    --maxima: 280 85% 45%; /* Deep Plum */
+    --maxima-light: 330 100% 68%; /* Fuchsia #FF5FB6 */
+    --maxima-foreground: 220 10% 98%;
+    
+    --maximo: 213 100% 40%; /* Deep Blue */
+    --maximo-light: 186 100% 64%; /* Electric Cyan #4DE4FF */
+    --maximo-foreground: 220 10% 98%;
+    
+    /* Biological Colors */
+    --metabolic-gold: 44 93% 63%; /* #F7C948 */
+    --cellular-peach: 20 100% 88%; /* #FFD7C5 */
+    --hormonal-purple: 262 100% 82%; /* #C6A5FF */
+    --system-mint: 151 83% 80%; /* #A8F3D0 */
+    
+    /* OS System Colors */
+    --os-success: 151 83% 80%;
+    --os-warning: 44 93% 63%;
+    --os-error: 354 100% 62%;
+    --os-info: 186 100% 64%;
+    --os-cyan: 186 100% 64%; /* System Cyan #4DE4FF */
+    
+    /* Gradients - High-Tech OS */
+    --gradient-hero: linear-gradient(135deg, hsl(225 19% 6%) 0%, hsl(222 17% 11%) 100%);
+    --gradient-os-ring: conic-gradient(from 180deg at 50% 50%, hsl(213 100% 55%), hsl(330 100% 68%), hsl(213 100% 55%));
+    --gradient-maxima: linear-gradient(135deg, hsl(330 100% 68%) 0%, hsl(330 100% 78%) 100%);
+    --gradient-maximo: linear-gradient(135deg, hsl(213 100% 55%) 0%, hsl(186 100% 64%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(225 19% 6%) 0%, hsl(222 17% 11%) 100%);
+    --gradient-radial-glow: radial-gradient(circle at 50% 50%, hsl(186 100% 64% / 0.12), transparent 70%);
+    --gradient-warm-spotlight: radial-gradient(ellipse at 50% 20%, hsl(354 100% 62% / 0.08), transparent 60%);
+    --gradient-glassmorphism: linear-gradient(135deg, hsl(220 10% 98% / 0.05) 0%, hsl(220 10% 98% / 0.02) 100%);
+    
+    /* Shadows - OS Depth */
+    --shadow-ambient-sm: 0 2px 8px hsl(225 19% 2% / 0.4);
+    --shadow-ambient-md: 0 8px 24px hsl(225 19% 2% / 0.5);
+    --shadow-ambient-lg: 0 16px 48px hsl(225 19% 2% / 0.6);
+    --shadow-glow-cyan: 0 0 32px hsl(186 100% 64% / 0.3);
+    --shadow-glow-maxima: 0 0 32px hsl(330 100% 68% / 0.25);
+    --shadow-glow-maximo: 0 0 32px hsl(213 100% 55% / 0.25);
+    --shadow-inner-glow: inset 0 0 24px hsl(186 100% 64% / 0.1);
+    --shadow-os-module: 0 4px 16px hsl(225 19% 2% / 0.5), 0 0 0 1px hsl(186 100% 64% / 0.1);
+    
+    /* Motion System - Brand-Wide Timing & Easing */
+    --ease-os-precision: cubic-bezier(0.22, 1, 0.36, 1); /* Science page - crisp, precise */
+    --ease-cinematic: cubic-bezier(0.32, 0.72, 0, 1); /* About page - warm, emotional */
+    --ease-micro: cubic-bezier(0.24, 0.8, 0.44, 1); /* Buttons & micro-interactions */
+    --ease-breathing: cubic-bezier(0.18, 0.89, 0.32, 1.28); /* MAXync breathing */
+    
+    /* Transitions - Brand Timing Scale (120–650ms) */
+    --transition-micro: 120ms var(--ease-micro); /* Icon pops, checkmarks */
+    --transition-snap: 200ms var(--ease-os-precision); /* Card snaps, precision enters */
+    --transition-hover: 280ms var(--ease-micro); /* Button hover, lifts */
+    --transition-reveal: 340ms var(--ease-cinematic); /* About page reveals */
+    --transition-smooth: 450ms var(--ease-cinematic); /* Smooth section transitions */
+    --transition-breathing: 1400ms var(--ease-breathing); /* MAXync pulse */
+
+    --sidebar-background: 217 25% 6%;
+    --sidebar-foreground: 215 15% 90%;
+    --sidebar-primary: 215 95% 60%;
+    --sidebar-primary-foreground: 217 28% 4%;
+    --sidebar-accent: 217 20% 12%;
+    --sidebar-accent-foreground: 215 15% 90%;
+    --sidebar-border: 217 20% 15%;
+    --sidebar-ring: 215 95% 60%;
+  }
+
+  .dark {
+    --background: 217 28% 4%;
+    --foreground: 215 15% 95%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-feature-settings: "liga" 1, "calt" 1;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* OS Typography System */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+  }
+  
+  /* Scroll-Based Reveal Animations */
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes reveal-scale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* OS Glow Pulse Animation */
+  @keyframes os-glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.2);
+    }
+    50% {
+      box-shadow: 0 0 40px hsl(var(--primary) / 0.4);
+    }
+  }
+  
+  /* OS Ring Rotation */
+  @keyframes os-ring-rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Floating Animation for OS Elements */
+  @keyframes float-slow {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  /* Ripple Effect */
+  @keyframes ripple {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+  
+  /* Timeline Progress */
+  @keyframes timeline-progress {
+    from {
+      stroke-dashoffset: 100;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  /* Checkmark Pop */
+  @keyframes checkmark-pop {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  /* Streak Bounce */
+  @keyframes streak-bounce {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+  
+  /* Module Check Animation */
+  @keyframes module-check {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  /* Supply Pulse Animation */
+  @keyframes supply-pulse {
+    0%, 100% {
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+  }
+  
+  /* OS Breathing Animation */
+  @keyframes os-breathing {
+    0%, 100% {
+      opacity: 0.08;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.12;
+      transform: scale(1.02);
+    }
+  }
+  
+  /* Utility Animation Classes */
+  .animate-reveal-up {
+    animation: reveal-up 500ms var(--ease-soft) both;
+  }
+  
+  .animate-reveal-scale {
+    animation: reveal-scale 400ms var(--ease-os) both;
+  }
+  
+  .animate-os-glow-pulse {
+    animation: os-glow-pulse 2s ease-in-out infinite;
+  }
+  
+  .animate-os-ring-rotate {
+    animation: os-ring-rotate 20s linear infinite;
+  }
+  
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite;
+  }
+  
+  /* Micro-Interaction Classes */
+  .os-hover-scale {
+    @apply transition-transform duration-200;
+  }
+  
+  .os-hover-scale:hover {
+    transform: scale(1.02);
+  }
+  
+  .os-hover-glow {
+    @apply transition-shadow duration-300;
+  }
+  
+  .os-hover-glow:hover {
+    box-shadow: var(--shadow-glow-primary);
+  }
+  
+  .os-button-ripple {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .os-button-ripple::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: hsl(var(--foreground) / 0.1);
+    border-radius: inherit;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .os-button-ripple:active::after {
+    animation: ripple 600ms var(--ease-os);
+  }
+  
+  /* OS Depth Layers */
+  .os-depth-1 {
+    box-shadow: var(--shadow-ambient-sm);
+  }
+  
+  .os-depth-2 {
+    box-shadow: var(--shadow-ambient-md);
+  }
+  
+  .os-depth-3 {
+    box-shadow: var(--shadow-ambient-lg);
+  }
+  
+  /* OS Gradient Backgrounds */
+  .os-gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .os-gradient-maxima {
+    background: var(--gradient-maxima);
+  }
+  
+  .os-gradient-maximo {
+    background: var(--gradient-maximo);
+  }
+  
+  /* Noise Texture Overlay */
+  .os-noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  /* OS Radial Glow */
+  .os-radial-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .os-radial-glow::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    background: var(--gradient-radial-glow);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  .os-grid {
+    background-image: 
+      linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 40%, transparent 110%);
+  }
+  
+  .os-glow {
+    box-shadow: 0 0 24px hsl(var(--os-cyan) / 0.2), 0 0 12px hsl(var(--os-cyan) / 0.1);
+  }
+
+  /* Brand-Wide Motion Keyframes */
+  @keyframes fade-up-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes card-snap-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes icon-pop {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes checkmark-draw {
+    from {
+      stroke-dashoffset: 100;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes bottle-slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes low-inventory-pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 hsl(354 100% 62% / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 8px hsl(354 100% 62% / 0);
+    }
+  }
+
+  @keyframes os-update-ring {
+    0% {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes maxima-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(330 100% 68% / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 30px hsl(330 100% 68% / 0.5);
+    }
+  }
+
+  @keyframes maximo-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(186 100% 64% / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 30px hsl(186 100% 64% / 0.5);
+    }
+  }
+
+  /* Motion Utility Classes */
+  .animate-fade-up-reveal {
+    animation: fade-up-reveal var(--transition-reveal) var(--ease-cinematic) forwards;
+  }
+
+  .animate-card-snap {
+    animation: card-snap-in var(--transition-snap) var(--ease-os-precision) forwards;
+  }
+
+  .animate-icon-pop {
+    animation: icon-pop var(--transition-micro) var(--ease-micro) forwards;
+  }
+
+  .animate-bottle-slide {
+    animation: bottle-slide-up 180ms var(--ease-os-precision) forwards;
+  }
+
+  .animate-low-inventory-pulse {
+    animation: low-inventory-pulse 2s ease-in-out infinite;
+  }
+
+  .animate-maxima-glow {
+    animation: maxima-glow 2s ease-in-out infinite;
+  }
+
+  .animate-maximo-glow {
+    animation: maximo-glow 2s ease-in-out infinite;
+  }
+  
+  /* OS Radial Glow */
+  .os-radial-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .os-radial-glow::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    background: var(--gradient-radial-glow);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  /* Stagger Children Animation */
+  .stagger-children > * {
+    animation: reveal-up 500ms var(--ease-soft) both;
+  }
+  
+  .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger-children > *:nth-child(2) { animation-delay: 80ms; }
+  .stagger-children > *:nth-child(3) { animation-delay: 160ms; }
+  .stagger-children > *:nth-child(4) { animation-delay: 240ms; }
+  .stagger-children > *:nth-child(5) { animation-delay: 320ms; }
+  .stagger-children > *:nth-child(6) { animation-delay: 400ms; }
+}
