@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Zap, Activity, Shield, TrendingUp } from "lucide-react";
+import { VideoPlaceholder } from "@/components/home/VideoPlaceholder";
 
 const Maximo = () => {
   return (
@@ -38,27 +39,14 @@ const Maximo = () => {
       {/* MAXimo² Video Section */}
       <section className="py-12 px-6">
         <div className="max-w-4xl mx-auto">
-          <div 
-            className="relative rounded-xl overflow-hidden"
-            style={{
-              boxShadow: "0 0 32px hsl(189 100% 60% / 0.4), 0 0 16px hsl(189 100% 60% / 0.2)",
-            }}
-          >
-            <video
-              className="w-full h-auto"
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster="/placeholder-maximo-video.jpg"
-            >
-              <source src="/videos/maximo-protocol.mp4" type="video/mp4" />
-              {/* Fallback */}
-              <img src="/placeholder-maximo-video.jpg" alt="MAXimo² Protocol" className="w-full h-auto" />
-            </video>
-            {/* Cyan glow overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-maximo/20 to-transparent pointer-events-none" />
-          </div>
+          <VideoPlaceholder
+            title="Your MAX imo² Biological OS"
+            subtitle="Built for male biology"
+            duration="0:35"
+            thumbnail="/placeholder-maximo-video.jpg"
+            videoSrc="/videos/maximo-protocol.mp4"
+            glowColor="cyan"
+          />
         </div>
       </section>
 

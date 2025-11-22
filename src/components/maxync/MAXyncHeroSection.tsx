@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CheckCircle2, Flame, Package } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { VideoPlaceholder } from "@/components/home/VideoPlaceholder";
 
 export const MAXyncHeroSection = () => {
   const navigate = useNavigate();
@@ -39,6 +40,18 @@ export const MAXyncHeroSection = () => {
             The protocol is just the blueprint. MAXync² is how you execute it—daily habits, 
             intelligent reminders, streak psychology, and AI insights to keep you consistent.
           </p>
+        </div>
+
+        {/* MAXync² Video */}
+        <div className="mb-20 max-w-4xl mx-auto">
+          <VideoPlaceholder
+            title="Stay Synced with MAX ync²"
+            subtitle="Your daily execution layer"
+            duration="0:50"
+            thumbnail="/placeholder-maxync.jpg"
+            videoSrc="/videos/maxync-daily.mp4"
+            glowColor="red"
+          />
         </div>
 
         {/* Main content grid */}
