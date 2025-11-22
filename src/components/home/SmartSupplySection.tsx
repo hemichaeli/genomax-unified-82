@@ -1,4 +1,5 @@
 import { SmartOSSupplyTimeline } from "./SmartOSSupplyTimeline";
+import { VideoPlaceholder } from "./VideoPlaceholder";
 
 export const SmartSupplySection = () => {
   return (
@@ -19,6 +20,18 @@ export const SmartSupplySection = () => {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             No more supplement graveyards. Your protocol updates monthly as your biology changes.
           </p>
+        </div>
+
+        {/* Smart OS Supply Video */}
+        <div className="mb-16">
+          <VideoPlaceholder
+            title="Your Smart OS Supply"
+            subtitle="Refills aligned with your biological modules"
+            duration="0:45"
+            thumbnail="/placeholder-smart-supply.jpg"
+            videoSrc="/videos/smart-os-supply.mp4"
+            glowColor="cyan"
+          />
         </div>
 
         <SmartOSSupplyTimeline />

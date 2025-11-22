@@ -180,6 +180,19 @@ All colors MUST be HSL.
     }
   }
   
+  /* Glow Pulse for Videos - Single pulse on load */
+  @keyframes glow-pulse {
+    0% {
+      filter: brightness(1);
+    }
+    50% {
+      filter: brightness(1.12);
+    }
+    100% {
+      filter: brightness(1);
+    }
+  }
+  
   /* Cyan Glow Pulse (Male) */
   @keyframes cyan-glow-pulse {
     0%, 100% {

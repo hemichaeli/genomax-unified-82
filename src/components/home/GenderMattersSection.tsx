@@ -1,3 +1,5 @@
+import { VideoPlaceholder } from "./VideoPlaceholder";
+
 export const GenderMattersSection = () => {
   return (
     <section className="py-32 px-6 relative overflow-hidden">
@@ -103,6 +105,18 @@ export const GenderMattersSection = () => {
               </li>
             </ul>
           </div>
+        </div>
+
+        {/* Biology Optimized Video */}
+        <div className="mt-24">
+          <VideoPlaceholder
+            title="Biology Optimized with Geno MAX²"
+            subtitle="Why gender-specific biology matters"
+            duration="1:15"
+            thumbnail="/placeholder-biology-optimized.jpg"
+            videoSrc="/videos/biology-optimized.mp4"
+            glowColor="primary"
+          />
         </div>
       </div>
     </section>

@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Heart, Activity, Moon, Zap } from "lucide-react";
+import { VideoPlaceholder } from "@/components/home/VideoPlaceholder";
 
 const Maxima = () => {
   return (
@@ -38,27 +39,14 @@ const Maxima = () => {
       {/* MAXima² Video Section */}
       <section className="py-12 px-6">
         <div className="max-w-4xl mx-auto">
-          <div 
-            className="relative rounded-xl overflow-hidden"
-            style={{
-              boxShadow: "0 0 32px hsl(323 100% 42% / 0.4), 0 0 16px hsl(323 100% 42% / 0.2)",
-            }}
-          >
-            <video
-              className="w-full h-auto"
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster="/placeholder-maxima-video.jpg"
-            >
-              <source src="/videos/maxima-protocol.mp4" type="video/mp4" />
-              {/* Fallback */}
-              <img src="/placeholder-maxima-video.jpg" alt="MAXima² Protocol" className="w-full h-auto" />
-            </video>
-            {/* Magenta glow overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-maxima/20 to-transparent pointer-events-none" />
-          </div>
+          <VideoPlaceholder
+            title="Your MAX ima² Biological OS"
+            subtitle="Built for female biology"
+            duration="0:40"
+            thumbnail="/placeholder-maxima-video.jpg"
+            videoSrc="/videos/maxima-protocol.mp4"
+            glowColor="magenta"
+          />
         </div>
       </section>
 
