@@ -44,14 +44,14 @@ const Home = () => {
               onClick={() => navigate('/assessment?gender=maximo')}
               className="h-16 text-lg bg-gradient-to-r from-maximo to-maximo-light hover:opacity-90 hover:scale-[1.03] active:scale-[0.98] transition-all duration-[140ms] shadow-glow-cyan rounded-xl"
             >
-              <span className="text-accent font-bold">MAX</span>imo²
+              MAXimo²
             </Button>
             <Button
               size="lg"
               onClick={() => navigate('/assessment?gender=maxima')}
               className="h-16 text-lg bg-gradient-to-r from-maxima to-maxima-light hover:opacity-90 hover:scale-[1.03] active:scale-[0.98] transition-all duration-[140ms] shadow-glow-magenta rounded-xl"
             >
-              <span className="text-accent font-bold">MAX</span>ima²
+              MAXima²
             </Button>
           </div>
         </div>
