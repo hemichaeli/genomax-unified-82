@@ -17,36 +17,42 @@ const Home = () => {
     <div className="min-h-screen">
       {/* Cinematic Hero Section */}
       <CinematicOSHero>
-        <div className="text-center space-y-10">
-          {/* Hero Video Container */}
-          <div className="mb-12 relative rounded-2xl overflow-hidden" style={{ maxHeight: '480px' }}>
-            <video
-              className="w-full h-auto object-cover"
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster="/placeholder-hero-video.jpg"
-              style={{ maxHeight: '480px' }}
-            >
-              <source src="/videos/hero-genomax.mp4" type="video/mp4" />
-              {/* Fallback for mobile or unsupported browsers */}
-              <img src="/placeholder-hero-video.jpg" alt="GenoMAX² Hero" className="w-full h-auto" />
-            </video>
-            {/* Subtle overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
+        {/* Subtle scanline overlay */}
+        <div 
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{
+            backgroundImage: 'repeating-linear-gradient(0deg, rgba(65, 224, 255, 0.02) 0px, rgba(65, 224, 255, 0.03) 1px, transparent 1px, transparent 2px)',
+            animation: 'scanline 8s linear infinite',
+          }}
+        />
+        
+        <div className="text-center space-y-10 relative z-10">
+          {/* Main Headline */}
+          <div className="space-y-6">
+            <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+              Your Biology Isn't Generic.
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+              Blood biomarkers beat DNA — that's why men and women need different Biological Operating Systems.
+            </p>
           </div>
 
-          {/* Main Headline */}
-          <div className="space-y-4">
-            <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-              Stop guessing. Build a protocol
-              <br />
-              that fits <span className="text-accent">YOUR</span> biology.
-            </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-              Gender-specific. Blood-based. Smart OS Supply. No more random supplement stacks.
-            </p>
+          {/* Gender CTA Buttons */}
+          <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto pt-4">
+            <Button
+              size="lg"
+              onClick={() => navigate('/assessment?gender=maximo')}
+              className="h-16 text-lg bg-gradient-to-r from-maximo to-maximo-light hover:opacity-90 hover:scale-[1.03] active:scale-[0.98] transition-all duration-[140ms] shadow-glow-cyan rounded-xl"
+            >
+              <span className="text-accent font-bold">MAX</span>imo²
+            </Button>
+            <Button
+              size="lg"
+              onClick={() => navigate('/assessment?gender=maxima')}
+              className="h-16 text-lg bg-gradient-to-r from-maxima to-maxima-light hover:opacity-90 hover:scale-[1.03] active:scale-[0.98] transition-all duration-[140ms] shadow-glow-magenta rounded-xl"
+            >
+              <span className="text-accent font-bold">MAX</span>ima²
+            </Button>
           </div>
         </div>
       </CinematicOSHero>

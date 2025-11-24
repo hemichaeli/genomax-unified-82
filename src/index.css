@@ -193,6 +193,16 @@ All colors MUST be HSL.
     }
   }
   
+  /* Scanline Animation for Hero */
+  @keyframes scanline {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(4px);
+    }
+  }
+  
   /* Cyan Glow Pulse (Male) */
   @keyframes cyan-glow-pulse {
     0%, 100% {
