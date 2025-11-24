@@ -42,8 +42,8 @@ All colors MUST be HSL.
     --radius: 1rem; /* Rounded corners */
     
     /* Gender-specific colors with NEON GLOW */
-    --maxima: 323 100% 52%; /* Lighter Magenta for better contrast */
-    --maxima-light: 323 100% 65%; /* Even Lighter Magenta */
+    --maxima: 323 100% 62%; /* Lighter Magenta for better contrast */
+    --maxima-light: 323 100% 75%; /* Even Lighter Magenta */
     --maxima-glow: 323 100% 52%; /* Magenta glow */
     --maxima-foreground: 220 10% 98%;
     
