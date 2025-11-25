@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Heart, Activity, Moon, Zap } from "lucide-react";
 import { VideoPlaceholder } from "@/components/home/VideoPlaceholder";
+import { BrandText } from "@/components/BrandText";
 
 const Maxima = () => {
   return (
@@ -15,7 +16,7 @@ const Maxima = () => {
               Female-Optimized Protocol
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold">
-              <span className="text-[#FF2A2A]">MAX</span>ima²
+              <BrandText variant="maxima" />
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
               Optimize hormones, cycle, energy, and vitality with protocols built for female biology
@@ -23,7 +24,7 @@ const Maxima = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/upload?gender=female&source=maxima">
                 <Button size="lg" className="bg-maxima hover:bg-maxima/90 text-maxima-foreground">
-                  Build My <span className="text-[#FF2A2A]">MAX</span>ima² Protocol
+                  Build My <BrandText variant="maxima" /> Protocol
                 </Button>
               </Link>
               <Link to="/assessment/maxima">
@@ -40,7 +41,7 @@ const Maxima = () => {
       <section className="py-12 px-6">
         <div className="max-w-4xl mx-auto">
           <VideoPlaceholder
-            title="Your MAX ima² Biological OS"
+            title="Your MAXima² Biological OS"
             subtitle="Built for female biology"
             duration="0:40"
             thumbnail="/placeholder-maxima-video.jpg"
@@ -163,7 +164,7 @@ const Maxima = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/upload?gender=female&source=maxima">
                 <Button size="lg" className="bg-maxima hover:bg-maxima/90 text-maxima-foreground">
-                  Build My MAXima² Protocol
+                  Build My <BrandText variant="maxima" /> Protocol
                 </Button>
               </Link>
               <Link to="/assessment">

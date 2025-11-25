@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Zap, Activity, Shield, TrendingUp } from "lucide-react";
 import { VideoPlaceholder } from "@/components/home/VideoPlaceholder";
+import { BrandText } from "@/components/BrandText";
 
 const Maximo = () => {
   return (
@@ -15,7 +16,7 @@ const Maximo = () => {
               Male-Optimized Protocol
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold">
-              <span className="text-[#FF2A2A]">MAX</span>imo²
+              <BrandText variant="maximo" />
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
               Optimize testosterone, performance, and longevity with protocols built for male biology
@@ -23,7 +24,7 @@ const Maximo = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/upload?gender=male&source=maximo">
                 <Button size="lg" className="bg-maximo hover:bg-maximo/90 text-maximo-foreground">
-                  Build My <span className="text-[#FF2A2A]">MAX</span>imo² Protocol
+                  Build My <BrandText variant="maximo" /> Protocol
                 </Button>
               </Link>
               <Link to="/assessment/maximo">
@@ -40,7 +41,7 @@ const Maximo = () => {
       <section className="py-12 px-6">
         <div className="max-w-4xl mx-auto">
           <VideoPlaceholder
-            title="Your MAX imo² Biological OS"
+            title="Your MAXimo² Biological OS"
             subtitle="Built for male biology"
             duration="0:35"
             thumbnail="/placeholder-maximo-video.jpg"
@@ -163,7 +164,7 @@ const Maximo = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/upload?gender=male&source=maximo">
                 <Button size="lg" className="bg-maximo hover:bg-maximo/90 text-maximo-foreground">
-                  Build My MAXimo² Protocol
+                  Build My <BrandText variant="maximo" /> Protocol
                 </Button>
               </Link>
               <Link to="/assessment">
