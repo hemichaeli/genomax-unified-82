@@ -104,7 +104,7 @@ export const DataBuildingOSSection = () => {
                 Gender biology is real
               </h3>
               <p className="text-muted-foreground leading-relaxed text-sm">
-                Male and female biology respond differently. Iron, hormones, metabolism—your gender dictates your protocol.
+                Male and female biology respond differently. Iron, hormones, metabolism-your gender dictates your protocol.
               </p>
               <p className="text-xs text-os-cyan flex items-center gap-2 pt-2">
                 <span className="text-os-cyan">→</span>
@@ -144,7 +144,7 @@ export const DataBuildingOSSection = () => {
                 A biological operating system
               </h3>
               <p className="text-muted-foreground leading-relaxed text-sm">
-                Not pills—an OS. Modules, updates, sync cycles. Your protocol evolves as your biology changes.
+                Not pills-an OS. Modules, updates, sync cycles. Your protocol evolves as your biology changes.
               </p>
               <p className="text-xs text-os-cyan flex items-center gap-2 pt-2">
                 <span className="text-os-cyan">→</span>

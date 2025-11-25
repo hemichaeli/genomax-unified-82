@@ -58,7 +58,7 @@ const SYMPTOMS = [
 
 const SLEEP_PATTERNS = [
   "<6 hours",
-  "6–7 hours",
+  "6-7 hours",
   "7+ hours",
   "Irregular sleep schedule",
   "Screen use at night",
@@ -68,8 +68,8 @@ const SLEEP_PATTERNS = [
 const ACTIVITY_LEVELS = [
   "Sedentary",
   "Light activity",
-  "Train 1–3x/week",
-  "Train 3–5x/week",
+  "Train 1-3x/week",
+  "Train 3-5x/week",
   "High-intensity training",
 ];
 
@@ -158,8 +158,8 @@ const CURRENT_SUPPLEMENTS = [
 
 const ERECTION_FREQUENCY = [
   "Daily",
-  "4–5 times/week",
-  "2–3 times/week",
+  "4-5 times/week",
+  "2-3 times/week",
   "Rarely",
 ];
 
@@ -345,7 +345,7 @@ const Assessment = () => {
               <div className="text-center space-y-4">
                 <h2 className="text-3xl md:text-4xl font-bold">Your Main Goals</h2>
                 <p className="text-lg text-muted-foreground">
-                  Choose 3–4 goals that matter most to you
+                  Choose 3-4 goals that matter most to you
                 </p>
                 <p className="text-sm text-accent">
                   {formData.goals.length} of 4 selected

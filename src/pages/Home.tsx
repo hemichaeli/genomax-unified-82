@@ -34,7 +34,7 @@ const Home = () => {
               Your Biology Isn't Generic.
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              Blood biomarkers beat DNA — that's why men and women need different Biological Operating Systems.
+              Blood biomarkers beat DNA - that's why men and women need different Biological Operating Systems.
             </p>
           </div>
 
