@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { UserRound, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { BrandText } from "@/components/BrandText";
 
 export const GenderSelectionCards = () => {
   const navigate = useNavigate();
@@ -38,10 +39,7 @@ export const GenderSelectionCards = () => {
               {/* Header */}
               <div className="flex items-center justify-between">
                 <h3 className="text-4xl font-bold">
-                  <span className="text-accent">MAX</span>
-                  <span className="bg-gradient-to-r from-maxima to-maxima-light bg-clip-text text-transparent">
-                    ima²
-                  </span>
+                  <BrandText variant="maxima" />
                 </h3>
                 <div className="w-12 h-12 rounded-full bg-maxima/20 flex items-center justify-center">
                   <UserRound className="w-6 h-6 text-maxima" />
@@ -73,7 +71,7 @@ export const GenderSelectionCards = () => {
               <Button
                 className="w-full bg-gradient-to-r from-maxima to-maxima-light hover:opacity-90 text-white font-medium h-12 transition-all duration-[280ms]"
               >
-                Build My <span className="text-accent font-bold">MAX</span>ima² Protocol
+                Build My <BrandText variant="maxima" /> Protocol
               </Button>
             </div>
 
@@ -95,10 +93,7 @@ export const GenderSelectionCards = () => {
               {/* Header */}
               <div className="flex items-center justify-between">
                 <h3 className="text-4xl font-bold">
-                  <span className="text-accent">MAX</span>
-                  <span className="bg-gradient-to-r from-maximo to-maximo-light bg-clip-text text-transparent">
-                    imo²
-                  </span>
+                  <BrandText variant="maximo" />
                 </h3>
                 <div className="w-12 h-12 rounded-full bg-maximo/20 flex items-center justify-center">
                   <UserRound className="w-6 h-6 text-maximo" />
@@ -130,7 +125,7 @@ export const GenderSelectionCards = () => {
               <Button
                 className="w-full bg-gradient-to-r from-maximo to-maximo-light hover:opacity-90 text-white font-medium h-12 transition-all duration-[280ms]"
               >
-                Build My <span className="text-accent font-bold">MAX</span>imo² Protocol
+                Build My <BrandText variant="maximo" /> Protocol
               </Button>
             </div>
 
