@@ -119,7 +119,7 @@ const About = () => {
                 That's when I realized: <span className="text-foreground font-medium">supplement companies profit from confusion, not results.</span>
               </p>
               <p className="text-foreground font-medium">
-                So we built something different—a system that actually listens to your biology.
+                So we built something different-a system that actually listens to your biology.
               </p>
             </div>
           </div>
@@ -161,7 +161,7 @@ const About = () => {
             Generic stacks ignore your bloodwork. Random pills with zero feedback.
           </p>
           <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            The industry profits when you keep guessing. We built GenoMAX² to fix that—blood-based protocols that adapt as you improve.
+            The industry profits when you keep guessing. We built GenoMAX² to fix that-blood-based protocols that adapt as you improve.
           </p>
           
           {/* Subtle supporting visual */}
@@ -226,7 +226,7 @@ const About = () => {
               </div>
               <h3 className="text-xl font-bold">Adaptation Over Static Plans</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Your protocol evolves as your biomarkers improve—because your biology is not static, and neither should your plan be.
+                Your protocol evolves as your biomarkers improve-because your biology is not static, and neither should your plan be.
               </p>
             </div>
           </div>

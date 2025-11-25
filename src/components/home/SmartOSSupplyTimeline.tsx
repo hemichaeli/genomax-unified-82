@@ -125,7 +125,7 @@ export const SmartOSSupplyTimeline = () => {
           <div className="mt-12 text-center space-y-6">
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-os-success/10 border border-os-success/20 rounded-lg backdrop-blur">
               <CheckCircle2 className="w-5 h-5 text-os-success" />
-              <span className="font-medium">Perfect sync — Always perfectly timed</span>
+              <span className="font-medium">Perfect sync - Always perfectly timed</span>
             </div>
             
             <Button 

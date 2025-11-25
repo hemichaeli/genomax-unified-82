@@ -37,7 +37,7 @@ export const MAXyncHeroSection = () => {
             Your Daily OS Execution Layer
           </p>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            The protocol is just the blueprint. MAXync² is how you execute it—daily habits, 
+            The protocol is just the blueprint. MAXync² is how you execute it-daily habits, 
             intelligent reminders, streak psychology, and AI insights to keep you consistent.
           </p>
         </div>
@@ -146,7 +146,7 @@ export const MAXyncHeroSection = () => {
                 <span className="text-sm font-semibold">Daily Insight</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Your adherence is strong—metabolic markers are trending positive. 
+                Your adherence is strong-metabolic markers are trending positive. 
                 Consider adding evening walk to amplify recovery signals.
               </p>
             </div>

@@ -48,7 +48,7 @@ export const OSDiagnosticMatrix = ({ biomarkers, gender = "maximo" }: OSDiagnost
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-2xl font-bold">OS Diagnostic Matrix</h3>
-          <p className="text-sm text-muted-foreground">Pro Mode — Biological Systems Overview</p>
+          <p className="text-sm text-muted-foreground">Pro Mode - Biological Systems Overview</p>
         </div>
       </div>
 
