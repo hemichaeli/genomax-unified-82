@@ -43,16 +43,12 @@ const Home = () => {
               size="lg"
               onClick={() => navigate('/assessment?gender=maximo')}
               className="h-16 text-lg bg-gradient-to-r from-maximo to-maximo-light hover:opacity-90 hover:scale-[1.03] active:scale-[0.98] transition-all duration-[140ms] shadow-glow-cyan rounded-xl text-white"
-            >
-              <span className="font-bold" style={{ color: '#FF2D2D', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>MAX</span>imo<span className="font-bold" style={{ color: '#FF2D2D', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>²</span>
-            </Button>
+            ><span className="font-bold" style={{ color: '#FF2D2D', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>MAX</span>imo<span className="font-bold" style={{ color: '#FF2D2D', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>²</span></Button>
             <Button
               size="lg"
               onClick={() => navigate('/assessment?gender=maxima')}
               className="h-16 text-lg bg-gradient-to-r from-maxima to-maxima-light hover:opacity-90 hover:scale-[1.03] active:scale-[0.98] transition-all duration-[140ms] shadow-glow-magenta rounded-xl text-white"
-            >
-              <span className="font-bold" style={{ color: '#FF2D2D', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>MAX</span>ima<span className="font-bold" style={{ color: '#FF2D2D', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>²</span>
-            </Button>
+            ><span className="font-bold" style={{ color: '#FF2D2D', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>MAX</span>ima<span className="font-bold" style={{ color: '#FF2D2D', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>²</span></Button>
           </div>
         </div>
       </CinematicOSHero>
@@ -126,16 +122,12 @@ const Home = () => {
               size="lg"
               onClick={() => navigate('/assessment?gender=maxima')}
               className="h-16 text-lg bg-gradient-to-r from-maxima to-maxima-light hover:opacity-90 transition-all duration-[280ms]"
-            >
-              Build My <span className="text-accent font-bold">MAX</span>ima² Protocol
-            </Button>
+            >Build My <span className="text-accent font-bold">MAX</span>ima² Protocol</Button>
             <Button
               size="lg"
               onClick={() => navigate('/assessment?gender=maximo')}
               className="h-16 text-lg bg-gradient-to-r from-maximo to-maximo-light hover:opacity-90 transition-all duration-[280ms]"
-            >
-              Build My <span className="text-accent font-bold">MAX</span>imo² Protocol
-            </Button>
+            >Build My <span className="text-accent font-bold">MAX</span>imo² Protocol</Button>
           </div>
         </div>
       </section>
