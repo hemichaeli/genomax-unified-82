@@ -23,6 +23,8 @@ export const VideoPlaceholder = ({
   aspectRatio = "16/9"
 }: VideoPlaceholderProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useState<HTMLVideoElement | null>(null)[0];
 
   const glowColors = {
     cyan: "hsl(186 100% 64%)",
@@ -32,6 +34,18 @@ export const VideoPlaceholder = ({
   };
 
   const borderColor = glowColors[glowColor];
+
+  const handleVideoClick = () => {
+    const video = document.querySelector(`video[data-video-id="${title}"]`) as HTMLVideoElement;
+    if (video) {
+      if (isPlaying) {
+        video.pause();
+      } else {
+        video.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   return (
     <div className={`space-y-4 ${className}`}>
@@ -56,12 +70,13 @@ export const VideoPlaceholder = ({
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        onClick={handleVideoClick}
       >
         {/* Video or Thumbnail */}
         {videoSrc ? (
           <video
+            data-video-id={title}
             className="w-full h-full object-cover"
-            autoPlay
             muted
             loop
             playsInline
@@ -82,28 +97,32 @@ export const VideoPlaceholder = ({
         )}
 
         {/* Overlay */}
-        <div 
-          className="absolute inset-0 bg-background/60 backdrop-blur-sm transition-all duration-[280ms]"
-          style={{
-            background: isHovered 
-              ? "linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%)"
-              : "linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 100%)"
-          }}
-        />
+        {!isPlaying && (
+          <div 
+            className="absolute inset-0 bg-background/60 backdrop-blur-sm transition-all duration-[280ms]"
+            style={{
+              background: isHovered 
+                ? "linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%)"
+                : "linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 100%)"
+            }}
+          />
+        )}
 
         {/* Play button */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div
-            className="w-20 h-20 rounded-full flex items-center justify-center transition-all duration-[280ms]"
-            style={{
-              background: isHovered ? borderColor : `${borderColor}E6`,
-              boxShadow: `0 0 30px ${borderColor}66`,
-              transform: isHovered ? "scale(1.15)" : "scale(1)"
-            }}
-          >
-            <Play className="w-8 h-8 text-white ml-1" fill="white" />
+        {!isPlaying && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div
+              className="w-20 h-20 rounded-full flex items-center justify-center transition-all duration-[280ms]"
+              style={{
+                background: isHovered ? borderColor : `${borderColor}E6`,
+                boxShadow: `0 0 30px ${borderColor}66`,
+                transform: isHovered ? "scale(1.15)" : "scale(1)"
+              }}
+            >
+              <Play className="w-8 h-8 text-white ml-1" fill="white" />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Info overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background/95 to-transparent">
