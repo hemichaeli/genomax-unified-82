@@ -77,7 +77,6 @@ export const VideoPlaceholder = ({
           <video
             data-video-id={title}
             className="w-full h-full object-cover"
-            muted
             loop
             playsInline
             poster={thumbnail}
