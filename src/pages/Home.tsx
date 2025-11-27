@@ -94,36 +94,6 @@ const Home = () => {
       {/* MAXync² Hero Section */}
       <MAXyncHeroSection />
 
-      {/* Video Section */}
-      <section className="py-24 px-6 bg-card/30">
-        <div className="max-w-6xl mx-auto space-y-12">
-          <div className="text-center space-y-4">
-            <h2 className="text-4xl md:text-5xl font-bold">
-              See Geno<span className="text-[#FF2A2A]">MAX</span>² in Action
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Watch how our Biological OS transforms bloodwork into personalized protocols
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <VideoPlaceholder
-              title="Geno<span class='text-[#FF2A2A]'>MAX</span>² OS Overview"
-              duration="0:35"
-              videoSrc="/videos/genomax-os-overview.mp4"
-              thumbnail="/placeholder-os-scan.jpg"
-              glowColor="cyan"
-            />
-            <VideoPlaceholder
-              title="Gender-Optimized Protocols Explained"
-              duration="0:40"
-              videoSrc="/videos/gender-protocols.mp4"
-              thumbnail="/placeholder-founder-video.jpg"
-              glowColor="magenta"
-            />
-          </div>
-        </div>
-      </section>
 
       {/* Final CTA Section */}
       <section className="py-32 px-6 relative overflow-hidden">
