@@ -113,7 +113,7 @@ export const GenderMattersSection = () => {
             title="Biology Optimized with Geno MAX²"
             subtitle="Why gender-specific biology matters"
             duration="1:15"
-            videoSrc="/videos/genomax_reveal.mp4"
+            videoSrc="/videos/biology-optimized.mp4"
             glowColor="primary"
           />
         </div>
