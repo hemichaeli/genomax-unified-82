@@ -45,7 +45,7 @@ const Maximo = () => {
             subtitle="Built for male biology"
             duration="0:35"
             thumbnail="/placeholder-maximo-video.jpg"
-            videoSrc="/videos/maximo-protocol.mp4"
+            videoSrc="/videos/maximo-biological-os.mp4"
             glowColor="cyan"
           />
         </div>
