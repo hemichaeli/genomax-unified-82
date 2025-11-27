@@ -115,6 +115,10 @@ export const GenderMattersSection = () => {
             duration="1:15"
             videoSrc="/videos/biology-optimized.mp4"
             glowColor="primary"
+            controls={true}
+            autoPlay={false}
+            muted={false}
+            simple
           />
         </div>
       </div>
