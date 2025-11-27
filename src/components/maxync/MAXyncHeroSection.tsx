@@ -48,12 +48,12 @@ export const MAXyncHeroSection = () => {
             title="Stay Synced with MAXync"
             subtitle="Your daily execution layer"
             duration="0:50"
-            thumbnail="/placeholder-maxync.jpg"
             videoSrc="/videos/maxync-daily.mp4"
             glowColor="red"
             controls={true}
             muted={false}
             autoPlay={false}
+            simple
           />
         </div>
 
