@@ -44,9 +44,12 @@ const Maxima = () => {
             title="Your MAXima² Biological OS"
             subtitle="Built for female biology"
             duration="0:40"
-            thumbnail="/placeholder-maxima-video.jpg"
             videoSrc="/videos/maxima-biological-os.mp4"
             glowColor="magenta"
+            controls={true}
+            muted={false}
+            autoPlay={false}
+            simple
           />
         </div>
       </section>
