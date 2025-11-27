@@ -31,6 +31,9 @@ export const SecretProblem = () => {
             videoSrc="/videos/dna-vs-bloodwork.mp4"
             thumbnail="/placeholder-dna-video.jpg"
             glowColor="magenta"
+            controls={true}
+            autoPlay={false}
+            muted={false}
           />
         </div>
       </div>
