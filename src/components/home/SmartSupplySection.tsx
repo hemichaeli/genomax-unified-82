@@ -31,6 +31,9 @@ export const SmartSupplySection = () => {
             videoSrc="/videos/smart-os-supply.mp4"
             thumbnail="/placeholder-smart-supply.jpg"
             glowColor="cyan"
+            controls={true}
+            muted={false}
+            autoPlay={false}
           />
         </div>
 
