@@ -73,7 +73,10 @@ export const VideoPlaceholder = ({
     <div className={`space-y-4 ${className}`}>
       {/* Header */}
       <div className="text-center space-y-2">
-        <h3 className="text-2xl md:text-3xl font-bold">{title}</h3>
+        <h3 
+          className="text-2xl md:text-3xl font-bold"
+          dangerouslySetInnerHTML={{ __html: title }}
+        />
         {subtitle && (
           <p className="text-muted-foreground">{subtitle}</p>
         )}
