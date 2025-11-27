@@ -155,22 +155,6 @@ export const VideoPlaceholder = ({
           </div>
         )}
 
-        {/* Info overlay */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background/95 to-transparent">
-          <p className="text-sm text-muted-foreground">{duration}</p>
-        </div>
-
-        {/* Duration badge */}
-        <div 
-          className="absolute top-4 right-4 px-3 py-1 rounded-full backdrop-blur-sm text-xs font-medium font-mono"
-          style={{
-            background: `${borderColor}26`,
-            border: `1px solid ${borderColor}40`,
-            color: borderColor
-          }}
-        >
-          {duration}
-        </div>
       </div>
     </div>
   );
