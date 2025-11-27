@@ -12,7 +12,7 @@ const Compare = () => {
         <div className="text-center space-y-12">
           <div className="space-y-6">
             <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-              How Geno<span className="text-accent">MAX²</span> Is Different
+              How Geno<span className="text-[#FF2A2A]">MAX</span>² Is Different
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
               We're not another supplement subscription. We're a biological operating system.
@@ -92,7 +92,7 @@ const Compare = () => {
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Gender-Optimized</h3>
                     <p className="text-sm text-muted-foreground">
-                      Separate protocols for <span className="text-accent">MAX</span>ima² (female) and <span className="text-accent">MAX</span>imo² (male), reflecting real physiological differences
+                      Separate protocols for <span className="text-[#FF2A2A]">MAX</span>ima² (female) and <span className="text-[#FF2A2A]">MAX</span>imo² (male), reflecting real physiological differences
                     </p>
                   </div>
                 </div>
@@ -117,7 +117,7 @@ const Compare = () => {
                     <tr>
                       <th className="px-6 py-4 text-left font-semibold">Feature</th>
                       <th className="px-6 py-4 text-center font-semibold">Traditional</th>
-                      <th className="px-6 py-4 text-center font-semibold text-accent">GenoMAX²</th>
+                      <th className="px-6 py-4 text-center font-semibold text-accent">Geno<span className="text-[#FF2A2A]">MAX</span>²</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">

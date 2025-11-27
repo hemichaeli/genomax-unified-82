@@ -23,7 +23,7 @@ export const Header = () => {
             <Link to="/" className="flex items-center group">
               <div className={`font-bold transition-all duration-[280ms] ${isScrolled ? 'text-xl' : 'text-2xl'}`}>
                 <span className="text-foreground">Geno</span>
-                <span className="text-accent transition-all duration-[280ms] group-hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.6)]">MAX²</span>
+                <span className="text-[#FF2A2A] transition-all duration-[280ms] group-hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.6)]">MAX²</span>
               </div>
             </Link>
 
@@ -42,21 +42,21 @@ export const Header = () => {
                 to="/maximo" 
                 className="text-sm font-medium text-foreground hover:text-maximo transition-all duration-[280ms] group relative"
               >
-                <span className="text-accent">MAX</span>imo²
+                <span className="text-[#FF2A2A]">MAX</span>imo²
                 <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-maximo scale-x-0 group-hover:scale-x-100 transition-transform duration-[280ms] origin-left" />
               </Link>
               <Link 
                 to="/maxima" 
                 className="text-sm font-medium text-foreground hover:text-maxima transition-all duration-[280ms] group relative"
               >
-                <span className="text-accent">MAX</span>ima²
+                <span className="text-[#FF2A2A]">MAX</span>ima²
                 <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-maxima scale-x-0 group-hover:scale-x-100 transition-transform duration-[280ms] origin-left" />
               </Link>
               <Link 
                 to="/maxync" 
                 className="text-sm font-medium text-foreground hover:text-os-cyan transition-all duration-[280ms] group relative"
               >
-                <span className="text-accent">MAX</span>ync²
+                <span className="text-[#FF2A2A]">MAX</span>ync²
                 <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-os-cyan scale-x-0 group-hover:scale-x-100 transition-transform duration-[280ms] origin-left" />
               </Link>
             </nav>
@@ -146,21 +146,21 @@ export const Header = () => {
                   className="block text-lg font-medium text-foreground hover:text-maximo transition-colors duration-[280ms]"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <span className="text-accent">MAX</span>imo²
+                  <span className="text-[#FF2A2A]">MAX</span>imo²
                 </Link>
                 <Link 
                   to="/maxima" 
                   className="block text-lg font-medium text-foreground hover:text-maxima transition-colors duration-[280ms]"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <span className="text-accent">MAX</span>ima²
+                  <span className="text-[#FF2A2A]">MAX</span>ima²
                 </Link>
                 <Link 
                   to="/maxync" 
                   className="block text-lg font-medium text-foreground hover:text-os-cyan transition-colors duration-[280ms]"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <span className="text-accent">MAX</span>ync²
+                  <span className="text-[#FF2A2A]">MAX</span>ync²
                 </Link>
 
                 {/* Mobile CTAs */}

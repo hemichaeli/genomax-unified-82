@@ -41,7 +41,7 @@ const Maximo = () => {
       <section className="py-12 px-6">
         <div className="max-w-4xl mx-auto">
           <VideoPlaceholder
-            title="Your MAXimo² Biological OS"
+            title="Your <span class='text-[#FF2A2A]'>MAX</span>imo² Biological OS"
             subtitle="Built for male biology"
             duration="0:35"
             videoSrc="/videos/maximo-biological-os.mp4"
@@ -112,7 +112,7 @@ const Maximo = () => {
           <div className="max-w-4xl mx-auto space-y-12">
             <div className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                What's Included in MAXimo²
+                What's Included in <span className="text-[#FF2A2A]">MAX</span>imo²
               </h2>
               <p className="text-xl text-muted-foreground">
                 Evidence-based protocols tailored to male biology
@@ -159,7 +159,7 @@ const Maximo = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-3xl mx-auto space-y-8">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-              Ready to start your MAXimo² protocol?
+              Ready to start your <span className="text-[#FF2A2A]">MAX</span>imo² protocol?
             </h2>
             <p className="text-xl text-muted-foreground">
               Upload your blood work or complete our assessment

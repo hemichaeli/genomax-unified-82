@@ -41,7 +41,7 @@ const Maxima = () => {
       <section className="py-12 px-6">
         <div className="max-w-4xl mx-auto">
           <VideoPlaceholder
-            title="Your MAXima² Biological OS"
+            title="Your <span class='text-[#FF2A2A]'>MAX</span>ima² Biological OS"
             subtitle="Built for female biology"
             duration="0:40"
             videoSrc="/videos/maxima-biological-os.mp4"
@@ -112,7 +112,7 @@ const Maxima = () => {
           <div className="max-w-4xl mx-auto space-y-12">
             <div className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                What's Included in MAXima²
+                What's Included in <span className="text-[#FF2A2A]">MAX</span>ima²
               </h2>
               <p className="text-xl text-muted-foreground">
                 Evidence-based protocols tailored to female biology
@@ -159,7 +159,7 @@ const Maxima = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-3xl mx-auto space-y-8">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-              Ready to start your MAXima² protocol?
+              Ready to start your <span className="text-[#FF2A2A]">MAX</span>ima² protocol?
             </h2>
             <p className="text-xl text-muted-foreground">
               Upload your blood work or complete our assessment

@@ -46,7 +46,7 @@ export const GenderMattersSection = () => {
               </div>
             </div>
             <h3 className="text-2xl font-bold text-center bg-gradient-to-r from-maximo-light to-primary bg-clip-text text-transparent">
-              <span className="text-accent">MAX</span>imo²
+              <span className="text-[#FF2A2A]">MAX</span>imo²
             </h3>
             <ul className="space-y-3 text-muted-foreground">
               <li className="flex items-start gap-3">
@@ -88,7 +88,7 @@ export const GenderMattersSection = () => {
               </div>
             </div>
             <h3 className="text-2xl font-bold text-center bg-gradient-to-r from-maxima-light to-maxima bg-clip-text text-transparent">
-              <span className="text-accent">MAX</span>ima²
+              <span className="text-[#FF2A2A]">MAX</span>ima²
             </h3>
             <ul className="space-y-3 text-muted-foreground">
               <li className="flex items-start gap-3">
@@ -110,7 +110,7 @@ export const GenderMattersSection = () => {
         {/* Biology Optimized Video */}
         <div className="mt-24">
           <VideoPlaceholder
-            title="Biology Optimized with Geno MAX²"
+            title="Biology Optimized with Geno<span class='text-[#FF2A2A]'>MAX</span>²"
             subtitle="Why gender-specific biology matters"
             duration="1:15"
             videoSrc="/videos/biology-optimized.mp4"

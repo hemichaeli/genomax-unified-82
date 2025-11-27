@@ -13,7 +13,7 @@ const FAQ = () => {
               Frequently Asked Questions
             </h1>
             <p className="text-xl text-muted-foreground">
-              Everything you need to know about GenoMAX²
+              Everything you need to know about Geno<span className="text-[#FF2A2A]">MAX</span>²
             </p>
           </div>
 
@@ -21,7 +21,7 @@ const FAQ = () => {
           <Accordion type="single" collapsible className="w-full space-y-4">
             <AccordionItem value="what-is">
               <AccordionTrigger className="text-lg font-semibold">
-                What is GenoMAX²?
+                What is Geno<span className="text-[#FF2A2A]">MAX</span>²?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
                 GenoMAX² is a Gender-Optimized Biological Operating System. We're not a supplement subscription - we create 

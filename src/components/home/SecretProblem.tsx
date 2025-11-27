@@ -18,7 +18,7 @@ export const SecretProblem = () => {
           </h2>
           <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
             Nobody optimizes biology. They collect pills. Protocols drift, needs change, and supplements pile up. 
-            Geno<span className="text-accent">MAX²</span> fixes the root cause - misalignment.
+            Geno<span className="text-[#FF2A2A]">MAX</span>² fixes the root cause - misalignment.
           </p>
         </div>
 

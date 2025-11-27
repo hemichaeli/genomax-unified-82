@@ -99,7 +99,7 @@ const Home = () => {
         <div className="max-w-6xl mx-auto space-y-12">
           <div className="text-center space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold">
-              See Geno<span className="text-accent">MAX²</span> in Action
+              See Geno<span className="text-[#FF2A2A]">MAX</span>² in Action
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Watch how our Biological OS transforms bloodwork into personalized protocols
@@ -108,7 +108,7 @@ const Home = () => {
 
           <div className="grid md:grid-cols-2 gap-8">
             <VideoPlaceholder
-              title="GenoMAX² OS Overview"
+              title="Geno<span class='text-[#FF2A2A]'>MAX</span>² OS Overview"
               duration="0:35"
               videoSrc="/videos/genomax-os-overview.mp4"
               thumbnail="/placeholder-os-scan.jpg"
