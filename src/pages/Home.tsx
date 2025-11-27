@@ -34,12 +34,12 @@ const Home = () => {
               title="Your Biology Has a Voice"
               subtitle="The opening video of the Biological OS"
               duration="0:32"
-              videoSrc="/videos/opening-biology-voice.mp4"
-              thumbnail="/placeholder-opening.jpg"
+              videoSrc="/videos/dual_gender.mp4"
               glowColor="cyan"
               controls={true}
               autoPlay={false}
               muted={false}
+              simple
             />
           </div>
 
