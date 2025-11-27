@@ -34,6 +34,7 @@ export const SecretProblem = () => {
             controls={true}
             autoPlay={false}
             muted={false}
+            simple
           />
         </div>
       </div>
