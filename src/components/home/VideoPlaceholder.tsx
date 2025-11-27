@@ -87,10 +87,10 @@ export const VideoPlaceholder = ({
           <video
             ref={videoRef}
             data-video-id={title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover pointer-events-none"
             playsInline
             poster={thumbnail}
-            controls={controls}
+            controls={false}
             autoPlay={autoPlay}
             muted={muted}
             onPlay={() => setIsPlaying(true)}
