@@ -29,7 +29,6 @@ export const SmartSupplySection = () => {
             subtitle="Refills aligned with your biological modules"
             duration="0:45"
             videoSrc="/videos/smart-os-supply.mp4?v=2"
-            thumbnail="/placeholder-smart-supply.jpg"
             glowColor="cyan"
             controls={true}
             muted={false}
