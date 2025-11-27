@@ -34,7 +34,6 @@ export const SmartSupplySection = () => {
             controls={true}
             muted={false}
             autoPlay={false}
-            simple
           />
         </div>
 
