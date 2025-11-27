@@ -43,33 +43,17 @@ export const VideoPlaceholder = ({
 
   const handleVideoClick = () => {
     const video = videoRef.current;
-    console.log("handleVideoClick", {
-      title,
-      hasVideo: !!video,
-      currentTime: video?.currentTime,
-      readyState: video?.readyState,
-    });
-
     if (!video) return;
 
     if (isPlaying) {
       video.pause();
-      setIsPlaying(false);
     } else {
-      video
-        .play()
-        .then(() => {
-          console.log("video.play resolved", {
-            title,
-            currentTime: video.currentTime,
-            readyState: video.readyState,
-          });
-          setIsPlaying(true);
-        })
-        .catch((error) => {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
           console.error("Video play failed", { title, videoSrc, error });
-          setIsPlaying(false);
         });
+      }
     }
   };
 
