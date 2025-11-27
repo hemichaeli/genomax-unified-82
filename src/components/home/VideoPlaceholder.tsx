@@ -47,11 +47,16 @@ export const VideoPlaceholder = ({
 
     if (isPlaying) {
       video.pause();
+      setIsPlaying(false);
     } else {
       video
         .play()
+        .then(() => {
+          setIsPlaying(true);
+        })
         .catch((error) => {
           console.error("Video play failed", { title, videoSrc, error });
+          setIsPlaying(false);
         });
     }
   };
@@ -92,15 +97,7 @@ export const VideoPlaceholder = ({
             controls={controls}
             autoPlay={autoPlay}
             muted={muted}
-            onPlay={() => {
-              // Keep isPlaying false until we confirm playback via timeupdate
-            }}
-            onTimeUpdate={(event) => {
-              const videoElement = event.currentTarget;
-              if (!isPlaying && videoElement.currentTime > 0.1) {
-                setIsPlaying(true);
-              }
-            }}
+            onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
             onEnded={() => setIsPlaying(false)}
             onError={(error) => {
