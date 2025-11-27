@@ -45,15 +45,25 @@ export const VideoPlaceholder = ({
     const video = videoRef.current;
     if (!video) return;
 
-    if (isPlaying) {
-      video.pause();
-    } else {
+    const isActuallyPaused = video.paused || video.ended || video.readyState === 0;
+
+    if (isActuallyPaused) {
       const playPromise = video.play();
       if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          console.error("Video play failed", { title, videoSrc, error });
-        });
+        playPromise
+          .then(() => {
+            console.log("Video started", {
+              title,
+              currentTime: video.currentTime,
+              readyState: video.readyState,
+            });
+          })
+          .catch((error) => {
+            console.error("Video play failed", { title, videoSrc, error });
+          });
       }
+    } else {
+      video.pause();
     }
   };
 
