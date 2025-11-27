@@ -92,7 +92,15 @@ export const VideoPlaceholder = ({
             controls={controls}
             autoPlay={autoPlay}
             muted={muted}
-            onPlay={() => setIsPlaying(true)}
+            onPlay={() => {
+              // Keep isPlaying false until we confirm playback via timeupdate
+            }}
+            onTimeUpdate={(event) => {
+              const videoElement = event.currentTarget;
+              if (!isPlaying && videoElement.currentTime > 0.1) {
+                setIsPlaying(true);
+              }
+            }}
             onPause={() => setIsPlaying(false)}
             onEnded={() => setIsPlaying(false)}
             onError={(error) => {
