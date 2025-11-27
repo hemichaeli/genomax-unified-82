@@ -45,12 +45,15 @@ export const MAXyncHeroSection = () => {
         {/* MAXync² Video */}
         <div className="mb-20 max-w-4xl mx-auto">
           <VideoPlaceholder
-            title="Stay Synced with MAX ync²"
+            title="Stay Synced with MAXync"
             subtitle="Your daily execution layer"
             duration="0:50"
             thumbnail="/placeholder-maxync.jpg"
             videoSrc="/videos/maxync-daily.mp4"
             glowColor="red"
+            controls={true}
+            muted={false}
+            autoPlay={false}
           />
         </div>
 
