@@ -28,6 +28,18 @@ const Home = () => {
         />
         
         <div className="text-center space-y-10 relative z-10">
+          {/* Core Video #1: Opening Video */}
+          <div className="mb-12 max-w-4xl mx-auto">
+            <VideoPlaceholder
+              title="Your Biology Has a Voice"
+              subtitle="The opening video of the Biological OS"
+              duration="0:30"
+              videoSrc="/videos/opening-biology-voice.mp4"
+              thumbnail="/placeholder-opening.jpg"
+              glowColor="cyan"
+            />
+          </div>
+
           {/* Main Headline */}
           <div className="space-y-6">
             <h1 className="text-5xl md:text-7xl font-bold leading-tight">
@@ -95,10 +107,16 @@ const Home = () => {
             <VideoPlaceholder
               title="GenoMAX² OS Overview"
               duration="0:35"
+              videoSrc="/videos/genomax-os-overview.mp4"
+              thumbnail="/placeholder-os-scan.jpg"
+              glowColor="cyan"
             />
             <VideoPlaceholder
               title="Gender-Optimized Protocols Explained"
               duration="0:40"
+              videoSrc="/videos/gender-protocols.mp4"
+              thumbnail="/placeholder-founder-video.jpg"
+              glowColor="magenta"
             />
           </div>
         </div>

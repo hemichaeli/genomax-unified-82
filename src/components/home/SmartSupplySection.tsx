@@ -28,8 +28,8 @@ export const SmartSupplySection = () => {
             title="Your Smart OS Supply"
             subtitle="Refills aligned with your biological modules"
             duration="0:45"
-            thumbnail="/placeholder-smart-supply.jpg"
             videoSrc="/videos/smart-os-supply.mp4"
+            thumbnail="/placeholder-smart-supply.jpg"
             glowColor="cyan"
           />
         </div>
