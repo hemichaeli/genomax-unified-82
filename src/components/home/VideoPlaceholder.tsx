@@ -13,6 +13,7 @@ interface VideoPlaceholderProps {
   controls?: boolean;
   autoPlay?: boolean;
   muted?: boolean;
+  simple?: boolean;
 }
 
 export const VideoPlaceholder = ({ 
@@ -26,7 +27,8 @@ export const VideoPlaceholder = ({
   aspectRatio = "16/9",
   controls = false,
   autoPlay = false,
-  muted = false
+  muted = false,
+  simple = false,
 }: VideoPlaceholderProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -90,7 +92,7 @@ export const VideoPlaceholder = ({
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={handleVideoClick}
+        onClick={simple ? undefined : handleVideoClick}
       >
         {/* Video or Thumbnail */}
         {videoSrc ? (
@@ -126,9 +128,9 @@ export const VideoPlaceholder = ({
         )}
 
         {/* Overlay */}
-        {!isPlaying && (
+        {!isPlaying && !simple && (
           <div 
-            className="absolute inset-0 bg-background/60 backdrop-blur-sm transition-all duration-[280ms]"
+            className="absolute inset-0 bg-background/60 backdrop-blur-sm transition-all duration-[280ms] pointer-events-none"
             style={{
               background: isHovered 
                 ? "linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%)"
@@ -138,8 +140,8 @@ export const VideoPlaceholder = ({
         )}
 
         {/* Play button */}
-        {!isPlaying && (
-          <div className="absolute inset-0 flex items-center justify-center">
+        {!isPlaying && !simple && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div
               className="w-20 h-20 rounded-full flex items-center justify-center transition-all duration-[280ms]"
               style={{
