@@ -28,7 +28,7 @@ export const SecretProblem = () => {
             title="DNA Doesn't Predict Your Health"
             subtitle="Why most personalization fails"
             duration="0:35"
-            videoSrc="/videos/dna-vs-bloodwork-2.mp4"
+            videoSrc="/videos/dna-vs-bloodwork-3.mp4"
             thumbnail="/placeholder-dna-video.jpg"
             glowColor="magenta"
             controls={true}
