@@ -45,7 +45,7 @@ export const MAXyncHeroSection = () => {
         {/* MAXync² Video */}
         <div className="mb-20 max-w-4xl mx-auto">
           <VideoPlaceholder
-            title="Stay Synced with MAXync"
+            title="Stay Synced with <span class='text-[#FF2A2A]'>MAX</span>ync²"
             subtitle="Your daily execution layer"
             duration="0:50"
             videoSrc="/videos/maxync-daily.mp4"
