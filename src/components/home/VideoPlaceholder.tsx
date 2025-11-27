@@ -1,5 +1,5 @@
 import { Play } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 interface VideoPlaceholderProps {
   title: string;
@@ -30,7 +30,7 @@ export const VideoPlaceholder = ({
 }: VideoPlaceholderProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const videoRef = useState<HTMLVideoElement | null>(null)[0];
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const glowColors = {
     cyan: "hsl(186 100% 64%)",
@@ -42,14 +42,17 @@ export const VideoPlaceholder = ({
   const borderColor = glowColors[glowColor];
 
   const handleVideoClick = () => {
-    const video = document.querySelector(`video[data-video-id="${title}"]`) as HTMLVideoElement;
-    if (video) {
-      if (isPlaying) {
-        video.pause();
-      } else {
-        video.play();
-      }
-      setIsPlaying(!isPlaying);
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isPlaying) {
+      video.pause();
+    } else {
+      video
+        .play()
+        .catch((error) => {
+          console.error("Video play failed", { title, videoSrc, error });
+        });
     }
   };
 
@@ -81,6 +84,7 @@ export const VideoPlaceholder = ({
         {/* Video or Thumbnail */}
         {videoSrc ? (
           <video
+            ref={videoRef}
             data-video-id={title}
             className="w-full h-full object-cover"
             loop
@@ -89,6 +93,13 @@ export const VideoPlaceholder = ({
             controls={controls}
             autoPlay={autoPlay}
             muted={muted}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            onEnded={() => setIsPlaying(false)}
+            onError={(error) => {
+              console.error("Video error", { title, videoSrc, error });
+              setIsPlaying(false);
+            }}
           >
             <source src={videoSrc} type="video/mp4" />
             <img src={thumbnail} alt={title} className="w-full h-full object-cover" />
