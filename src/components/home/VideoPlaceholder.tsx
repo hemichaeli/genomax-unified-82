@@ -87,7 +87,6 @@ export const VideoPlaceholder = ({
             ref={videoRef}
             data-video-id={title}
             className="w-full h-full object-cover"
-            loop
             playsInline
             poster={thumbnail}
             controls={controls}
