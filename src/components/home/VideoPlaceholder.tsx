@@ -10,6 +10,9 @@ interface VideoPlaceholderProps {
   className?: string;
   glowColor?: "cyan" | "magenta" | "red" | "primary";
   aspectRatio?: "16/9" | "4/5";
+  controls?: boolean;
+  autoPlay?: boolean;
+  muted?: boolean;
 }
 
 export const VideoPlaceholder = ({ 
@@ -20,7 +23,10 @@ export const VideoPlaceholder = ({
   videoSrc,
   className = "",
   glowColor = "primary",
-  aspectRatio = "16/9"
+  aspectRatio = "16/9",
+  controls = false,
+  autoPlay = false,
+  muted = false
 }: VideoPlaceholderProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -80,6 +86,9 @@ export const VideoPlaceholder = ({
             loop
             playsInline
             poster={thumbnail}
+            controls={controls}
+            autoPlay={autoPlay}
+            muted={muted}
           >
             <source src={videoSrc} type="video/mp4" />
             <img src={thumbnail} alt={title} className="w-full h-full object-cover" />

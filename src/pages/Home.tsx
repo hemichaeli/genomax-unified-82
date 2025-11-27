@@ -33,10 +33,13 @@ const Home = () => {
             <VideoPlaceholder
               title="Your Biology Has a Voice"
               subtitle="The opening video of the Biological OS"
-              duration="0:30"
+              duration="0:32"
               videoSrc="/videos/opening-biology-voice.mp4"
               thumbnail="/placeholder-opening.jpg"
               glowColor="cyan"
+              controls={true}
+              autoPlay={false}
+              muted={false}
             />
           </div>
 
