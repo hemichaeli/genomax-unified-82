@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Menu, X, Upload } from "lucide-react";
 import { useState, useEffect } from "react";
+import { CartDrawer } from "@/components/shop/CartDrawer";
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,8 +39,11 @@ export const Header = () => {
               <Link to="/science" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-[280ms]">
                 Science
               </Link>
+              <Link to="/shop" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-[280ms]">
+                Shop
+              </Link>
               <Link 
-                to="/maximo" 
+                to="/maximo"
                 className="text-sm font-medium text-foreground hover:text-maximo transition-all duration-[280ms] group relative"
               >
                 <span className="text-[#FF2A2A]">MAX</span>imo²
@@ -63,6 +67,7 @@ export const Header = () => {
 
             {/* CTA Buttons - New Hierarchy */}
             <div className="hidden lg:flex items-center space-x-4">
+              <CartDrawer />
               {/* Secondary CTA - Start Assessment */}
               <Link to="/assessment">
                 <button
@@ -142,7 +147,14 @@ export const Header = () => {
                   Science
                 </Link>
                 <Link 
-                  to="/maximo" 
+                  to="/shop" 
+                  className="block text-lg font-medium text-foreground hover:text-primary transition-colors duration-[280ms]"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Shop
+                </Link>
+                <Link 
+                  to="/maximo"
                   className="block text-lg font-medium text-foreground hover:text-maximo transition-colors duration-[280ms]"
                   onClick={() => setMobileMenuOpen(false)}
                 >
