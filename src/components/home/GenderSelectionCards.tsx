@@ -19,8 +19,10 @@ export const GenderSelectionCards = () => {
           <h2 className="text-4xl md:text-5xl font-bold">
             Choose Your Biological <span className="text-accent">OS</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Gender-optimized protocols designed for your unique biology
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Your biology is not neutral. It follows gender specific physiology.
+            <br />
+            Choose the Operating System built for the way your body works.
           </p>
         </div>
 

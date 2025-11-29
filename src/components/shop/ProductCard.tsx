@@ -52,6 +52,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </div>
         <div className="p-4 space-y-2">
           <h3 className="font-semibold text-lg line-clamp-2">{node.title}</h3>
+          <p className="text-sm text-muted-foreground italic">
+            This module adapts inside your MAXimo or MAXima biological Operating System to support the way your physiology behaves.
+          </p>
           {node.description && (
             <p className="text-sm text-muted-foreground line-clamp-2">
               {node.description}

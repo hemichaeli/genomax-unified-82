@@ -37,6 +37,9 @@ export const HowItWorksSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold">
             How It Works
           </h2>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-6">
+            GENOMAX² builds and MAXimizes your biological Operating System based on gender specific physiology and the way your body handles hormones, metabolism, energy patterns and stress.
+          </p>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Three simple steps to your optimized biological protocol
           </p>
