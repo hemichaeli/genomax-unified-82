@@ -48,27 +48,35 @@ const Home = () => {
             <h1 className="text-5xl md:text-7xl font-bold leading-tight">
               Your Biology Isn't Generic.
             </h1>
+            <p className="text-2xl md:text-3xl font-semibold text-foreground max-w-4xl mx-auto leading-relaxed mb-4">
+              Built for your biology. MAXimizes your physiology.
+            </p>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
               Blood biomarkers beat DNA - that's why men and women need different Biological Operating Systems.
             </p>
           </div>
 
           {/* Gender CTA Buttons */}
-          <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto pt-4">
-            <Button
-              size="lg"
-              onClick={() => navigate('/assessment?gender=maximo')}
-              className="h-16 text-lg bg-gradient-to-r from-maximo to-maximo-light hover:opacity-90 hover:scale-[1.03] active:scale-[0.98] transition-all duration-[140ms] shadow-glow-cyan rounded-xl text-white"
-            >
-              <BrandText variant="maximo" />
-            </Button>
-            <Button
-              size="lg"
-              onClick={() => navigate('/assessment?gender=maxima')}
-              className="h-16 text-lg bg-gradient-to-r from-maxima to-maxima-light hover:opacity-90 hover:scale-[1.03] active:scale-[0.98] transition-all duration-[140ms] shadow-glow-magenta rounded-xl text-white"
-            >
-              <BrandText variant="maxima" />
-            </Button>
+          <div className="space-y-6 max-w-3xl mx-auto pt-4">
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+              Men and women follow gender specific biological patterns in hormones, metabolism, stress and energy. GENOMAX² builds and MAXimizes your biological Operating System for the way your physiology actually works.
+            </p>
+            <div className="grid md:grid-cols-2 gap-6">
+              <Button
+                size="lg"
+                onClick={() => navigate('/assessment?gender=maximo')}
+                className="h-16 text-lg bg-gradient-to-r from-maximo to-maximo-light hover:opacity-90 hover:scale-[1.03] active:scale-[0.98] transition-all duration-[140ms] shadow-glow-cyan rounded-xl text-white"
+              >
+                <BrandText variant="maximo" />
+              </Button>
+              <Button
+                size="lg"
+                onClick={() => navigate('/assessment?gender=maxima')}
+                className="h-16 text-lg bg-gradient-to-r from-maxima to-maxima-light hover:opacity-90 hover:scale-[1.03] active:scale-[0.98] transition-all duration-[140ms] shadow-glow-magenta rounded-xl text-white"
+              >
+                <BrandText variant="maxima" />
+              </Button>
+            </div>
           </div>
         </div>
       </CinematicOSHero>
