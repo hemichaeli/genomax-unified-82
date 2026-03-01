@@ -1,16 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { UserRound, Sparkles } from "lucide-react";
-import { useState } from "react";
 import { BrandText } from "@/components/BrandText";
 
 export const GenderSelectionCards = () => {
   const navigate = useNavigate();
-  const [selectedGender, setSelectedGender] = useState<"maxima" | "maximo" | null>(null);
-
-  const handleGenderSelect = (gender: "maxima" | "maximo") => {
-    setSelectedGender(gender);
-  };
 
   return (
     <section className="py-24 px-6">
@@ -29,7 +23,6 @@ export const GenderSelectionCards = () => {
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* MAXima² Card */}
           <div
-            onClick={() => handleGenderSelect("maxima")}
             className="group relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-[280ms] hover:scale-[1.02] hover:shadow-[0_0_48px_hsl(330_100%_68%/0.4)]"
             style={{
               background: "linear-gradient(135deg, hsl(330 100% 68% / 0.08) 0%, hsl(280 85% 45% / 0.05) 100%)",
@@ -50,14 +43,14 @@ export const GenderSelectionCards = () => {
 
               {/* Subtitle */}
               <p className="text-lg text-muted-foreground font-medium">
-                Female-Optimized Biological OS
+                Female-Specific Biological OS
               </p>
 
               {/* Key Features */}
               <ul className="space-y-3 text-sm text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <Sparkles className="w-4 h-4 text-maxima-light mt-0.5 flex-shrink-0" />
-                  <span>Hormonal cycle optimization</span>
+                  <span>Hormonal cycle calibration</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Sparkles className="w-4 h-4 text-maxima-light mt-0.5 flex-shrink-0" />
@@ -71,6 +64,7 @@ export const GenderSelectionCards = () => {
 
               {/* CTA */}
               <Button
+                onClick={() => navigate('/assessment?gender=maxima')}
                 className="w-full bg-gradient-to-r from-maxima to-maxima-light hover:opacity-90 text-white font-medium h-12 transition-all duration-[280ms]"
               >
                 Build My <BrandText variant="maxima" /> Protocol
@@ -83,7 +77,6 @@ export const GenderSelectionCards = () => {
 
           {/* MAXimo² Card */}
           <div
-            onClick={() => handleGenderSelect("maximo")}
             className="group relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-[280ms] hover:scale-[1.02] hover:shadow-[0_0_48px_hsl(186_100%_64%/0.4)]"
             style={{
               background: "linear-gradient(135deg, hsl(186 100% 64% / 0.08) 0%, hsl(213 100% 55% / 0.05) 100%)",
@@ -104,7 +97,7 @@ export const GenderSelectionCards = () => {
 
               {/* Subtitle */}
               <p className="text-lg text-muted-foreground font-medium">
-                Male-Optimized Biological OS
+                Male-Specific Biological OS
               </p>
 
               {/* Key Features */}
@@ -125,6 +118,7 @@ export const GenderSelectionCards = () => {
 
               {/* CTA */}
               <Button
+                onClick={() => navigate('/assessment?gender=maximo')}
                 className="w-full bg-gradient-to-r from-maximo to-maximo-light hover:opacity-90 text-white font-medium h-12 transition-all duration-[280ms]"
               >
                 Build My <BrandText variant="maximo" /> Protocol
@@ -135,32 +129,6 @@ export const GenderSelectionCards = () => {
             <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-maximo to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-[280ms]" />
           </div>
         </div>
-
-        {/* CTAs appear after gender selection */}
-        {selectedGender && (
-          <div 
-            className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in"
-            style={{
-              animation: "fade-up-reveal 400ms cubic-bezier(0.25, 0.8, 0.25, 1) backwards"
-            }}
-          >
-            <Button
-              size="lg"
-              onClick={() => navigate('/upload')}
-              className="min-w-64 bg-gradient-to-r from-primary to-os-cyan hover:opacity-90 transition-all duration-[280ms] text-lg h-14"
-            >
-              Upload Blood Work
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => navigate(`/assessment?gender=${selectedGender}`)}
-              className="min-w-64 transition-all duration-[280ms] text-lg border-2 border-primary h-14"
-            >
-              Start Assessment
-            </Button>
-          </div>
-        )}
       </div>
     </section>
   );
