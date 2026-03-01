@@ -2,119 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* QUANTUM REAL ESTATE DESIGN SYSTEM
+   Premium boutique brokerage feel
+   Navy + Gold + Warm White */
 
 @layer base {
   :root {
-    /* GENOMAX² NEON TECH COLOR SYSTEM */
-    /* Base Neutrals - Deep Tech */
-    --background: 222 70% 3%; /* Deep Tech Blue #000715 */
-    --foreground: 220 10% 98%; /* OS White #FAFAFC */
+    /* QUANTUM Premium Color System */
+    --background: 40 30% 97%;       /* Warm White #F8F6F2 */
+    --foreground: 225 30% 15%;      /* Deep Navy Text #1A1D2E */
 
-    --card: 225 65% 8%; /* Dark Tech #0A0F2A */
-    --card-foreground: 220 10% 98%;
+    --card: 0 0% 100%;              /* Pure White */
+    --card-foreground: 225 30% 15%;
 
-    --popover: 225 65% 8%;
-    --popover-foreground: 220 10% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 225 30% 15%;
 
-    /* Core OS Colors */
-    --primary: 225 65% 8%; /* Deep Tech Blue #0A0F2A */
-    --primary-foreground: 220 10% 98%;
+    /* Core Brand Colors */
+    --primary: 225 40% 16%;         /* QUANTUM Navy #1A1A3E */
+    --primary-foreground: 40 30% 97%;
 
-    --secondary: 222 14% 14%;
-    --secondary-foreground: 220 10% 98%;
+    --secondary: 40 25% 93%;        /* Warm Light #EDE8E0 */
+    --secondary-foreground: 225 30% 15%;
 
-    --muted: 222 14% 14%;
-    --muted-foreground: 220 9% 87%; /* Silver Mist #DDE1E6 */
+    --muted: 40 15% 90%;
+    --muted-foreground: 225 10% 45%;
 
-    --accent: 354 100% 56%; /* MAX Red #FF1A1A */
-    --accent-foreground: 220 10% 98%;
+    --accent: 38 76% 44%;           /* QUANTUM Gold #B8860B */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 220 10% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 100% / 0.08; /* rgba(255,255,255,0.08) */
-    --input: 222 17% 15%;
-    --ring: 189 100% 60%;
+    --border: 40 15% 88%;
+    --input: 40 15% 90%;
+    --ring: 38 76% 44%;
 
-    --radius: 1rem; /* Rounded corners */
-    
-    /* Gender-specific colors with NEON GLOW */
-    --maxima: 323 88% 68%; /* Slightly darker Magenta for balance */
-    --maxima-light: 323 85% 78%; /* Light Magenta */
-    --maxima-glow: 323 100% 52%; /* Magenta glow */
-    --maxima-foreground: 220 10% 98%;
-    
-    --maximo: 189 100% 60%; /* Cyan #35E6FF */
-    --maximo-light: 189 100% 70%; /* Lighter Cyan */
-    --maximo-glow: 189 100% 60%; /* Cyan glow */
-    --maximo-foreground: 220 10% 98%;
-    
-    /* Biological Colors */
-    --metabolic-gold: 44 93% 63%; /* #F7C948 */
-    --cellular-peach: 20 100% 88%; /* #FFD7C5 */
-    --hormonal-purple: 262 100% 82%; /* #C6A5FF */
-    --system-mint: 151 83% 80%; /* #A8F3D0 */
-    
-    /* OS System Colors */
-    --os-success: 151 83% 80%;
-    --os-warning: 44 93% 63%;
-    --os-error: 354 100% 56%;
-    --os-info: 189 100% 60%;
-    --os-cyan: 189 100% 60%; /* Cyan #35E6FF */
-    
-    /* Gradients - NEON TECH OS */
-    --gradient-hero: linear-gradient(135deg, hsl(222 70% 3%) 0%, hsl(225 65% 5%) 100%);
-    --gradient-os-ring: conic-gradient(from 180deg at 50% 50%, hsl(189 100% 60%), hsl(323 100% 42%), hsl(189 100% 60%));
-    --gradient-maxima: linear-gradient(135deg, hsl(323 100% 42%) 0%, hsl(323 100% 55%) 100%);
-    --gradient-maximo: linear-gradient(135deg, hsl(189 100% 60%) 0%, hsl(189 100% 70%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(222 70% 3%) 0%, hsl(225 65% 5%) 100%);
-    --gradient-radial-glow: radial-gradient(circle at 50% 50%, hsl(189 100% 60% / 0.15), transparent 70%);
-    --gradient-warm-spotlight: radial-gradient(ellipse at 50% 20%, hsl(354 100% 56% / 0.1), transparent 60%);
-    --gradient-glassmorphism: linear-gradient(135deg, hsl(220 10% 98% / 0.05) 0%, hsl(220 10% 98% / 0.02) 100%);
-    
-    /* Shadows - NEON TECH DEPTH */
-    --shadow-ambient-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
-    --shadow-ambient-md: 0 8px 24px rgba(0, 0, 0, 0.35);
-    --shadow-ambient-lg: 0 16px 48px rgba(0, 0, 0, 0.35);
-    --shadow-glow-cyan: 0 0 20px hsl(189 100% 60% / 0.3), 0 0 10px hsl(189 100% 60% / 0.15);
-    --shadow-glow-maxima: 0 0 20px hsl(323 100% 42% / 0.3), 0 0 10px hsl(323 100% 42% / 0.15);
-    --shadow-glow-maximo: 0 0 20px hsl(189 100% 60% / 0.3), 0 0 10px hsl(189 100% 60% / 0.15);
-    --shadow-glow-max-red: 0 0 16px hsl(354 100% 56% / 0.4), 0 0 8px hsl(354 100% 56% / 0.2);
-    --shadow-inner-glow-cyan: inset 0 0 20px hsl(189 100% 60% / 0.08);
-    --shadow-inner-glow-magenta: inset 0 0 20px hsl(323 100% 42% / 0.08);
-    --shadow-os-module: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08);
-    --shadow-panel: 0 8px 24px rgba(0, 0, 0, 0.35);
-    --shadow-button-hover: 0 4px 16px hsl(var(--primary) / 0.3);
-    
-    /* Motion System - GENOMAX² BRAND DNA */
-    --ease-genomax: cubic-bezier(0.25, 0.1, 0.25, 1); /* Global easing */
-    --ease-micro: cubic-bezier(0.25, 0.1, 0.25, 1);
-    --ease-cinematic: cubic-bezier(0.25, 0.1, 0.25, 1);
-    --ease-breathing: cubic-bezier(0.18, 0.89, 0.32, 1.28);
-    
-    /* Transitions - Brand Timing Scale */
-    --transition-micro: 80ms var(--ease-genomax); /* Press motion */
-    --transition-hover: 140ms var(--ease-genomax); /* Hover motion */
-    --transition-reveal: 220ms var(--ease-genomax); /* Scroll reveal */
-    --transition-smooth: 450ms var(--ease-genomax); /* Smooth section transitions */
-    --transition-breathing: 1400ms var(--ease-breathing); /* MAXync pulse */
+    --radius: 0.75rem;
 
-    --sidebar-background: 217 25% 6%;
-    --sidebar-foreground: 215 15% 90%;
-    --sidebar-primary: 215 95% 60%;
-    --sidebar-primary-foreground: 217 28% 4%;
-    --sidebar-accent: 217 20% 12%;
-    --sidebar-accent-foreground: 215 15% 90%;
-    --sidebar-border: 217 20% 15%;
-    --sidebar-ring: 215 95% 60%;
-  }
+    /* QUANTUM Specific */
+    --quantum-navy: 225 40% 16%;
+    --quantum-navy-light: 225 35% 25%;
+    --quantum-gold: 38 76% 44%;
+    --quantum-gold-light: 38 60% 65%;
+    --quantum-warm: 40 30% 97%;
+    --quantum-warm-dark: 40 25% 93%;
+    --quantum-success: 150 60% 40%;
+    --quantum-seller: 225 40% 16%;
+    --quantum-buyer: 38 76% 44%;
 
-  .dark {
-    --background: 217 28% 4%;
-    --foreground: 215 15% 95%;
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(26, 26, 62, 0.06);
+    --shadow-md: 0 4px 16px rgba(26, 26, 62, 0.08);
+    --shadow-lg: 0 8px 32px rgba(26, 26, 62, 0.10);
+    --shadow-gold: 0 4px 16px rgba(184, 134, 11, 0.15);
+
+    /* Motion */
+    --ease-quantum: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --transition-fast: 150ms var(--ease-quantum);
+    --transition-smooth: 300ms var(--ease-quantum);
+    --transition-slow: 500ms var(--ease-quantum);
+
+    --sidebar-background: 225 40% 12%;
+    --sidebar-foreground: 40 30% 95%;
+    --sidebar-primary: 38 76% 44%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 225 35% 20%;
+    --sidebar-accent-foreground: 40 30% 95%;
+    --sidebar-border: 225 30% 20%;
+    --sidebar-ring: 38 76% 44%;
   }
 }
 
@@ -125,455 +81,205 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    font-feature-settings: "liga" 1, "calt" 1;
-    background: linear-gradient(135deg, #000715 0%, #020A18 100%);
+    font-family: 'Heebo', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: hsl(40, 30%, 97%);
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
-  
-  /* GENOMAX² Typography System */
+
+  /* Typography - Premium Brokerage */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter Tight', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-family: 'Playfair Display', 'Heebo', serif;
     letter-spacing: -0.01em;
     font-weight: 700;
+    color: hsl(225, 40%, 16%);
   }
-  
-  .font-mono, .os-digits {
-    font-family: 'JetBrains Mono', monospace;
+
+  /* RTL body text uses Heebo */
+  [dir="rtl"] body,
+  [lang="he"] body {
+    font-family: 'Heebo', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   }
-  
-  /* GENOMAX² Scroll-Based Reveal Animations */
-  @keyframes reveal-up {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+
+  /* English headings use Playfair */
+  .font-display {
+    font-family: 'Playfair Display', serif;
   }
-  
-  @keyframes reveal-scale {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+
+  .font-hebrew {
+    font-family: 'Heebo', sans-serif;
   }
-  
-  /* NEON OS Glow Pulse Animation - 4s loop with 12% brightness oscillation */
-  @keyframes os-glow-pulse {
-    0%, 100% {
-      filter: brightness(1);
-      box-shadow: 0 0 20px hsl(var(--os-cyan) / 0.3);
-    }
-    50% {
-      filter: brightness(1.12);
-      box-shadow: 0 0 40px hsl(var(--os-cyan) / 0.5);
-    }
+
+  .font-body {
+    font-family: 'Inter', 'Heebo', sans-serif;
   }
-  
-  /* Glow Pulse for Videos - Single pulse on load */
-  @keyframes glow-pulse {
-    0% {
-      filter: brightness(1);
-    }
-    50% {
-      filter: brightness(1.12);
-    }
-    100% {
-      filter: brightness(1);
-    }
+
+  /* QUANTUM Gold Accent Line */
+  .quantum-gold-line {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, hsl(38, 76%, 44%), hsl(38, 60%, 65%));
   }
-  
-  /* Scanline Animation for Hero */
-  @keyframes scanline {
-    0% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(4px);
-    }
+
+  .quantum-gold-line-center {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, hsl(38, 76%, 44%), hsl(38, 60%, 65%));
+    margin: 0 auto;
   }
-  
-  /* Cyan Glow Pulse (Male) */
-  @keyframes cyan-glow-pulse {
-    0%, 100% {
-      filter: brightness(1);
-      box-shadow: var(--shadow-glow-maximo);
-    }
-    50% {
-      filter: brightness(1.12);
-      box-shadow: 0 0 48px hsl(189 100% 60% / 0.6), 0 0 24px hsl(189 100% 60% / 0.3);
-    }
+
+  /* Premium Card Styles */
+  .quantum-card {
+    background: white;
+    border: 1px solid hsl(40, 15%, 88%);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
   }
-  
-  /* Magenta Glow Pulse (Female) */
-  @keyframes magenta-glow-pulse {
-    0%, 100% {
-      filter: brightness(1);
-      box-shadow: var(--shadow-glow-maxima);
-    }
-    50% {
-      filter: brightness(1.12);
-      box-shadow: 0 0 48px hsl(323 100% 42% / 0.6), 0 0 24px hsl(323 100% 42% / 0.3);
-    }
+
+  .quantum-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
   }
-  
-  /* MAX Red Glow (Static - no animation on text) */
-  .max-red-glow {
-    text-shadow: var(--shadow-glow-max-red);
+
+  /* Gold CTA Button */
+  .quantum-btn-gold {
+    background: linear-gradient(135deg, hsl(38, 76%, 44%), hsl(38, 70%, 50%));
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 14px 32px;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: var(--shadow-gold);
   }
-  
-  /* OS Ring Rotation - MAXync² DNA */
-  @keyframes os-ring-rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+
+  .quantum-btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(184, 134, 11, 0.25);
   }
-  
-  /* MAXync² Inner Ring - 12s rotation */
-  @keyframes maxync-inner-ring {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+
+  /* Navy CTA Button */
+  .quantum-btn-navy {
+    background: linear-gradient(135deg, hsl(225, 40%, 16%), hsl(225, 35%, 22%));
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 14px 32px;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: var(--shadow-md);
   }
-  
-  /* MAXync² Outer Ring - 18s rotation (opposite direction) */
-  @keyframes maxync-outer-ring {
-    from {
-      transform: rotate(360deg);
-    }
-    to {
-      transform: rotate(0deg);
-    }
+
+  .quantum-btn-navy:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
   }
-  
-  /* Floating Animation for OS Elements */
-  @keyframes float-slow {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
+
+  /* Outline Button */
+  .quantum-btn-outline {
+    background: transparent;
+    border: 2px solid hsl(225, 40%, 16%);
+    color: hsl(225, 40%, 16%);
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 12px 30px;
+    transition: all var(--transition-fast);
   }
-  
-  /* Ripple Effect */
-  @keyframes ripple {
-    0% {
-      transform: scale(0);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(4);
-      opacity: 0;
-    }
+
+  .quantum-btn-outline:hover {
+    background: hsl(225, 40%, 16%);
+    color: white;
   }
-  
-  /* Timeline Progress */
-  @keyframes timeline-progress {
-    from {
-      stroke-dashoffset: 100;
-    }
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-  
-  /* Checkmark Pop */
-  @keyframes checkmark-pop {
-    0% {
-      transform: scale(0);
-      opacity: 0;
-    }
-    50% {
-      transform: scale(1.2);
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-  
-  /* Streak Bounce */
-  @keyframes streak-bounce {
-    0%, 100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.05);
-    }
-  }
-  
-  /* Module Check Animation */
-  @keyframes module-check {
-    0% {
-      transform: scale(0.8);
-      opacity: 0;
-    }
-    50% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-  
-  /* Supply Pulse Animation */
-  @keyframes supply-pulse {
-    0%, 100% {
-      opacity: 0.8;
-    }
-    50% {
-      opacity: 1;
-      transform: scale(1.02);
-    }
-  }
-  
-  /* GENOMAX² OS Breathing Animation - 4s pulse */
-  @keyframes os-breathing {
-    0%, 100% {
-      opacity: 0.08;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.2;
-      transform: scale(1.02);
-    }
-  }
-  
-  /* Utility Animation Classes - NEON TECH */
-  .animate-reveal-up {
-    animation: reveal-up var(--transition-reveal) var(--ease-genomax) both;
-  }
-  
-  .animate-reveal-scale {
-    animation: reveal-scale var(--transition-reveal) var(--ease-genomax) both;
-  }
-  
-  .animate-os-glow-pulse {
-    animation: os-glow-pulse 4s ease-in-out infinite;
-  }
-  
-  .animate-cyan-glow-pulse {
-    animation: cyan-glow-pulse 4s ease-in-out infinite;
-  }
-  
-  .animate-magenta-glow-pulse {
-    animation: magenta-glow-pulse 4s ease-in-out infinite;
-  }
-  
-  .animate-os-ring-rotate {
-    animation: os-ring-rotate 20s linear infinite;
-  }
-  
-  .animate-maxync-inner-ring {
-    animation: maxync-inner-ring 12s linear infinite;
-  }
-  
-  .animate-maxync-outer-ring {
-    animation: maxync-outer-ring 18s linear infinite;
-  }
-  
-  .animate-float-slow {
-    animation: float-slow 6s ease-in-out infinite;
-  }
-  
-  .animate-os-breathing {
-    animation: os-breathing 4s ease-in-out infinite;
-  }
-  
-  /* GENOMAX² Micro-Interaction Classes */
-  .os-hover-scale {
-    transition: transform var(--transition-hover) var(--ease-genomax),
-                box-shadow var(--transition-hover) var(--ease-genomax);
-  }
-  
-  .os-hover-scale:hover {
-    transform: scale(1.03) translateY(-2px);
-  }
-  
-  /* OS Module Card Hover with Glow */
-  .os-module-hover {
-    transition: transform var(--transition-hover) var(--ease-genomax),
-                box-shadow var(--transition-hover) var(--ease-genomax);
-  }
-  
-  .os-module-hover:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-glow-cyan);
-  }
-  
-  .os-hover-glow {
-    transition: box-shadow var(--transition-hover) var(--ease-genomax), filter var(--transition-hover) var(--ease-genomax);
-  }
-  
-  .os-hover-glow:hover {
-    box-shadow: var(--shadow-glow-cyan);
-    filter: brightness(1.05);
-  }
-  
-  .os-button-ripple {
+
+  /* Hero Section */
+  .quantum-hero {
+    background: linear-gradient(135deg, hsl(225, 40%, 12%) 0%, hsl(225, 35%, 20%) 50%, hsl(225, 30%, 25%) 100%);
     position: relative;
     overflow: hidden;
   }
-  
-  .os-button-ripple::after {
-    content: "";
+
+  .quantum-hero::before {
+    content: '';
     position: absolute;
-    inset: 0;
-    background: hsl(var(--foreground) / 0.1);
-    border-radius: inherit;
-    opacity: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(184, 134, 11, 0.08) 0%, transparent 60%);
     pointer-events: none;
   }
-  
-  .os-button-ripple:active::after {
-    animation: ripple 600ms var(--ease-os);
+
+  /* Section Styles */
+  .quantum-section {
+    padding: 80px 0;
   }
-  
-  /* GENOMAX² OS Depth Layers - NEON SHADOWS */
-  .os-depth-1 {
-    box-shadow: var(--shadow-ambient-sm);
+
+  .quantum-section-alt {
+    padding: 80px 0;
+    background: hsl(40, 25%, 93%);
   }
-  
-  .os-depth-2 {
-    box-shadow: var(--shadow-ambient-md);
+
+  /* Navy Section */
+  .quantum-section-navy {
+    padding: 80px 0;
+    background: linear-gradient(135deg, hsl(225, 40%, 12%) 0%, hsl(225, 35%, 18%) 100%);
+    color: white;
   }
-  
-  .os-depth-3 {
-    box-shadow: var(--shadow-ambient-lg);
+
+  .quantum-section-navy h2,
+  .quantum-section-navy h3 {
+    color: white;
   }
-  
-  /* Neon Glow Effects */
-  .cyan-glow {
-    box-shadow: var(--shadow-glow-cyan);
+
+  /* Divider */
+  .quantum-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(38, 76%, 44%, 0.3), transparent);
   }
-  
-  .magenta-glow {
-    box-shadow: var(--shadow-glow-maxima);
+
+  /* Stat Card */
+  .quantum-stat {
+    text-align: center;
+    padding: 24px;
   }
-  
-  .max-red-text-glow {
-    text-shadow: var(--shadow-glow-max-red);
+
+  .quantum-stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: hsl(38, 76%, 44%);
+    line-height: 1;
   }
-  
-  /* OS Gradient Backgrounds */
-  .os-gradient-hero {
-    background: var(--gradient-hero);
+
+  .quantum-stat-label {
+    font-size: 0.875rem;
+    color: hsl(225, 10%, 45%);
+    margin-top: 8px;
   }
-  
-  .os-gradient-maxima {
-    background: var(--gradient-maxima);
-  }
-  
-  .os-gradient-maximo {
-    background: var(--gradient-maximo);
-  }
-  
-  /* Noise Texture Overlay */
-  .os-noise::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1;
-  }
-  
-  /* OS Radial Glow */
-  .os-radial-glow {
+
+  /* Testimonial */
+  .quantum-testimonial {
     position: relative;
-    overflow: hidden;
+    padding: 32px;
+    background: white;
+    border-radius: 12px;
+    border-right: 4px solid hsl(38, 76%, 44%);
+    box-shadow: var(--shadow-sm);
   }
-  
-  .os-radial-glow::before {
-    content: "";
+
+  .quantum-testimonial::before {
+    content: '\201D';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 120%;
-    height: 120%;
-    background: var(--gradient-radial-glow);
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 0;
-  }
-  
-  .os-grid {
-    background-image: 
-      linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px);
-    background-size: 40px 40px;
-    mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 40%, transparent 110%);
-  }
-  
-  .os-glow {
-    box-shadow: 0 0 24px hsl(var(--os-cyan) / 0.2), 0 0 12px hsl(var(--os-cyan) / 0.1);
+    top: -10px;
+    right: 20px;
+    font-size: 4rem;
+    color: hsl(38, 76%, 44%, 0.2);
+    font-family: 'Playfair Display', serif;
   }
 
-  /* Brand-Wide Motion Keyframes */
-  @keyframes fade-up-reveal {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes card-snap-in {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @keyframes icon-pop {
-    0% {
-      opacity: 0;
-      transform: scale(0.8);
-    }
-    50% {
-      transform: scale(1.05);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @keyframes checkmark-draw {
-    from {
-      stroke-dashoffset: 100;
-    }
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-
-  @keyframes bottle-slide-up {
+  /* Animations */
+  @keyframes fade-up {
     from {
       opacity: 0;
       transform: translateY(20px);
@@ -584,162 +290,72 @@ All colors MUST be HSL.
     }
   }
 
-  @keyframes low-inventory-pulse {
-    0%, 100% {
-      box-shadow: 0 0 0 0 hsl(354 100% 62% / 0.4);
-    }
-    50% {
-      box-shadow: 0 0 0 8px hsl(354 100% 62% / 0);
-    }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
-  @keyframes os-update-ring {
-    0% {
-      transform: scale(0.9);
-      opacity: 0;
-    }
-    50% {
-      transform: scale(1.1);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 0.8;
-    }
-  }
-
-  @keyframes maxima-glow {
-    0%, 100% {
-      box-shadow: 0 0 20px hsl(330 100% 68% / 0.3);
-    }
-    50% {
-      box-shadow: 0 0 30px hsl(330 100% 68% / 0.5);
-    }
-  }
-
-  @keyframes maximo-glow {
-    0%, 100% {
-      box-shadow: 0 0 20px hsl(186 100% 64% / 0.3);
-    }
-    50% {
-      box-shadow: 0 0 30px hsl(186 100% 64% / 0.5);
-    }
-  }
-
-  /* Motion Utility Classes */
-  .animate-fade-up-reveal {
-    animation: fade-up-reveal var(--transition-reveal) var(--ease-cinematic) forwards;
-  }
-
-  .animate-card-snap {
-    animation: card-snap-in var(--transition-snap) var(--ease-os-precision) forwards;
-  }
-
-  .animate-icon-pop {
-    animation: icon-pop var(--transition-micro) var(--ease-micro) forwards;
-  }
-
-  .animate-bottle-slide {
-    animation: bottle-slide-up 180ms var(--ease-os-precision) forwards;
-  }
-
-  .animate-low-inventory-pulse {
-    animation: low-inventory-pulse 2s ease-in-out infinite;
-  }
-
-  .animate-maxima-glow {
-    animation: maxima-glow 2s ease-in-out infinite;
-  }
-
-  .animate-maximo-glow {
-    animation: maximo-glow 2s ease-in-out infinite;
-  }
-  
-  /* OS Radial Glow */
-  .os-radial-glow {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .os-radial-glow::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 120%;
-    height: 120%;
-    background: var(--gradient-radial-glow);
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 0;
-  }
-  
-  /* Stagger Children Animation */
-  .stagger-children > * {
-    animation: reveal-up 500ms var(--ease-soft) both;
-  }
-  
-  .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
-  .stagger-children > *:nth-child(2) { animation-delay: 80ms; }
-  .stagger-children > *:nth-child(3) { animation-delay: 160ms; }
-  .stagger-children > *:nth-child(4) { animation-delay: 240ms; }
-  .stagger-children > *:nth-child(5) { animation-delay: 320ms; }
-  .stagger-children > *:nth-child(6) { animation-delay: 400ms; }
-
-  /* GENOMAX² NEON TECH Button Hover Effects */
-  .btn-hover-scale {
-    transition: transform var(--transition-hover) var(--ease-genomax), 
-                box-shadow var(--transition-hover) var(--ease-genomax);
-  }
-
-  .btn-hover-scale:hover {
-    transform: scale(1.03);
-  }
-
-  .btn-hover-scale:active {
-    transform: scale(0.98);
-    transition: transform var(--transition-micro) var(--ease-genomax);
-  }
-
-  /* Glow Ring Expand on Hover */
-  .btn-glow-ring {
-    position: relative;
-    transition: transform var(--transition-hover) var(--ease-genomax),
-                box-shadow var(--transition-hover) var(--ease-genomax);
-  }
-
-  .btn-glow-ring::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: inherit;
-    opacity: 0;
-    transition: opacity var(--transition-hover) var(--ease-genomax);
-    pointer-events: none;
-  }
-
-  .btn-glow-ring:hover {
-    transform: scale(1.03);
-  }
-
-  .btn-glow-ring:hover::before {
-    opacity: 1;
-    animation: glow-ring-expand var(--transition-hover) var(--ease-genomax) forwards;
-  }
-
-  @keyframes glow-ring-expand {
+  @keyframes slide-right {
     from {
-      box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4);
+      opacity: 0;
+      transform: translateX(-20px);
     }
     to {
-      box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+      opacity: 1;
+      transform: translateX(0);
     }
   }
-  
-  /* Panel Surface Styling */
-  .os-panel {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: var(--shadow-panel);
+
+  @keyframes gold-shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.6s var(--ease-quantum) both;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.4s var(--ease-quantum) both;
+  }
+
+  .animate-slide-right {
+    animation: slide-right 0.5s var(--ease-quantum) both;
+  }
+
+  /* Gold shimmer on hover for premium feel */
+  .gold-shimmer {
+    background: linear-gradient(90deg, hsl(38, 76%, 44%) 0%, hsl(38, 60%, 65%) 50%, hsl(38, 76%, 44%) 100%);
+    background-size: 200% auto;
+  }
+
+  .gold-shimmer:hover {
+    animation: gold-shimmer 2s linear infinite;
+  }
+
+  /* Stagger children animations */
+  .stagger-children > * {
+    animation: fade-up 0.5s var(--ease-quantum) both;
+  }
+  .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger-children > *:nth-child(2) { animation-delay: 100ms; }
+  .stagger-children > *:nth-child(3) { animation-delay: 200ms; }
+  .stagger-children > *:nth-child(4) { animation-delay: 300ms; }
+  .stagger-children > *:nth-child(5) { animation-delay: 400ms; }
+  .stagger-children > *:nth-child(6) { animation-delay: 500ms; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(40, 30%, 97%);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(225, 20%, 70%);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(225, 30%, 50%);
   }
 }
