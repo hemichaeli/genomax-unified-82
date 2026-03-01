@@ -31,6 +31,11 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/pricing" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Pricing
+                </Link>
+              </li>
+              <li>
                 <Link to="/maxync" className="text-muted-foreground hover:text-foreground transition-colors">
                   <span className="text-[#FF2A2A]">MAX</span>ync²
                 </Link>
@@ -70,6 +75,16 @@ export const Footer = () => {
               <li>
                 <Link to="/faq" className="text-muted-foreground hover:text-foreground transition-colors">
                   FAQ
+                </Link>
+              </li>
+              <li>
+                <Link to="/referral-program" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Referral Program
+                </Link>
+              </li>
+              <li>
+                <Link to="/organizations" className="text-muted-foreground hover:text-foreground transition-colors">
+                  For Organizations
                 </Link>
               </li>
             </ul>
