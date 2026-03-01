@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Heart, Activity, Moon, Zap } from "lucide-react";
+import { Shield, Activity, Moon, Zap } from "lucide-react";
 import { VideoPlaceholder } from "@/components/home/VideoPlaceholder";
 import { BrandText } from "@/components/BrandText";
 
@@ -62,9 +62,9 @@ const Maxima = () => {
               Female-Specific Optimization
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <Card className="p-6 space-y-4 transition-all duration-[340ms] hover:border-maxima/40 hover:-translate-y-1 hover:shadow-[0_0_25px_hsl(330_100%_68%/0.35)] animate-card-snap rounded-3xl" style={{ animationDelay: "0ms" }}>
+              <Card className="p-6 space-y-4 transition-all duration-[280ms] hover:border-maxima/40 hover:-translate-y-1 hover:shadow-[0_0_25px_hsl(330_100%_68%/0.35)] animate-card-snap" style={{ animationDelay: "0ms" }}>
                 <div className="w-12 h-12 rounded-full bg-maxima/10 flex items-center justify-center animate-icon-pop" style={{ animationDelay: "120ms" }}>
-                  <Heart className="h-6 w-6 text-maxima" />
+                  <Shield className="h-6 w-6 text-maxima" />
                 </div>
                 <h3 className="text-xl font-semibold">Hormone Balance</h3>
                 <p className="text-sm text-muted-foreground">
@@ -72,7 +72,7 @@ const Maxima = () => {
                 </p>
               </Card>
 
-              <Card className="p-6 space-y-4 transition-all duration-[340ms] hover:border-maxima/40 hover:-translate-y-1 hover:shadow-[0_0_25px_hsl(330_100%_68%/0.35)] animate-card-snap rounded-3xl" style={{ animationDelay: "100ms" }}>
+              <Card className="p-6 space-y-4 transition-all duration-[280ms] hover:border-maxima/40 hover:-translate-y-1 hover:shadow-[0_0_25px_hsl(330_100%_68%/0.35)] animate-card-snap" style={{ animationDelay: "100ms" }}>
                 <div className="w-12 h-12 rounded-full bg-maxima/10 flex items-center justify-center animate-icon-pop" style={{ animationDelay: "220ms" }}>
                   <Activity className="h-6 w-6 text-maxima" />
                 </div>
@@ -82,7 +82,7 @@ const Maxima = () => {
                 </p>
               </Card>
 
-              <Card className="p-6 space-y-4 transition-all duration-[340ms] hover:border-maxima/40 hover:-translate-y-1 hover:shadow-[0_0_25px_hsl(330_100%_68%/0.35)] animate-card-snap rounded-3xl" style={{ animationDelay: "200ms" }}>
+              <Card className="p-6 space-y-4 transition-all duration-[280ms] hover:border-maxima/40 hover:-translate-y-1 hover:shadow-[0_0_25px_hsl(330_100%_68%/0.35)] animate-card-snap" style={{ animationDelay: "200ms" }}>
                 <div className="w-12 h-12 rounded-full bg-maxima/10 flex items-center justify-center animate-icon-pop" style={{ animationDelay: "320ms" }}>
                   <Moon className="h-6 w-6 text-maxima" />
                 </div>
@@ -92,7 +92,7 @@ const Maxima = () => {
                 </p>
               </Card>
 
-              <Card className="p-6 space-y-4 transition-all duration-[340ms] hover:border-maxima/40 hover:-translate-y-1 hover:shadow-[0_0_25px_hsl(330_100%_68%/0.35)] animate-card-snap rounded-3xl" style={{ animationDelay: "300ms" }}>
+              <Card className="p-6 space-y-4 transition-all duration-[280ms] hover:border-maxima/40 hover:-translate-y-1 hover:shadow-[0_0_25px_hsl(330_100%_68%/0.35)] animate-card-snap" style={{ animationDelay: "300ms" }}>
                 <div className="w-12 h-12 rounded-full bg-maxima/10 flex items-center justify-center animate-icon-pop" style={{ animationDelay: "420ms" }}>
                   <Zap className="h-6 w-6 text-maxima" />
                 </div>
@@ -141,12 +141,12 @@ const Maxima = () => {
               </Card>
 
               <Card className="p-8">
-                <h3 className="text-2xl font-semibold mb-4">Optimization Layer</h3>
+                <h3 className="text-2xl font-semibold mb-4">Precision Layer</h3>
                 <ul className="space-y-3 text-muted-foreground">
                   <li>• CoQ10 for cellular energy and cardiovascular support</li>
                   <li>• Zinc for immune function and hormone regulation</li>
                   <li>• Probiotic blend for gut and immune health</li>
-                  <li>• Adaptogenic herbs for stress response (when indicated)</li>
+                  <li>• Selenium for thyroid support (when indicated by biomarkers)</li>
                 </ul>
               </Card>
             </div>
