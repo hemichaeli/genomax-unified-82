@@ -109,31 +109,31 @@ export default {
         "os-glow-pulse": {
           "0%, 100%": { 
             filter: "brightness(1)",
-            boxShadow: "0 0 20px hsl(189 100% 60% / 0.3)"
+            boxShadow: "0 0 20px hsl(197 100% 47% / 0.3)"
           },
           "50%": { 
             filter: "brightness(1.12)",
-            boxShadow: "0 0 40px hsl(189 100% 60% / 0.5)"
+            boxShadow: "0 0 40px hsl(197 100% 47% / 0.5)"
           },
         },
         "cyan-glow-pulse": {
           "0%, 100%": { 
             filter: "brightness(1)",
-            boxShadow: "0 0 32px hsl(189 100% 60% / 0.4), 0 0 16px hsl(189 100% 60% / 0.2)"
+            boxShadow: "0 0 32px hsl(197 100% 47% / 0.4), 0 0 16px hsl(197 100% 47% / 0.2)"
           },
           "50%": { 
             filter: "brightness(1.12)",
-            boxShadow: "0 0 48px hsl(189 100% 60% / 0.6), 0 0 24px hsl(189 100% 60% / 0.3)"
+            boxShadow: "0 0 48px hsl(197 100% 47% / 0.6), 0 0 24px hsl(197 100% 47% / 0.3)"
           },
         },
         "magenta-glow-pulse": {
           "0%, 100%": { 
             filter: "brightness(1)",
-            boxShadow: "0 0 32px hsl(323 100% 42% / 0.4), 0 0 16px hsl(323 100% 42% / 0.2)"
+            boxShadow: "0 0 32px hsl(330 100% 45% / 0.4), 0 0 16px hsl(330 100% 45% / 0.2)"
           },
           "50%": { 
             filter: "brightness(1.12)",
-            boxShadow: "0 0 48px hsl(323 100% 42% / 0.6), 0 0 24px hsl(323 100% 42% / 0.3)"
+            boxShadow: "0 0 48px hsl(330 100% 45% / 0.6), 0 0 24px hsl(330 100% 45% / 0.3)"
           },
         },
         "os-breathing": {
@@ -211,8 +211,8 @@ export default {
         'glow': '280ms',
       },
       boxShadow: {
-        'glow-cyan': '0 0 20px hsl(189 100% 60% / 0.3), 0 0 10px hsl(189 100% 60% / 0.15)',
-        'glow-magenta': '0 0 20px hsl(323 100% 42% / 0.3), 0 0 10px hsl(323 100% 42% / 0.15)',
+        'glow-cyan': '0 0 20px hsl(197 100% 47% / 0.3), 0 0 10px hsl(197 100% 47% / 0.15)',
+        'glow-magenta': '0 0 20px hsl(330 100% 45% / 0.3), 0 0 10px hsl(330 100% 45% / 0.15)',
         'glow-primary': '0 0 20px hsl(var(--primary) / 0.3)',
         'panel': '0 8px 24px rgba(0, 0, 0, 0.35)',
       },
