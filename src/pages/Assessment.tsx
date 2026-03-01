@@ -1,687 +1,240 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
-import { useState, useEffect } from "react";
-import { useParams, useSearchParams, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import { CinematicOSHero } from "@/components/os/CinematicOSHero";
-import { AssessmentProgress } from "@/components/assessment/AssessmentProgress";
-import { MultiSelectCard } from "@/components/assessment/MultiSelectCard";
-import { SingleSelectCard } from "@/components/assessment/SingleSelectCard";
-
-const HEALTH_GOALS = [
-  "Weight & body composition",
-  "Hair health & hair loss",
-  "Focus & concentration",
-  "Muscle mass & strength",
-  "Endurance & stamina",
-  "Anxiety & stress resilience",
-  "Mood & depression",
-  "Sleep quality",
-  "Fertility",
-  "Sexual performance & libido",
-  "Energy & fatigue",
-  "Skin, hair & appearance",
-  "Long-term health & prevention",
-];
-
-const CONCERN_CATEGORIES = [
-  { id: "physical", label: "Physical & energy" },
-  { id: "mental", label: "Mental & emotional" },
-  { id: "sleep", label: "Sleep" },
-  { id: "sexual", label: "Sexual & reproductive" },
-  { id: "digestion", label: "Digestion & gut" },
-  { id: "appearance", label: "Skin / hair / appearance" },
-  { id: "general", label: "General / not sure" },
-];
-
-const SYMPTOMS = [
-  "Low morning energy",
-  "Afternoon crashes",
-  "Brain fog",
-  "Low motivation",
-  "Mood instability",
-  "Anxiety spikes",
-  "Irritability",
-  "Low resilience to stress",
-  "Bloating or digestive discomfort",
-  "Cold hands/feet",
-  "Slow wound healing",
-  "Hair thinning / shedding",
-  "Poor recovery after workouts",
-  "Difficulty falling asleep",
-  "Waking up at night",
-  "Low libido",
-  "Skin issues (acne, dryness, redness)",
-];
-
-const SLEEP_PATTERNS = [
-  "<6 hours",
-  "6-7 hours",
-  "7+ hours",
-  "Irregular sleep schedule",
-  "Screen use at night",
-  "Caffeine after 4 PM",
-];
-
-const ACTIVITY_LEVELS = [
-  "Sedentary",
-  "Light activity",
-  "Train 1-3x/week",
-  "Train 3-5x/week",
-  "High-intensity training",
-];
-
-const DIET_PATTERNS = [
-  "Mostly plant-based",
-  "Balanced mixed diet",
-  "High-carb / high-sugar",
-  "Low-carb / keto",
-  "High protein",
-  "Frequent snacking",
-  "Skip meals",
-];
-
-const LIFESTYLE_FACTORS = [
-  "Travel often / irregular routine",
-  "Work long hours",
-  "Alcohol 3+ times/week",
-  "High stress job",
-];
-
-const STRESS_PATTERNS = [
-  "Feel 'wired but tired' at night",
-  "Wake up tired",
-  "Difficulty calming down",
-  "Mood dips in afternoon",
-  "Overthinking",
-  "Sudden anxiety spikes",
-  "Difficulty feeling motivated",
-  "Low emotional resilience",
-  "Feel overwhelmed easily",
-];
-
-const MALE_QUESTIONS = [
-  "Low morning energy",
-  "Strength declining",
-  "Reduced training performance",
-  "Lower libido compared to past",
-  "Hairline changes or thinning",
-  "Abdominal fat increase",
-  "Mood irritability",
-];
-
-const CYCLE_REGULARITY = [
-  "Regular",
-  "Irregular",
-  "No cycle (Pill/IUD/other)",
-];
-
-const CYCLE_SYMPTOMS = [
-  "PMS severity",
-  "Flow changes",
-  "Mood changes around cycle",
-  "Bloating around cycle",
-  "Sleep issues around cycle",
-  "Fatigue around cycle",
-  "Skin changes around cycle",
-  "Cravings around cycle",
-  "Stress sensitivity around cycle",
-];
-
-const FAMILY_HISTORY = [
-  "Thyroid issues",
-  "Iron deficiency",
-  "Mood disorders",
-  "Diabetes",
-  "Heart disease",
-  "Autoimmune issues",
-  "None of the above",
-];
-
-const CURRENT_SUPPLEMENTS = [
-  "Multivitamin",
-  "Omega-3",
-  "Vitamin D",
-  "Magnesium",
-  "Iron",
-  "Zinc",
-  "Creatine",
-  "Ashwagandha",
-  "Probiotics",
-  "Pre-workout",
-  "Hair loss supplements",
-  "Sleep aids",
-  "Other",
-];
-
-const ERECTION_FREQUENCY = [
-  "Daily",
-  "4-5 times/week",
-  "2-3 times/week",
-  "Rarely",
-];
+import React, { useState } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
+import { Building2, MapPin, Ruler, Layers, DoorOpen, Send, CheckCircle2, Shield } from "lucide-react";
 
 const Assessment = () => {
-  const { variant } = useParams();
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const [step, setStep] = useState(1);
-  const totalSteps = 9;
-  
-  const [formData, setFormData] = useState({
-    gender: "",
-    osType: "",
-    goals: [] as string[],
-    concernCategory: "",
-    symptoms: [] as string[],
-    sleepPatterns: [] as string[],
-    activityLevel: [] as string[],
-    dietPatterns: [] as string[],
-    lifestyleFactors: [] as string[],
-    stressPatterns: [] as string[],
-    maleSymptoms: [] as string[],
-    erectionFrequency: "",
-    cycleRegularity: "",
-    cycleSymptoms: [] as string[],
-    familyHistory: [] as string[],
-    currentSupplements: [] as string[],
+  const { t, isRTL, lang } = useLanguage();
+  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({
+    address: "",
+    city: "",
+    size: "",
+    floor: "",
+    rooms: "",
+    complexName: "",
+    name: "",
+    phone: "",
+    email: "",
   });
 
-  useEffect(() => {
-    let detectedGender = "";
-    let osType = "";
-    
-    if (variant === "maximo" || searchParams.get("gender") === "male") {
-      detectedGender = "male";
-      osType = "MAXimo²";
-    } else if (variant === "maxima" || searchParams.get("gender") === "female") {
-      detectedGender = "female";
-      osType = "MAXima²";
-    }
-    
-    if (detectedGender) {
-      setFormData(prev => ({ ...prev, gender: detectedGender, osType }));
-    }
-  }, [variant, searchParams]);
+  const update = (key: string, val: string) => setForm((p) => ({ ...p, [key]: val }));
 
-  const handleNext = () => {
-    // Validation
-    if (step === 1 && !formData.gender) {
-      toast.error("Please select your protocol");
-      return;
-    }
-    if (step === 2 && formData.goals.length === 0) {
-      toast.error("Please select at least one goal");
-      return;
-    }
-    if (step === 3 && !formData.concernCategory) {
-      toast.error("Please select what bothers you most");
-      return;
-    }
-    if (step === 4 && formData.symptoms.length === 0) {
-      toast.error("Please select at least one symptom");
-      return;
-    }
-    if (step === 5 && formData.sleepPatterns.length === 0 && formData.activityLevel.length === 0 && formData.dietPatterns.length === 0) {
-      toast.error("Please select at least one lifestyle pattern");
-      return;
-    }
-    if (step === 6 && formData.stressPatterns.length === 0) {
-      toast.error("Please select at least one stress pattern");
-      return;
-    }
-    if (step === 7) {
-      if (formData.gender === "male" && formData.maleSymptoms.length === 0) {
-        toast.error("Please select at least one symptom");
-        return;
-      }
-      if (formData.gender === "female" && !formData.cycleRegularity) {
-        toast.error("Please select your cycle regularity");
-        return;
-      }
-    }
-    
-    if (step < totalSteps) {
-      setStep(step + 1);
-    } else {
-      handleSubmit();
-    }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const msg = `הערכת שווי חדשה:\nשם: ${form.name}\nטלפון: ${form.phone}\nאימייל: ${form.email}\nכתובת: ${form.address}, ${form.city}\nגודל: ${form.size} מ"ר\nקומה: ${form.floor}\nחדרים: ${form.rooms}\nמתחם: ${form.complexName || "לא צוין"}`;
+    const encoded = encodeURIComponent(msg);
+    window.open(`https://wa.me/972547669985?text=${encoded}`, "_blank");
+    setSubmitted(true);
   };
 
-  const handleBack = () => {
-    if (step > 1) setStep(step - 1);
-  };
-
-  const handleSubmit = () => {
-    console.log("Assessment data:", formData);
-    toast.success("Assessment complete! Generating your OS protocol...");
-    navigate('/results', { state: { assessmentData: formData } });
-  };
-
-  const toggleArrayItem = (field: keyof typeof formData, value: string) => {
-    setFormData(prev => {
-      const array = prev[field] as string[];
-      const newArray = array.includes(value)
-        ? array.filter(item => item !== value)
-        : [...array, value];
-      return { ...prev, [field]: newArray };
-    });
-  };
-
-  if (step === 1) {
+  if (submitted) {
     return (
-      <div className="min-h-screen">
-        <CinematicOSHero>
-          <div className="text-center space-y-8 max-w-4xl mx-auto">
-            <div className="space-y-6">
-              <Badge className="text-sm px-4 py-2 bg-accent/10 text-accent border-accent/20">
-                90 seconds • No typing required
-              </Badge>
-              <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-                Choose Your Protocol
-              </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground">
-                Select your gender-optimized biological OS
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8">
-              <Card
-                className={`p-8 cursor-pointer transition-all hover:scale-[1.02] ${
-                  formData.gender === "male" ? "border-accent bg-accent/5" : ""
-                }`}
-                onClick={() => setFormData(prev => ({ ...prev, gender: "male", osType: "MAXimo²" }))}
-              >
-                <div className="space-y-4">
-                  <h2 className="text-3xl font-bold">
-                    <span className="text-accent">MAX</span>imo²
-                  </h2>
-                  <p className="text-muted-foreground">Male-optimized protocol</p>
-                </div>
-              </Card>
-
-              <Card
-                className={`p-8 cursor-pointer transition-all hover:scale-[1.02] ${
-                  formData.gender === "female" ? "border-accent bg-accent/5" : ""
-                }`}
-                onClick={() => setFormData(prev => ({ ...prev, gender: "female", osType: "MAXima²" }))}
-              >
-                <div className="space-y-4">
-                  <h2 className="text-3xl font-bold">
-                    <span className="text-accent">MAX</span>ima²
-                  </h2>
-                  <p className="text-muted-foreground">Female-optimized protocol</p>
-                </div>
-              </Card>
-            </div>
-
-            <Button 
-              size="lg" 
-              className="mt-8"
-              onClick={handleNext}
-              disabled={!formData.gender}
-            >
-              Continue
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
-        </CinematicOSHero>
+      <div className="min-h-screen bg-[hsl(40,30%,97%)] flex items-center justify-center px-4">
+        <div className="quantum-card p-12 text-center max-w-lg animate-fade-up">
+          <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-6" />
+          <h2 className="text-2xl font-bold mb-3">
+            {isRTL ? "הבקשה התקבלה!" : lang === "fr" ? "Demande reçue !" : lang === "es" ? "¡Solicitud recibida!" : lang === "ru" ? "Запрос получен!" : "Request Received!"}
+          </h2>
+          <p className="text-gray-600 mb-6">
+            {isRTL
+              ? "נחזור אליך תוך 24 שעות עם הערכת שווי מקצועית. בינתיים, שתה קפה."
+              : lang === "fr"
+              ? "Nous reviendrons vers vous sous 24 heures avec une évaluation professionnelle."
+              : lang === "es"
+              ? "Volveremos a contactarte en 24 horas con una valoración profesional."
+              : lang === "ru"
+              ? "Мы свяжемся с вами в течение 24 часов с профессиональной оценкой."
+              : "We'll get back to you within 24 hours with a professional valuation."}
+          </p>
+          <a href="/" className="quantum-btn-navy inline-block">
+            {t("nav_home")}
+          </a>
+        </div>
       </div>
     );
   }
 
+  const inputClass =
+    "w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[hsl(38,76%,44%)] focus:ring-2 focus:ring-[hsl(38,76%,44%)]/20 outline-none transition-all text-sm bg-white";
+
   return (
-    <div className="min-h-screen">
-      <CinematicOSHero>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto space-y-8">
-            <AssessmentProgress currentStep={step} totalSteps={totalSteps} />
-
-          {/* Screen 2: Main Goals */}
-          {step === 2 && (
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold">Your Main Goals</h2>
-                <p className="text-lg text-muted-foreground">
-                  Choose 3-4 goals that matter most to you
-                </p>
-                <p className="text-sm text-accent">
-                  {formData.goals.length} of 4 selected
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {HEALTH_GOALS.map(goal => (
-                  <MultiSelectCard
-                    key={goal}
-                    id={goal}
-                    label={goal}
-                    selected={formData.goals.includes(goal)}
-                    onToggle={(id) => toggleArrayItem("goals", id)}
-                    maxReached={formData.goals.length >= 4}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Screen 3: Primary Concern */}
-          {step === 3 && (
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold">What Bothers You MOST Right Now?</h2>
-                <p className="text-lg text-muted-foreground">
-                  Select one primary concern
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {CONCERN_CATEGORIES.map(category => (
-                  <SingleSelectCard
-                    key={category.id}
-                    id={category.id}
-                    label={category.label}
-                    selected={formData.concernCategory === category.id}
-                    onSelect={(id) => setFormData(prev => ({ ...prev, concernCategory: id }))}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Screen 4: Symptom Profile */}
-          {step === 4 && (
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold">Symptom Profile</h2>
-                <p className="text-lg text-muted-foreground">
-                  Choose all that apply
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {SYMPTOMS.map(symptom => (
-                  <MultiSelectCard
-                    key={symptom}
-                    id={symptom}
-                    label={symptom}
-                    selected={formData.symptoms.includes(symptom)}
-                    onToggle={(id) => toggleArrayItem("symptoms", id)}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Screen 5: Lifestyle Patterns */}
-          {step === 5 && (
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold">Lifestyle Patterns</h2>
-                <p className="text-lg text-muted-foreground">
-                  Choose all that apply
-                </p>
-              </div>
-
-              <div className="space-y-8">
-                <div>
-                  <h3 className="text-xl font-semibold mb-4">Sleep</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {SLEEP_PATTERNS.map(pattern => (
-                      <MultiSelectCard
-                        key={pattern}
-                        id={pattern}
-                        label={pattern}
-                        selected={formData.sleepPatterns.includes(pattern)}
-                        onToggle={(id) => toggleArrayItem("sleepPatterns", id)}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-semibold mb-4">Activity</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {ACTIVITY_LEVELS.map(level => (
-                      <MultiSelectCard
-                        key={level}
-                        id={level}
-                        label={level}
-                        selected={formData.activityLevel.includes(level)}
-                        onToggle={(id) => toggleArrayItem("activityLevel", id)}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-semibold mb-4">Diet</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {DIET_PATTERNS.map(diet => (
-                      <MultiSelectCard
-                        key={diet}
-                        id={diet}
-                        label={diet}
-                        selected={formData.dietPatterns.includes(diet)}
-                        onToggle={(id) => toggleArrayItem("dietPatterns", id)}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-semibold mb-4">Other Factors</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {LIFESTYLE_FACTORS.map(factor => (
-                      <MultiSelectCard
-                        key={factor}
-                        id={factor}
-                        label={factor}
-                        selected={formData.lifestyleFactors.includes(factor)}
-                        onToggle={(id) => toggleArrayItem("lifestyleFactors", id)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Screen 6: Stress & Emotional Patterns */}
-          {step === 6 && (
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold">Stress & Emotional Patterns</h2>
-                <p className="text-lg text-muted-foreground">
-                  Choose all that apply
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {STRESS_PATTERNS.map(pattern => (
-                  <MultiSelectCard
-                    key={pattern}
-                    id={pattern}
-                    label={pattern}
-                    selected={formData.stressPatterns.includes(pattern)}
-                    onToggle={(id) => toggleArrayItem("stressPatterns", id)}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Screen 7: Gender-Specific Questions */}
-          {step === 7 && formData.gender === "male" && (
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold">
-                  <span className="text-accent">MAX</span>imo² Specific
-                </h2>
-                <p className="text-lg text-muted-foreground">
-                  Male-specific health markers
-                </p>
-              </div>
-
-              <div className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {MALE_QUESTIONS.map(question => (
-                    <MultiSelectCard
-                      key={question}
-                      id={question}
-                      label={question}
-                      selected={formData.maleSymptoms.includes(question)}
-                      onToggle={(id) => toggleArrayItem("maleSymptoms", id)}
-                    />
-                  ))}
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-semibold mb-4">Morning erections frequency</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {ERECTION_FREQUENCY.map(freq => (
-                      <SingleSelectCard
-                        key={freq}
-                        id={freq}
-                        label={freq}
-                        selected={formData.erectionFrequency === freq}
-                        onSelect={(id) => setFormData(prev => ({ ...prev, erectionFrequency: id }))}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {step === 7 && formData.gender === "female" && (
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold">
-                  <span className="text-accent">MAX</span>ima² Specific
-                </h2>
-                <p className="text-lg text-muted-foreground">
-                  Female-specific health markers
-                </p>
-              </div>
-
-              <div className="space-y-8">
-                <div>
-                  <h3 className="text-xl font-semibold mb-4">Cycle regularity</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {CYCLE_REGULARITY.map(regularity => (
-                      <SingleSelectCard
-                        key={regularity}
-                        id={regularity}
-                        label={regularity}
-                        selected={formData.cycleRegularity === regularity}
-                        onSelect={(id) => setFormData(prev => ({ ...prev, cycleRegularity: id }))}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-semibold mb-4">Cycle-related symptoms</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {CYCLE_SYMPTOMS.map(symptom => (
-                      <MultiSelectCard
-                        key={symptom}
-                        id={symptom}
-                        label={symptom}
-                        selected={formData.cycleSymptoms.includes(symptom)}
-                        onToggle={(id) => toggleArrayItem("cycleSymptoms", id)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Screen 8: Family History */}
-          {step === 8 && (
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold">Family History</h2>
-                <p className="text-lg text-muted-foreground">
-                  Optional but helps personalize your protocol
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {FAMILY_HISTORY.map(condition => (
-                  <MultiSelectCard
-                    key={condition}
-                    id={condition}
-                    label={condition}
-                    selected={formData.familyHistory.includes(condition)}
-                    onToggle={(id) => toggleArrayItem("familyHistory", id)}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Screen 9: Current Supplements */}
-          {step === 9 && (
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold">Current Supplements</h2>
-                <p className="text-lg text-muted-foreground">
-                  Optional - helps avoid redundancy
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {CURRENT_SUPPLEMENTS.map(supplement => (
-                  <MultiSelectCard
-                    key={supplement}
-                    id={supplement}
-                    label={supplement}
-                    selected={formData.currentSupplements.includes(supplement)}
-                    onToggle={(id) => toggleArrayItem("currentSupplements", id)}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Navigation */}
-          <div className="flex justify-between pt-6">
-            <Button
-              variant="outline"
-              onClick={handleBack}
-              disabled={step === 1}
-              size="lg"
-            >
-              <ArrowLeft className="mr-2 h-5 w-5" />
-              Back
-            </Button>
-            
-            <Button 
-              onClick={handleNext} 
-              size="lg"
-              className="bg-os-cyan hover:bg-os-cyan/90 text-background font-semibold min-w-[160px]"
-            >
-              {step === totalSteps ? (
-                <>
-                  Complete Assessment
-                  <CheckCircle2 className="ml-2 h-5 w-5" />
-                </>
-              ) : (
-                <>
-                  Continue
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </>
-              )}
-            </Button>
-          </div>
-          </div>
+    <div className="min-h-screen bg-[hsl(40,30%,97%)]">
+      {/* Hero */}
+      <section className="quantum-hero text-white py-16 lg:py-24">
+        <div className="container mx-auto px-4 text-center">
+          <Building2 className="w-12 h-12 text-[hsl(38,76%,44%)] mx-auto mb-4" />
+          <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4 font-display">
+            {t("assessment_title")}
+          </h1>
+          <div className="quantum-gold-line-center mb-6" />
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+            {t("assessment_subtitle")}
+          </p>
         </div>
-      </CinematicOSHero>
+      </section>
+
+      {/* Form */}
+      <section className="quantum-section">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <form onSubmit={handleSubmit} className="quantum-card p-8 lg:p-10">
+            <div className="flex items-center gap-2 mb-8">
+              <Shield className="w-5 h-5 text-green-500" />
+              <span className="text-sm text-green-600 font-medium">{t("assessment_free")}</span>
+            </div>
+
+            {/* Property Details */}
+            <div className="space-y-4 mb-8">
+              <h3 className="text-lg font-bold flex items-center gap-2">
+                <Building2 className="w-5 h-5 text-[hsl(38,76%,44%)]" />
+                {isRTL ? "פרטי הנכס" : lang === "fr" ? "Détails du bien" : lang === "es" ? "Detalles de la propiedad" : lang === "ru" ? "Данные объекта" : "Property Details"}
+              </h3>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <MapPin className="w-3.5 h-3.5 inline mr-1" />
+                    {t("assessment_address")} *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    className={inputClass}
+                    value={form.address}
+                    onChange={(e) => update("address", e.target.value)}
+                    placeholder={isRTL ? "רחוב ומספר בית" : "Street and number"}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {t("assessment_city")} *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    className={inputClass}
+                    value={form.city}
+                    onChange={(e) => update("city", e.target.value)}
+                    placeholder={isRTL ? "בת ים, חולון..." : "Bat Yam, Netanya..."}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <Ruler className="w-3.5 h-3.5 inline mr-1" />
+                    {t("assessment_size")} *
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    className={inputClass}
+                    value={form.size}
+                    onChange={(e) => update("size", e.target.value)}
+                    placeholder="65"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <Layers className="w-3.5 h-3.5 inline mr-1" />
+                    {t("assessment_floor")}
+                  </label>
+                  <input
+                    type="number"
+                    className={inputClass}
+                    value={form.floor}
+                    onChange={(e) => update("floor", e.target.value)}
+                    placeholder="3"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <DoorOpen className="w-3.5 h-3.5 inline mr-1" />
+                    {t("assessment_rooms")} *
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    className={inputClass}
+                    value={form.rooms}
+                    onChange={(e) => update("rooms", e.target.value)}
+                    placeholder="3"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {t("assessment_complex_name")}
+                </label>
+                <input
+                  type="text"
+                  className={inputClass}
+                  value={form.complexName}
+                  onChange={(e) => update("complexName", e.target.value)}
+                  placeholder={isRTL ? "למשל: מתחם הרצל, מתחם סוקולוב..." : "e.g. Herzl Complex..."}
+                />
+              </div>
+            </div>
+
+            <div className="quantum-divider mb-8" />
+
+            {/* Personal Details */}
+            <div className="space-y-4 mb-8">
+              <h3 className="text-lg font-bold">
+                {isRTL ? "פרטים אישיים" : lang === "fr" ? "Informations personnelles" : lang === "es" ? "Datos personales" : lang === "ru" ? "Личные данные" : "Personal Details"}
+              </h3>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {t("assessment_name")} *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    className={inputClass}
+                    value={form.name}
+                    onChange={(e) => update("name", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {t("assessment_phone")} *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    className={inputClass}
+                    value={form.phone}
+                    onChange={(e) => update("phone", e.target.value)}
+                    placeholder="054-XXX-XXXX"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {t("assessment_email")}
+                </label>
+                <input
+                  type="email"
+                  className={inputClass}
+                  value={form.email}
+                  onChange={(e) => update("email", e.target.value)}
+                />
+              </div>
+            </div>
+
+            <button type="submit" className="quantum-btn-gold w-full flex items-center justify-center gap-2 text-lg">
+              <Send className="w-5 h-5" />
+              {t("assessment_submit")}
+            </button>
+
+            <p className="text-xs text-gray-400 text-center mt-4">
+              {t("assessment_disclaimer")}
+            </p>
+          </form>
+        </div>
+      </section>
     </div>
   );
 };
