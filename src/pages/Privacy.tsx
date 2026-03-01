@@ -1,102 +1,59 @@
+import { useLanguage } from "@/i18n/LanguageContext";
+
 const Privacy = () => {
+  const { lang } = useLanguage();
+  const l = lang as string;
+
+  const content: Record<string, { title: string; updated: string; sections: Array<{ h: string; p: string }> }> = {
+    he: {
+      title: "מדיניות פרטיות", updated: "עודכן לאחרונה: מרץ 2026",
+      sections: [
+        { h: "מבוא", p: "QUANTUM נדל\"ן (\"QUANTUM\", \"אנחנו\") מחויבת להגן על הפרטיות שלכם. מדיניות זו מסבירה כיצד אנו אוספים, משתמשים ומגנים על המידע האישי שלכם." },
+        { h: "מידע שאנו אוספים", p: "אנו אוספים מידע שאתם מספקים לנו ישירות: שם, מספר טלפון, כתובת אימייל, העדפות נכס, ומידע פיננסי רלוונטי לעסקאות נדל\"ן. כמו כן, אנו אוספים מידע אוטומטית כגון כתובת IP, סוג דפדפן, ודפוסי שימוש באתר." },
+        { h: "שימוש במידע", p: "אנו משתמשים במידע שלכם כדי: לספק שירותי תיווך נדל\"ן, להתאים הצעות נכסים לצרכים שלכם, ליצור איתכם קשר בנוגע להזדמנויות רלוונטיות, ולשפר את השירותים שלנו." },
+        { h: "שיתוף מידע", p: "אנו לא מוכרים את המידע האישי שלכם. אנו עשויים לשתף מידע עם: עורכי דין ויועצים משפטיים המעורבים בעסקה, שמאים ומעריכי נכסים, וגורמים רגולטוריים כנדרש על פי חוק." },
+        { h: "אבטחת מידע", p: "אנו נוקטים באמצעי אבטחה סבירים להגנה על המידע האישי שלכם, כולל הצפנה, גישה מוגבלת, ואחסון מאובטח." },
+        { h: "זכויותיכם", p: "יש לכם זכות לבקש גישה למידע האישי שלכם, לתקן מידע שגוי, למחוק את המידע שלכם, ולהתנגד לעיבוד המידע. ליצירת קשר בנושא פרטיות: privacy@quantum-realestate.co.il" },
+        { h: "יצירת קשר", p: "לשאלות בנוגע למדיניות פרטיות זו, ניתן לפנות אלינו בטלפון 054-766-9985 או באימייל privacy@quantum-realestate.co.il" },
+      ]
+    },
+    en: {
+      title: "Privacy Policy", updated: "Last updated: March 2026",
+      sections: [
+        { h: "Introduction", p: "QUANTUM Real Estate (\"QUANTUM\", \"we\") is committed to protecting your privacy. This policy explains how we collect, use, and protect your personal information." },
+        { h: "Information We Collect", p: "We collect information you provide directly: name, phone number, email, property preferences, and financial information relevant to real estate transactions. We also automatically collect IP address, browser type, and website usage patterns." },
+        { h: "Use of Information", p: "We use your information to: provide real estate brokerage services, match property offerings to your needs, contact you about relevant opportunities, and improve our services." },
+        { h: "Information Sharing", p: "We do not sell your personal information. We may share information with: lawyers and legal advisors involved in transactions, property appraisers, and regulatory authorities as required by law." },
+        { h: "Data Security", p: "We take reasonable security measures to protect your personal information, including encryption, restricted access, and secure storage." },
+        { h: "Your Rights", p: "You have the right to access, correct, delete, and object to processing of your personal data. Contact us at privacy@quantum-realestate.co.il" },
+        { h: "Contact", p: "For questions about this privacy policy, contact us at 054-766-9985 or privacy@quantum-realestate.co.il" },
+      ]
+    },
+  };
+
+  const c = content[l] || content.en;
+
   return (
-    <div className="min-h-screen py-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto prose prose-lg dark:prose-invert">
-          <h1>Privacy Policy</h1>
-          <p className="text-muted-foreground">Last updated: {new Date().toLocaleDateString()}</p>
-
-          <h2>1. Information We Collect</h2>
-          <p>
-            GenoMAX² collects information you provide directly to us, including:
-          </p>
-          <ul>
-            <li>Personal information (name, email, age, biological sex)</li>
-            <li>Health information (blood work results, health goals, symptoms)</li>
-            <li>Account information (login credentials, preferences)</li>
-            <li>Usage data (how you interact with our platform)</li>
-          </ul>
-
-          <h2>2. How We Use Your Information</h2>
-          <p>We use the information we collect to:</p>
-          <ul>
-            <li>Create personalized, gender-specific supplement protocols</li>
-            <li>Track your biomarker progress over time</li>
-            <li>Improve our algorithms and recommendations</li>
-            <li>Communicate with you about your protocol and account</li>
-            <li>Comply with legal obligations</li>
-          </ul>
-
-          <h2>3. Health Data Security</h2>
-          <p>
-            GenoMAX² follows industry-standard security practices to protect your health information. Your data is:
-          </p>
-          <ul>
-            <li>Encrypted in transit and at rest</li>
-            <li>Stored on secure, access-controlled servers</li>
-            <li>Accessible only to authorized personnel</li>
-            <li>Never sold to third parties</li>
-            <li>Only used for the purposes you've authorized</li>
-          </ul>
-
-          <h2>4. Data Security</h2>
-          <p>
-            We implement industry-standard security measures including:
-          </p>
-          <ul>
-            <li>End-to-end encryption for all health data</li>
-            <li>Regular security audits and penetration testing</li>
-            <li>Multi-factor authentication options</li>
-            <li>Secure data backup and recovery procedures</li>
-          </ul>
-
-          <h2>5. Sharing Your Information</h2>
-          <p>
-            We do not sell your personal or health information. We may share your information only:
-          </p>
-          <ul>
-            <li>With your explicit consent</li>
-            <li>With healthcare providers you've authorized</li>
-            <li>With service providers who help us operate our platform (under strict confidentiality agreements)</li>
-            <li>When required by law or to protect rights and safety</li>
-          </ul>
-
-          <h2>6. Your Rights</h2>
-          <p>You have the right to:</p>
-          <ul>
-            <li>Access your personal and health information</li>
-            <li>Request corrections to your information</li>
-            <li>Delete your account and associated data</li>
-            <li>Export your data</li>
-            <li>Opt out of marketing communications</li>
-          </ul>
-
-          <h2>7. Data Retention</h2>
-          <p>
-            We retain your information as long as your account is active or as needed to provide services. 
-            You may request deletion at any time, though we may retain certain information as required by law.
-          </p>
-
-          <h2>8. Children's Privacy</h2>
-          <p>
-            Our services are not intended for individuals under 18. We do not knowingly collect information 
-            from children.
-          </p>
-
-          <h2>9. Changes to This Policy</h2>
-          <p>
-            We may update this privacy policy periodically. We'll notify you of significant changes via email 
-            or through our platform.
-          </p>
-
-          <h2>10. Contact Us</h2>
-          <p>
-            Questions about this privacy policy or your data? Contact us at:
-            <br />
-            Email: privacy@genomax2.ai
-          </p>
+    <div className="min-h-screen">
+      <section className="quantum-hero py-20 md:py-28">
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <div style={{ width: 60, height: 3, background: 'linear-gradient(90deg, #B8860B, #D4A020)', margin: '0 auto 24px' }} />
+          <h1 className="text-4xl md:text-5xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>{c.title}</h1>
+          <p className="text-sm text-white/40 mt-4">{c.updated}</p>
         </div>
-      </div>
+      </section>
+      <section className="quantum-section">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <div className="space-y-8">
+            {c.sections.map((s, i) => (
+              <div key={i} className="space-y-3">
+                <h2 className="text-xl font-bold text-[#1A1A3E]" style={{ fontFamily: "'Playfair Display', serif" }}>{s.h}</h2>
+                <p className="text-[#1A1A3E]/70 leading-relaxed">{s.p}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
