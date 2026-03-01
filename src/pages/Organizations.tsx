@@ -23,7 +23,6 @@ const Organizations = () => {
     setSubmitting(true);
     
     try {
-      // Attempt to save to Supabase
       const { error } = await supabase
         .from('organization_inquiries')
         .insert([{
@@ -35,7 +34,6 @@ const Organizations = () => {
         }]);
       
       if (error) {
-        // If table doesn't exist yet, still acknowledge the submission
         console.warn('Supabase insert failed:', error.message);
       }
     } catch (err) {
@@ -72,13 +70,13 @@ const Organizations = () => {
               </div>
               <h3 className="text-2xl font-semibold">Corporate Wellness</h3>
               <p className="text-muted-foreground">
-                Give employees evidence-based health optimization, not generic wellness programs that don't work.
+                Give employees evidence-based health protocols, not generic wellness programs that don't work.
               </p>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• Reduced healthcare costs</li>
-                <li>• Improved productivity and focus</li>
-                <li>• Measurable health outcomes</li>
-                <li>• Easy integration with benefits</li>
+                <li>Reduced healthcare costs</li>
+                <li>Improved productivity and focus</li>
+                <li>Measurable health outcomes</li>
+                <li>Easy integration with benefits</li>
               </ul>
             </Card>
 
@@ -91,10 +89,10 @@ const Organizations = () => {
                 Add a structured supplement layer to your treatment protocols backed by patient biomarkers.
               </p>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• White-label options available</li>
-                <li>• Integration with patient records</li>
-                <li>• Evidence-based recommendations</li>
-                <li>• Track patient progress over time</li>
+                <li>White-label options available</li>
+                <li>Integration with patient records</li>
+                <li>Evidence-based recommendations</li>
+                <li>Track patient progress over time</li>
               </ul>
             </Card>
 
@@ -107,10 +105,10 @@ const Organizations = () => {
                 Gender-specific protocols for athletes based on real biomarkers, not generic sports nutrition.
               </p>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• Performance optimization</li>
-                <li>• Recovery enhancement</li>
-                <li>• Injury prevention protocols</li>
-                <li>• Team and individual tracking</li>
+                <li>Performance calibration</li>
+                <li>Recovery enhancement</li>
+                <li>Injury prevention protocols</li>
+                <li>Team and individual tracking</li>
               </ul>
             </Card>
           </section>
@@ -143,7 +141,7 @@ const Organizations = () => {
               </Card>
 
               <Card className="p-6">
-                <h3 className="text-xl font-semibold mb-3">Continuous Optimization</h3>
+                <h3 className="text-xl font-semibold mb-3">Continuous Calibration</h3>
                 <p className="text-sm text-muted-foreground">
                   Protocols evolve as biomarkers improve. Track progress and measure outcomes.
                 </p>
