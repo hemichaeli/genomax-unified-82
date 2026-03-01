@@ -11,7 +11,7 @@ export const HowItWorksSection = () => {
     {
       icon: Cpu,
       title: "Analyze",
-      description: "AI builds your Gender-Optimized Biological OS tailored to your unique biology.",
+      description: "Your biomarkers drive a Gender-Optimized Biological OS tailored to your unique physiology.",
       color: "hsl(213 100% 55%)", // primary
     },
     {
