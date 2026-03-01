@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import Sidebar from "@/components/layout/Sidebar";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { LanguageProvider, useLanguage } from "@/i18n/LanguageContext";
 import Home from "./pages/Home";
@@ -24,11 +26,20 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const AppContent = () => {
-  const { dir } = useLanguage();
+  const { dir, isRTL } = useLanguage();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+
+  const sidebarWidth = sidebarCollapsed ? "xl:pl-16" : "xl:pl-56";
+  const sidebarWidthRTL = sidebarCollapsed ? "xl:pr-16" : "xl:pr-56";
+
   return (
     <div className="flex flex-col min-h-screen" dir={dir}>
       <Header />
-      <main className="flex-grow">
+      <Sidebar
+        collapsed={sidebarCollapsed}
+        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+      />
+      <main className={`flex-grow transition-all duration-300 ${isRTL ? sidebarWidthRTL : sidebarWidth}`}>
         <ErrorBoundary>
           <Routes>
             <Route path="/" element={<Home />} />
