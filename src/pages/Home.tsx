@@ -118,7 +118,7 @@ const Home = () => {
             Ready to Upgrade Your Biology?
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Stop guessing. Start optimizing with a protocol built for your unique biological data.
+            Stop guessing. Start with a protocol built for your unique biological data.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
