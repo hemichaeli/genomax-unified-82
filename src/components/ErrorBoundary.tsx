@@ -1,44 +1,53 @@
-import React from "react";
+import { Component, ErrorInfo, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 
-interface Props {
-  children: React.ReactNode;
+interface ErrorBoundaryProps {
+  children: ReactNode;
+  fallback?: ReactNode;
 }
 
-interface State {
+interface ErrorBoundaryState {
   hasError: boolean;
-  error?: Error;
+  error: Error | null;
 }
 
-export class ErrorBoundary extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, error: null };
   }
 
-  static getDerivedStateFromError(error: Error): State {
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("ErrorBoundary caught:", error, errorInfo);
   }
 
+  handleReset = () => {
+    this.setState({ hasError: false, error: null });
+  };
+
   render() {
     if (this.state.hasError) {
+      if (this.props.fallback) {
+        return this.props.fallback;
+      }
+
       return (
         <div className="min-h-screen flex items-center justify-center px-6">
           <div className="max-w-md text-center space-y-6">
-            <div className="text-6xl font-bold text-muted-foreground">Oops</div>
+            <div className="text-6xl font-bold text-muted-foreground/30">!</div>
             <h1 className="text-2xl font-bold">Something went wrong</h1>
             <p className="text-muted-foreground">
-              An unexpected error occurred. Try refreshing the page or navigating back home.
+              An unexpected error occurred. Try refreshing the page.
             </p>
             <div className="flex gap-4 justify-center">
-              <Button onClick={() => window.location.reload()}>
-                Refresh Page
+              <Button onClick={this.handleReset} variant="outline">
+                Try Again
               </Button>
-              <Button variant="outline" onClick={() => window.location.href = "/"}>
+              <Button onClick={() => window.location.href = "/"}>
                 Go Home
               </Button>
             </div>
