@@ -2,75 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-/* QUANTUM REAL ESTATE DESIGN SYSTEM
-   Premium boutique brokerage feel
-   Navy + Gold + Warm White */
+/* GENOMAX² BIOLOGICAL OPERATING SYSTEM DESIGN SYSTEM
+   Dark-first clinical precision aesthetic
+   Colors: Deep Black + MAX Red + Gender accent (Cyan/Magenta) */
 
 @layer base {
   :root {
-    /* QUANTUM Premium Color System */
-    --background: 40 30% 97%;       /* Warm White #F8F6F2 */
-    --foreground: 225 30% 15%;      /* Deep Navy Text #1A1D2E */
-
-    --card: 0 0% 100%;              /* Pure White */
-    --card-foreground: 225 30% 15%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 225 30% 15%;
-
-    /* Core Brand Colors */
-    --primary: 225 40% 16%;         /* QUANTUM Navy #1A1A3E */
-    --primary-foreground: 40 30% 97%;
-
-    --secondary: 40 25% 93%;        /* Warm Light #EDE8E0 */
-    --secondary-foreground: 225 30% 15%;
-
-    --muted: 40 15% 90%;
-    --muted-foreground: 225 10% 45%;
-
-    --accent: 38 76% 44%;           /* QUANTUM Gold #B8860B */
+    --background: 220 20% 3%;
+    --foreground: 0 0% 95%;
+    --card: 220 15% 6%;
+    --card-foreground: 0 0% 95%;
+    --popover: 220 15% 6%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 100% 56%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 15% 10%;
+    --secondary-foreground: 0 0% 90%;
+    --muted: 220 10% 15%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 0 100% 56%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
-
-    --border: 40 15% 88%;
-    --input: 40 15% 90%;
-    --ring: 38 76% 44%;
-
+    --border: 220 15% 12%;
+    --input: 220 15% 12%;
+    --ring: 0 100% 56%;
     --radius: 0.75rem;
 
-    /* QUANTUM Specific */
-    --quantum-navy: 225 40% 16%;
-    --quantum-navy-light: 225 35% 25%;
-    --quantum-gold: 38 76% 44%;
-    --quantum-gold-light: 38 60% 65%;
-    --quantum-warm: 40 30% 97%;
-    --quantum-warm-dark: 40 25% 93%;
-    --quantum-success: 150 60% 40%;
-    --quantum-seller: 225 40% 16%;
-    --quantum-buyer: 38 76% 44%;
+    /* GenoMAX² Brand Colors */
+    --gx-bg: #05070A;
+    --gx-surface: #0A0E14;
+    --gx-surface-2: #111620;
+    --gx-border: #1A2030;
+    --gx-text: #E8ECF2;
+    --gx-text-muted: #6B7A90;
+    --gx-max-red: #FF1F23;
+    --gx-maximo-cyan: #009BFF;
+    --gx-maxima-magenta: #FF2D95;
+    --gx-success: #00E676;
+    --gx-warning: #FFD600;
 
-    /* Shadows */
-    --shadow-sm: 0 1px 3px rgba(26, 26, 62, 0.06);
-    --shadow-md: 0 4px 16px rgba(26, 26, 62, 0.08);
-    --shadow-lg: 0 8px 32px rgba(26, 26, 62, 0.10);
-    --shadow-gold: 0 4px 16px rgba(184, 134, 11, 0.15);
-
-    /* Motion */
-    --ease-quantum: cubic-bezier(0.25, 0.1, 0.25, 1);
-    --transition-fast: 150ms var(--ease-quantum);
-    --transition-smooth: 300ms var(--ease-quantum);
-    --transition-slow: 500ms var(--ease-quantum);
-
-    --sidebar-background: 225 40% 12%;
-    --sidebar-foreground: 40 30% 95%;
-    --sidebar-primary: 38 76% 44%;
+    --sidebar-background: 220 20% 4%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 0 100% 56%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 225 35% 20%;
-    --sidebar-accent-foreground: 40 30% 95%;
-    --sidebar-border: 225 30% 20%;
-    --sidebar-ring: 38 76% 44%;
+    --sidebar-accent: 220 15% 10%;
+    --sidebar-accent-foreground: 0 0% 90%;
+    --sidebar-border: 220 15% 12%;
+    --sidebar-ring: 0 100% 56%;
   }
 }
 
@@ -81,213 +60,206 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Heebo', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    background: hsl(40, 30%, 97%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--gx-bg);
+    color: var(--gx-text);
   }
 
   html {
     scroll-behavior: smooth;
   }
 
-  /* Typography - Premium Brokerage */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', 'Heebo', serif;
-    letter-spacing: -0.01em;
+    font-family: 'Inter Tight', 'Inter', sans-serif;
     font-weight: 700;
-    color: hsl(225, 40%, 16%);
+    color: var(--gx-text);
+    letter-spacing: -0.02em;
   }
 
-  /* RTL body text uses Heebo */
-  [dir="rtl"] body,
-  [lang="he"] body {
-    font-family: 'Heebo', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  .font-mono {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
   }
 
-  /* English headings use Playfair */
-  .font-display {
-    font-family: 'Playfair Display', serif;
+  /* Superscript 2 - Global utility */
+  .sup2 {
+    font-size: 60%;
+    vertical-align: super;
+    line-height: 0;
+    position: relative;
+    top: -0.15em;
+    font-weight: inherit;
   }
 
-  .font-hebrew {
-    font-family: 'Heebo', sans-serif;
+  /* GenoMAX² Section Styles */
+  .gx-section {
+    padding: 80px 0;
+    background: var(--gx-bg);
   }
 
-  .font-body {
-    font-family: 'Inter', 'Heebo', sans-serif;
+  .gx-section-surface {
+    padding: 80px 0;
+    background: var(--gx-surface);
   }
 
-  /* QUANTUM Gold Accent Line */
-  .quantum-gold-line {
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, hsl(38, 76%, 44%), hsl(38, 60%, 65%));
+  .gx-section-gradient {
+    padding: 80px 0;
+    background: linear-gradient(180deg, var(--gx-bg) 0%, var(--gx-surface) 100%);
   }
 
-  .quantum-gold-line-center {
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, hsl(38, 76%, 44%), hsl(38, 60%, 65%));
-    margin: 0 auto;
-  }
-
-  /* Premium Card Styles */
-  .quantum-card {
-    background: white;
-    border: 1px solid hsl(40, 15%, 88%);
+  /* Cards */
+  .gx-card {
+    background: var(--gx-surface);
+    border: 1px solid var(--gx-border);
     border-radius: 12px;
-    box-shadow: var(--shadow-sm);
-    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+    transition: transform 300ms cubic-bezier(0.25, 0.1, 0.25, 1),
+                border-color 300ms cubic-bezier(0.25, 0.1, 0.25, 1),
+                box-shadow 300ms cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
-  .quantum-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+  .gx-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 31, 35, 0.3);
+    box-shadow: 0 8px 32px rgba(255, 31, 35, 0.08);
   }
 
-  /* Gold CTA Button */
-  .quantum-btn-gold {
-    background: linear-gradient(135deg, hsl(38, 76%, 44%), hsl(38, 70%, 50%));
+  /* Buttons */
+  .gx-btn-primary {
+    background: linear-gradient(135deg, var(--gx-max-red), #E6191D);
     color: white;
     font-weight: 600;
     border-radius: 8px;
     padding: 14px 32px;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-    box-shadow: var(--shadow-gold);
+    transition: transform 150ms, box-shadow 150ms;
+    box-shadow: 0 4px 16px rgba(255, 31, 35, 0.25);
   }
 
-  .quantum-btn-gold:hover {
+  .gx-btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(184, 134, 11, 0.25);
+    box-shadow: 0 6px 24px rgba(255, 31, 35, 0.35);
   }
 
-  /* Navy CTA Button */
-  .quantum-btn-navy {
-    background: linear-gradient(135deg, hsl(225, 40%, 16%), hsl(225, 35%, 22%));
-    color: white;
-    font-weight: 600;
-    border-radius: 8px;
-    padding: 14px 32px;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-    box-shadow: var(--shadow-md);
-  }
-
-  .quantum-btn-navy:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-  }
-
-  /* Outline Button */
-  .quantum-btn-outline {
+  .gx-btn-outline {
     background: transparent;
-    border: 2px solid hsl(225, 40%, 16%);
-    color: hsl(225, 40%, 16%);
+    border: 1px solid var(--gx-border);
+    color: var(--gx-text);
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 14px 32px;
+    transition: all 200ms;
+  }
+
+  .gx-btn-outline:hover {
+    border-color: var(--gx-max-red);
+    color: var(--gx-max-red);
+  }
+
+  .gx-btn-cyan {
+    background: linear-gradient(135deg, var(--gx-maximo-cyan), #007ACC);
+    color: white;
     font-weight: 600;
     border-radius: 8px;
-    padding: 12px 30px;
-    transition: all var(--transition-fast);
+    padding: 14px 32px;
+    transition: transform 150ms, box-shadow 150ms;
+    box-shadow: 0 4px 16px rgba(0, 155, 255, 0.25);
   }
 
-  .quantum-btn-outline:hover {
-    background: hsl(225, 40%, 16%);
+  .gx-btn-cyan:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0, 155, 255, 0.35);
+  }
+
+  .gx-btn-magenta {
+    background: linear-gradient(135deg, var(--gx-maxima-magenta), #D41A7A);
     color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 14px 32px;
+    transition: transform 150ms, box-shadow 150ms;
+    box-shadow: 0 4px 16px rgba(255, 45, 149, 0.25);
   }
 
-  /* Hero Section */
-  .quantum-hero {
-    background: linear-gradient(135deg, hsl(225, 40%, 12%) 0%, hsl(225, 35%, 20%) 50%, hsl(225, 30%, 25%) 100%);
+  .gx-btn-magenta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(255, 45, 149, 0.35);
+  }
+
+  /* Hero */
+  .gx-hero {
+    background: linear-gradient(180deg, var(--gx-bg) 0%, var(--gx-surface) 100%);
     position: relative;
     overflow: hidden;
   }
 
-  .quantum-hero::before {
+  .gx-hero::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(ellipse at 30% 50%, rgba(184, 134, 11, 0.08) 0%, transparent 60%);
+    background: radial-gradient(ellipse at 50% 0%, rgba(255, 31, 35, 0.06) 0%, transparent 60%);
     pointer-events: none;
   }
 
-  /* Section Styles */
-  .quantum-section {
-    padding: 80px 0;
-  }
-
-  .quantum-section-alt {
-    padding: 80px 0;
-    background: hsl(40, 25%, 93%);
-  }
-
-  /* Navy Section */
-  .quantum-section-navy {
-    padding: 80px 0;
-    background: linear-gradient(135deg, hsl(225, 40%, 12%) 0%, hsl(225, 35%, 18%) 100%);
-    color: white;
-  }
-
-  .quantum-section-navy h2,
-  .quantum-section-navy h3 {
-    color: white;
-  }
-
-  /* Divider */
-  .quantum-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(38, 76%, 44%, 0.3), transparent);
-  }
-
-  /* Stat Card */
-  .quantum-stat {
+  /* Evidence capsule */
+  .gx-evidence-capsule {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--gx-border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    backdrop-filter: blur(8px);
     text-align: center;
-    padding: 24px;
   }
 
-  .quantum-stat-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
+  .gx-evidence-capsule .counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.25rem;
     font-weight: 700;
-    color: hsl(38, 76%, 44%);
-    line-height: 1;
+    color: var(--gx-max-red);
+    letter-spacing: -0.02em;
   }
 
-  .quantum-stat-label {
-    font-size: 0.875rem;
-    color: hsl(225, 10%, 45%);
-    margin-top: 8px;
+  .gx-evidence-capsule .label {
+    font-size: 0.7rem;
+    color: var(--gx-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
   }
 
-  /* Testimonial */
-  .quantum-testimonial {
-    position: relative;
-    padding: 32px;
-    background: white;
-    border-radius: 12px;
-    border-right: 4px solid hsl(38, 76%, 44%);
-    box-shadow: var(--shadow-sm);
+  /* Glow effects */
+  .gx-glow-red {
+    box-shadow: 0 0 40px rgba(255, 31, 35, 0.15);
   }
 
-  .quantum-testimonial::before {
-    content: '\201D';
-    position: absolute;
-    top: -10px;
-    right: 20px;
-    font-size: 4rem;
-    color: hsl(38, 76%, 44%, 0.2);
-    font-family: 'Playfair Display', serif;
+  .gx-glow-cyan {
+    box-shadow: 0 0 40px rgba(0, 155, 255, 0.15);
+  }
+
+  .gx-glow-magenta {
+    box-shadow: 0 0 40px rgba(255, 45, 149, 0.15);
+  }
+
+  /* Safety gate badge */
+  .gx-safety-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: rgba(255, 31, 35, 0.1);
+    color: var(--gx-max-red);
+    border: 1px solid rgba(255, 31, 35, 0.2);
   }
 
   /* Animations */
   @keyframes fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   @keyframes fade-in {
@@ -295,67 +267,30 @@
     to { opacity: 1; }
   }
 
-  @keyframes slide-right {
-    from {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes gold-shimmer {
-    0% { background-position: -200% center; }
-    100% { background-position: 200% center; }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
   }
 
   .animate-fade-up {
-    animation: fade-up 0.6s var(--ease-quantum) both;
+    animation: fade-up 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) both;
   }
 
   .animate-fade-in {
-    animation: fade-in 0.4s var(--ease-quantum) both;
+    animation: fade-in 0.4s cubic-bezier(0.25, 0.1, 0.25, 1) both;
   }
 
-  .animate-slide-right {
-    animation: slide-right 0.5s var(--ease-quantum) both;
-  }
-
-  /* Gold shimmer on hover for premium feel */
-  .gold-shimmer {
-    background: linear-gradient(90deg, hsl(38, 76%, 44%) 0%, hsl(38, 60%, 65%) 50%, hsl(38, 76%, 44%) 100%);
-    background-size: 200% auto;
-  }
-
-  .gold-shimmer:hover {
-    animation: gold-shimmer 2s linear infinite;
-  }
-
-  /* Stagger children animations */
   .stagger-children > * {
-    animation: fade-up 0.5s var(--ease-quantum) both;
+    animation: fade-up 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) both;
   }
   .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
   .stagger-children > *:nth-child(2) { animation-delay: 100ms; }
   .stagger-children > *:nth-child(3) { animation-delay: 200ms; }
   .stagger-children > *:nth-child(4) { animation-delay: 300ms; }
-  .stagger-children > *:nth-child(5) { animation-delay: 400ms; }
-  .stagger-children > *:nth-child(6) { animation-delay: 500ms; }
 
   /* Scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: hsl(40, 30%, 97%);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: hsl(225, 20%, 70%);
-    border-radius: 4px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(225, 30%, 50%);
-  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--gx-bg); }
+  ::-webkit-scrollbar-thumb { background: var(--gx-border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gx-text-muted); }
 }
