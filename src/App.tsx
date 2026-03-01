@@ -45,9 +45,9 @@ const App = () => (
               <Route path="/results" element={<Results />} />
               <Route path="/maxima" element={<Maxima />} />
               <Route path="/maximo" element={<Maximo />} />
-          <Route path="/maxync" element={<MAXync />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/dashboard" element={<OSDashboard />} />
+              <Route path="/maxync" element={<MAXync />} />
+              <Route path="/onboarding" element={<Onboarding />} />
+              <Route path="/dashboard" element={<OSDashboard />} />
               <Route path="/science" element={<Science />} />
               <Route path="/about" element={<About />} />
               <Route path="/organizations" element={<Organizations />} />
