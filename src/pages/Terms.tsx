@@ -85,8 +85,8 @@ const Terms = () => {
 
           <h2>11. Dispute Resolution</h2>
           <p>
-            Any disputes shall be resolved through binding arbitration in accordance with [Arbitration Rules]. 
-            You waive the right to participate in class actions.
+            Any disputes shall be resolved through binding arbitration in accordance with the rules of 
+            the American Arbitration Association. You waive the right to participate in class actions.
           </p>
 
           <h2>12. Changes to Terms</h2>
@@ -97,16 +97,15 @@ const Terms = () => {
 
           <h2>13. Governing Law</h2>
           <p>
-            These terms are governed by the laws of [Jurisdiction], without regard to conflict of law principles.
+            These terms are governed by the laws of the State of Delaware, United States, without regard 
+            to conflict of law principles.
           </p>
 
           <h2>14. Contact Information</h2>
           <p>
             Questions about these terms? Contact us at:
             <br />
-            Email: legal@genomax.com
-            <br />
-            Address: [Company Address]
+            Email: legal@genomax2.ai
           </p>
         </div>
       </div>
