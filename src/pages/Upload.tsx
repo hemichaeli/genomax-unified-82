@@ -1,14 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Upload as UploadIcon, FileText, Lock, ArrowRight } from "lucide-react";
+import { Upload as UploadIcon, FileText, Lock, ArrowRight, Clock } from "lucide-react";
 import { toast } from "sonner";
 import { CinematicOSHero } from "@/components/os/CinematicOSHero";
+import { useState } from "react";
 
 const Upload = () => {
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
-      toast.success("Blood work uploaded successfully!");
+      setSelectedFiles(Array.from(files));
+      toast.info("File selected. Blood work analysis is launching soon - we'll notify you when it's live.");
     }
   };
 
@@ -24,6 +28,12 @@ const Upload = () => {
             <p className="text-xl md:text-2xl text-muted-foreground">
               We'll analyze your biomarkers and create a personalized, gender-optimized protocol
             </p>
+          </div>
+
+          {/* Early Access Notice */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-os-warning/10 border border-os-warning/20 text-os-warning text-sm font-medium">
+            <Clock className="h-4 w-4" />
+            Blood work analysis launching soon - upload now to join the early access list
           </div>
 
           {/* Upload Card */}
@@ -53,10 +63,24 @@ const Upload = () => {
                 </label>
               </div>
 
-              <Button className="w-full" size="lg">
+              {selectedFiles.length > 0 && (
+                <div className="text-sm text-muted-foreground">
+                  {selectedFiles.map((file, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <FileText className="h-4 w-4" />
+                      {file.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <Button className="w-full" size="lg" disabled>
                 Analyze Blood Work
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
+              <p className="text-xs text-muted-foreground text-center">
+                Analysis engine launching soon. Start your assessment below for an immediate protocol.
+              </p>
             </div>
           </Card>
 
@@ -78,7 +102,7 @@ const Upload = () => {
                 <Lock className="h-8 w-8 text-primary" />
                 <h3 className="text-xl font-semibold">Private & Secure</h3>
                 <p className="text-sm text-muted-foreground">
-                  HIPAA-compliant storage with end-to-end encryption
+                  Encrypted storage with industry-standard security practices
                 </p>
               </Card>
 
