@@ -23,6 +23,7 @@ import Assessment from "./pages/Assessment";
 import ReferralProgram from "./pages/ReferralProgram";
 import NotFound from "./pages/NotFound";
 
+// QUANTUM Real Estate v4.7.3 - Boutique Brokerage
 const queryClient = new QueryClient();
 
 const AppContent = () => {
