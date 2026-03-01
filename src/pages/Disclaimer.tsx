@@ -126,7 +126,7 @@ const Disclaimer = () => {
             If you have medical questions or health concerns, contact your healthcare provider. 
             For questions about our service:
             <br />
-            Email: support@genomax.com
+            Email: support@genomax2.ai
           </p>
         </div>
       </div>
