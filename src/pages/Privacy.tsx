@@ -27,13 +27,13 @@ const Privacy = () => {
             <li>Comply with legal obligations</li>
           </ul>
 
-          <h2>3. HIPAA Compliance</h2>
+          <h2>3. Health Data Security</h2>
           <p>
-            GenoMAX² is HIPAA compliant. Your health information is:
+            GenoMAX² follows industry-standard security practices to protect your health information. Your data is:
           </p>
           <ul>
             <li>Encrypted in transit and at rest</li>
-            <li>Stored on secure, HIPAA-compliant servers</li>
+            <li>Stored on secure, access-controlled servers</li>
             <li>Accessible only to authorized personnel</li>
             <li>Never sold to third parties</li>
             <li>Only used for the purposes you've authorized</li>
@@ -93,9 +93,7 @@ const Privacy = () => {
           <p>
             Questions about this privacy policy or your data? Contact us at:
             <br />
-            Email: privacy@genomax.com
-            <br />
-            Address: [Company Address]
+            Email: privacy@genomax2.ai
           </p>
         </div>
       </div>
