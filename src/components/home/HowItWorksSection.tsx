@@ -11,7 +11,7 @@ export const HowItWorksSection = () => {
     {
       icon: Cpu,
       title: "Analyze",
-      description: "Your biomarkers drive a Gender-Optimized Biological OS tailored to your unique physiology.",
+      description: "Your biomarkers drive a Gender-Specific Biological OS calibrated to your unique physiology.",
       color: "hsl(213 100% 55%)", // primary
     },
     {
@@ -41,7 +41,7 @@ export const HowItWorksSection = () => {
             GENOMAX² builds and MAXimizes your biological Operating System based on gender specific physiology and the way your body handles hormones, metabolism, energy patterns and stress.
           </p>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Three simple steps to your optimized biological protocol
+            Three steps to your precision biological protocol
           </p>
         </div>
 
