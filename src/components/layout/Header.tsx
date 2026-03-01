@@ -28,7 +28,7 @@ export const Header = () => {
               </div>
             </Link>
 
-            {/* Desktop Navigation - Enhanced with MAXync² */}
+            {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8 ml-12 flex-1">
               <Link to="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-[280ms]">
                 Home
@@ -38,6 +38,9 @@ export const Header = () => {
               </Link>
               <Link to="/science" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-[280ms]">
                 Science
+              </Link>
+              <Link to="/pricing" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-[280ms]">
+                Pricing
               </Link>
               <Link to="/shop" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-[280ms]">
                 Shop
@@ -65,7 +68,7 @@ export const Header = () => {
               </Link>
             </nav>
 
-            {/* CTA Buttons - New Hierarchy */}
+            {/* CTA Buttons */}
             <div className="hidden lg:flex items-center space-x-4">
               <CartDrawer />
               {/* Secondary CTA - Start Assessment */}
@@ -80,7 +83,7 @@ export const Header = () => {
                 </button>
               </Link>
 
-              {/* Primary CTA - Upload Bloodwork (Enhanced) */}
+              {/* Primary CTA - Upload Bloodwork */}
               <Link to="/upload">
                 <button
                   className={`upload-blood-work-cta inline-flex items-center justify-center gap-2 rounded-full font-bold text-white transition-all duration-[280ms] active:scale-[0.99] ${
@@ -121,7 +124,7 @@ export const Header = () => {
             </button>
           </div>
 
-          {/* Mobile Menu - Enhanced Overlay */}
+          {/* Mobile Menu */}
           {mobileMenuOpen && (
             <div className="lg:hidden fixed inset-0 top-16 left-0 right-0 bottom-0 z-50 bg-card/98 backdrop-blur-xl border-t border-border animate-fade-in">
               <div className="container mx-auto px-4 py-8 space-y-6">
@@ -145,6 +148,13 @@ export const Header = () => {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Science
+                </Link>
+                <Link 
+                  to="/pricing" 
+                  className="block text-lg font-medium text-foreground hover:text-primary transition-colors duration-[280ms]"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Pricing
                 </Link>
                 <Link 
                   to="/shop" 
