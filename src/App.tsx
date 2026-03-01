@@ -33,7 +33,7 @@ const AppContent = () => {
       <Header />
       <div className="flex flex-1">
         <Sidebar />
-        <main className="flex-grow xl:mr-16">
+        <main className={`flex-grow ${isRTL ? "xl:mr-56" : "xl:ml-56"}`}>
           <ErrorBoundary>
             <Routes>
               <Route path="/" element={<Home />} />
