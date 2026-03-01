@@ -1,207 +1,155 @@
-import { Link } from "react-router-dom";
-import { Menu, X, Upload } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X, Phone, MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
-import { CartDrawer } from "@/components/shop/CartDrawer";
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location]);
+
+  const isActive = (path: string) => location.pathname === path;
+
+  const navLinks = [
+    { path: "/", label: "ראשי" },
+    { path: "/sellers", label: "מוכרים" },
+    { path: "/buyers", label: "קונים" },
+    { path: "/neighborhoods", label: "שכונות" },
+    { path: "/community", label: "קהילה" },
+    { path: "/about", label: "אודות" },
+    { path: "/contact", label: "צור קשר" },
+  ];
+
   return (
     <>
-      <header className={`sticky top-0 z-50 w-full border-b border-border bg-card/50 backdrop-blur-lg transition-all duration-[280ms] ${isScrolled ? 'h-14' : 'h-16'}`}>
+      <header
+        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+          isScrolled
+            ? "bg-white/95 backdrop-blur-md shadow-md h-16"
+            : "bg-white h-20"
+        } border-b border-[hsl(40,15%,88%)]`}
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full">
           <div className="flex h-full items-center justify-between">
             {/* Logo */}
-            <Link to="/" className="flex items-center group">
-              <div className={`font-bold transition-all duration-[280ms] ${isScrolled ? 'text-xl' : 'text-2xl'}`}>
-                <span className="text-foreground">Geno</span>
-                <span className="text-[#FF2A2A] transition-all duration-[280ms] group-hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.6)]">MAX²</span>
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="flex flex-col">
+                <span
+                  className={`font-bold tracking-tight transition-all duration-300 ${
+                    isScrolled ? "text-xl" : "text-2xl"
+                  }`}
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                  <span className="text-[#1A1A3E]">QUANTUM</span>
+                </span>
+                <span className="text-[10px] font-medium tracking-[0.2em] text-[#B8860B] uppercase">
+                  Real Estate
+                </span>
               </div>
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-8 ml-12 flex-1">
-              <Link to="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-[280ms]">
-                Home
-              </Link>
-              <Link to="/about" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-[280ms]">
-                About
-              </Link>
-              <Link to="/science" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-[280ms]">
-                Science
-              </Link>
-              <Link to="/pricing" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-[280ms]">
-                Pricing
-              </Link>
-              <Link to="/shop" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-[280ms]">
-                Shop
-              </Link>
-              <Link 
-                to="/maximo"
-                className="text-sm font-medium text-foreground hover:text-maximo transition-all duration-[280ms] group relative"
-              >
-                <span className="text-[#FF2A2A]">MAX</span>imo²
-                <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-maximo scale-x-0 group-hover:scale-x-100 transition-transform duration-[280ms] origin-left" />
-              </Link>
-              <Link 
-                to="/maxima" 
-                className="text-sm font-medium text-foreground hover:text-maxima transition-all duration-[280ms] group relative"
-              >
-                <span className="text-[#FF2A2A]">MAX</span>ima²
-                <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-maxima scale-x-0 group-hover:scale-x-100 transition-transform duration-[280ms] origin-left" />
-              </Link>
-              <Link 
-                to="/maxync" 
-                className="text-sm font-medium text-foreground hover:text-os-cyan transition-all duration-[280ms] group relative"
-              >
-                <span className="text-[#FF2A2A]">MAX</span>ync²
-                <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-os-cyan scale-x-0 group-hover:scale-x-100 transition-transform duration-[280ms] origin-left" />
-              </Link>
+            <nav className="hidden lg:flex items-center gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    isActive(link.path)
+                      ? "text-[#B8860B] bg-[#B8860B]/5"
+                      : "text-[#1A1A3E]/70 hover:text-[#1A1A3E] hover:bg-[#1A1A3E]/5"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </nav>
 
-            {/* CTA Buttons */}
-            <div className="hidden lg:flex items-center space-x-4">
-              <CartDrawer />
-              {/* Secondary CTA - Start Assessment */}
-              <Link to="/assessment">
-                <button
-                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full border-2 border-os-cyan bg-transparent text-foreground font-bold text-sm transition-all duration-[280ms] hover:translate-y-[-1px] hover:shadow-[0_0_20px_hsl(186_100%_64%/0.3)]"
-                  style={{
-                    minHeight: '44px',
-                  }}
-                >
-                  Start Assessment
-                </button>
-              </Link>
-
-              {/* Primary CTA - Upload Bloodwork */}
-              <Link to="/upload">
-                <button
-                  className={`upload-blood-work-cta inline-flex items-center justify-center gap-2 rounded-full font-bold text-white transition-all duration-[280ms] active:scale-[0.99] ${
-                    isScrolled ? 'px-5 py-2 text-sm' : 'px-7 py-3 text-sm'
-                  }`}
-                  style={{
-                    background: 'linear-gradient(135deg, hsl(186 100% 64%) 0%, hsl(213 100% 55%) 100%)',
-                    boxShadow: isScrolled 
-                      ? '0 2px 8px hsl(225 19% 2% / 0.28)' 
-                      : '0 4px 12px hsl(225 19% 2% / 0.28)',
-                    minHeight: '44px',
-                  }}
-                  aria-label="Upload your blood work for OS analysis"
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 0 24px hsl(186 100% 64% / 0.4), 0 4px 16px hsl(225 19% 2% / 0.5)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = isScrolled 
-                      ? '0 2px 8px hsl(225 19% 2% / 0.28)' 
-                      : '0 4px 12px hsl(225 19% 2% / 0.28)';
-                  }}
-                >
-                  <Upload className={`transition-all duration-[120ms] ${isScrolled ? 'w-4 h-4' : 'w-4 h-4'}`} />
-                  Upload Bloodwork
-                </button>
+            {/* Desktop CTAs */}
+            <div className="hidden lg:flex items-center gap-3">
+              <a
+                href="https://wa.me/972XXXXXXXXX"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 border-[#1A1A3E] text-[#1A1A3E] font-semibold text-sm hover:bg-[#1A1A3E] hover:text-white transition-all duration-200"
+              >
+                <MessageCircle className="w-4 h-4" />
+                WhatsApp
+              </a>
+              <Link
+                to="/contact"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-semibold text-sm transition-all duration-200 hover:translate-y-[-1px]"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #B8860B 0%, #D4A020 100%)",
+                  boxShadow: "0 4px 16px rgba(184, 134, 11, 0.2)",
+                }}
+              >
+                <Phone className="w-4 h-4" />
+                תיאום פגישה
               </Link>
             </div>
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden text-foreground hover:text-primary transition-colors duration-[280ms]"
+              className="lg:hidden text-[#1A1A3E] p-2"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle mobile menu"
+              aria-label="תפריט"
             >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="lg:hidden fixed inset-0 top-16 left-0 right-0 bottom-0 z-50 bg-card/98 backdrop-blur-xl border-t border-border animate-fade-in">
-              <div className="container mx-auto px-4 py-8 space-y-6">
-                <Link 
-                  to="/" 
-                  className="block text-lg font-medium text-foreground hover:text-primary transition-colors duration-[280ms]"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Home
-                </Link>
-                <Link 
-                  to="/about" 
-                  className="block text-lg font-medium text-foreground hover:text-primary transition-colors duration-[280ms]"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  About
-                </Link>
-                <Link 
-                  to="/science" 
-                  className="block text-lg font-medium text-foreground hover:text-primary transition-colors duration-[280ms]"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Science
-                </Link>
-                <Link 
-                  to="/pricing" 
-                  className="block text-lg font-medium text-foreground hover:text-primary transition-colors duration-[280ms]"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Pricing
-                </Link>
-                <Link 
-                  to="/shop" 
-                  className="block text-lg font-medium text-foreground hover:text-primary transition-colors duration-[280ms]"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Shop
-                </Link>
-                <Link 
-                  to="/maximo"
-                  className="block text-lg font-medium text-foreground hover:text-maximo transition-colors duration-[280ms]"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span className="text-[#FF2A2A]">MAX</span>imo²
-                </Link>
-                <Link 
-                  to="/maxima" 
-                  className="block text-lg font-medium text-foreground hover:text-maxima transition-colors duration-[280ms]"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span className="text-[#FF2A2A]">MAX</span>ima²
-                </Link>
-                <Link 
-                  to="/maxync" 
-                  className="block text-lg font-medium text-foreground hover:text-os-cyan transition-colors duration-[280ms]"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span className="text-[#FF2A2A]">MAX</span>ync²
-                </Link>
-
-                {/* Mobile CTAs */}
-                <div className="pt-6 space-y-4 border-t border-border">
-                  <Link to="/assessment" className="block" onClick={() => setMobileMenuOpen(false)}>
-                    <button className="w-full py-3 px-6 rounded-full border-2 border-os-cyan bg-transparent text-foreground font-bold text-sm transition-all duration-[280ms] hover:bg-os-cyan/10">
-                      Start Assessment
-                    </button>
+            <div className="lg:hidden fixed inset-0 top-16 z-50 bg-white animate-fade-in">
+              <div className="container mx-auto px-6 py-8 space-y-2">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className={`block px-4 py-3 text-lg font-medium rounded-lg transition-all ${
+                      isActive(link.path)
+                        ? "text-[#B8860B] bg-[#B8860B]/5"
+                        : "text-[#1A1A3E]/80 hover:bg-[#1A1A3E]/5"
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
                   </Link>
-                  <Link to="/upload" className="block" onClick={() => setMobileMenuOpen(false)}>
-                    <button 
-                      className="w-full py-3 px-6 rounded-full font-bold text-white text-sm transition-all duration-[280ms] hover:opacity-90"
-                      style={{
-                        background: 'linear-gradient(135deg, hsl(186 100% 64%) 0%, hsl(213 100% 55%) 100%)',
-                      }}
-                    >
-                      <Upload className="w-4 h-4 inline mr-2" />
-                      Upload Bloodwork
-                    </button>
+                ))}
+                <div className="pt-6 space-y-3 border-t border-[hsl(40,15%,88%)]">
+                  <a
+                    href="https://wa.me/972XXXXXXXXX"
+                    className="flex items-center justify-center gap-2 w-full py-3 px-6 rounded-lg border-2 border-[#1A1A3E] text-[#1A1A3E] font-semibold"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    WhatsApp
+                  </a>
+                  <Link
+                    to="/contact"
+                    className="flex items-center justify-center gap-2 w-full py-3 px-6 rounded-lg text-white font-semibold"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #B8860B 0%, #D4A020 100%)",
+                    }}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <Phone className="w-5 h-5" />
+                    תיאום פגישה
                   </Link>
                 </div>
               </div>
@@ -210,73 +158,28 @@ export const Header = () => {
         </div>
       </header>
 
-      {/* Mobile Bottom Sticky CTA Bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-lg border-t border-border p-4">
-        <div className="flex gap-3">
-          {/* Secondary CTA */}
-          <Link to="/assessment" className="flex-1">
-            <button
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full border-2 border-os-cyan bg-transparent text-foreground font-bold text-sm transition-all duration-[280ms] active:scale-[0.98]"
-              style={{ minHeight: '44px' }}
-            >
-              Start Assessment
-            </button>
-          </Link>
-          
-          {/* Primary CTA */}
-          <Link to="/upload" className="flex-[1.3]">
-            <button
-              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full font-bold text-white transition-all duration-[280ms] active:scale-[0.98]"
-              style={{
-                background: 'linear-gradient(135deg, #00C3FF 0%, #006AFB 100%)',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.28)',
-                minHeight: '44px',
-              }}
-              aria-label="Upload your blood work for OS analysis"
-            >
-              <Upload className="w-4 h-4" />
-              Upload Blood Work
-            </button>
+      {/* Mobile Bottom CTA */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[hsl(40,15%,88%)] p-3">
+        <div className="flex gap-2">
+          <a
+            href="https://wa.me/972XXXXXXXXX"
+            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg border-2 border-[#1A1A3E] text-[#1A1A3E] font-semibold text-sm"
+          >
+            <MessageCircle className="w-4 h-4" />
+            WhatsApp
+          </a>
+          <Link
+            to="/contact"
+            className="flex-[1.3] flex items-center justify-center gap-2 py-3 rounded-lg text-white font-semibold text-sm"
+            style={{
+              background: "linear-gradient(135deg, #B8860B 0%, #D4A020 100%)",
+            }}
+          >
+            <Phone className="w-4 h-4" />
+            תיאום פגישה
           </Link>
         </div>
       </div>
-
-      {/* CSS for Upload Button Animations */}
-      <style>{`
-        .upload-blood-work-cta:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 0 25px rgba(255, 42, 42, 0.4), 0 6px 16px rgba(0,0,0,0.32);
-        }
-
-        .upload-blood-work-cta:hover svg {
-          animation: icon-pulse 280ms cubic-bezier(0.24, 0.8, 0.44, 1);
-        }
-
-        @keyframes icon-pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.15); }
-        }
-
-        /* Subtle 7-second pulse */
-        @keyframes cta-pulse {
-          0%, 100% { 
-            opacity: 1;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.28), 0 0 0px rgba(0, 195, 255, 0);
-          }
-          50% { 
-            opacity: 1;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.28), 0 0 18px rgba(0, 195, 255, 0.35);
-          }
-        }
-
-        .upload-blood-work-cta {
-          animation: cta-pulse 7s ease-in-out infinite;
-        }
-
-        .upload-blood-work-cta:hover svg {
-          transform: scale(1.03);
-        }
-      `}</style>
     </>
   );
 };
