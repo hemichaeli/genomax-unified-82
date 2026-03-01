@@ -1,169 +1,131 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Building2, Globe, Users, Shield, TrendingUp, Star, ChevronLeft } from "lucide-react";
+import { ArrowRight, Shield, Beaker, Clock, Activity } from "lucide-react";
 
 const Home = () => {
   return (
-    <div className="min-h-screen">
-      <section className="quantum-hero min-h-[85vh] flex items-center relative">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <div style={{ width: 60, height: 3, background: 'linear-gradient(90deg, #B8860B, #D4A020)', margin: '0 auto' }} />
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-              אנחנו לא מחפשים נכסים.
-              <br />
-              <span className="text-[#B8860B]">אנחנו יודעים על נכסים</span>
-              <br />
-              שאחרים אפילו לא יודעים שקיימים.
-            </h1>
-            <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
-              משרד תיווך בוטיק לפינוי-בינוי. מח חד, הבנה עמוקה, ויחס אישי שגורם לכל לקוח להרגיש כמו בן יחיד.
-            </p>
-            <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto pt-6">
-              <Link to="/sellers" className="group relative overflow-hidden rounded-xl p-8 text-right transition-all duration-300 hover:translate-y-[-4px]" style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}>
-                <div className="space-y-3">
-                  <Building2 className="w-8 h-8 text-[#B8860B]" />
-                  <h3 className="text-xl font-bold text-white">אני רוצה למכור</h3>
-                  <p className="text-sm text-white/60 leading-relaxed">יש לנו קונים שאתה אפילו לא יודע שהם קיימים. מישראל ומכל העולם.</p>
-                  <div className="flex items-center gap-2 text-[#B8860B] text-sm font-medium pt-2">
-                    <span>למוכרים</span>
-                    <ArrowLeft className="w-4 h-4 group-hover:translate-x-[-4px] transition-transform" />
-                  </div>
-                </div>
-              </Link>
-              <Link to="/buyers" className="group relative overflow-hidden rounded-xl p-8 text-right transition-all duration-300 hover:translate-y-[-4px]" style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}>
-                <div className="space-y-3">
-                  <Globe className="w-8 h-8 text-[#B8860B]" />
-                  <h3 className="text-xl font-bold text-white">אני רוצה לקנות</h3>
-                  <p className="text-sm text-white/60 leading-relaxed">גישה להזדמנויות לפני השוק. מוכרים במצוקה, כינוסים, ירושות.</p>
-                  <div className="flex items-center gap-2 text-[#B8860B] text-sm font-medium pt-2">
-                    <span>לקונים</span>
-                    <ArrowLeft className="w-4 h-4 group-hover:translate-x-[-4px] transition-transform" />
-                  </div>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-24" style={{ background: "linear-gradient(to top, hsl(40, 30%, 97%), transparent)" }} />
-      </section>
-
-      <section className="py-12 bg-white border-b border-[hsl(40,15%,88%)]">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { number: "696+", label: "מתחמי פינוי-בינוי במעקב" },
-              { number: "15%", label: "מתחת למחיר השוק בממוצע" },
-              { number: "98%", label: "שביעות רצון לקוחות" },
-              { number: "24/7", label: "זמינות מלאה" },
-            ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-[#B8860B]" style={{ fontFamily: "'Playfair Display', serif" }}>{stat.number}</div>
-                <div className="text-sm text-[#1A1A3E]/60 mt-2">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="quantum-section">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div style={{ width: 60, height: 3, background: 'linear-gradient(90deg, #B8860B, #D4A020)', margin: '0 auto 24px' }} />
-            <h2 className="text-3xl md:text-4xl font-bold mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>למה QUANTUM?</h2>
-            <p className="text-lg text-[#1A1A3E]/60 leading-relaxed">רוב המתווכים ממתינים שנכס יעלה לפרסום ואז רצים עליו עם כולם. אנחנו יודעים על נכסים חודשים לפני - ומחברים בין המוכר הנכון לקונה הנכון.</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { icon: TrendingUp, title: "מח חד", desc: "אנחנו קוראים את השוק כמו שאף אחד אחר לא קורא. אישור ועדה פה, מוכר שמוריד מחיר בפעם השלישית שם - אנחנו שמים לב לדברים שאחרים מפספסים." },
-              { icon: Shield, title: "נכסים סודיים", desc: "מוכרים במצוקה, כינוסי נכסים שעדיין לא פורסמו, ירושות שהמשפחה רוצה לסגור בשקט. גישה שאין לאף משרד תיווך אחר." },
-              { icon: Users, title: "בן יחיד", desc: "כל לקוח שלנו מקבל יחס אישי מלא. אנחנו לא עובדים עם מאות לקוחות. אנחנו עובדים עם הלקוחות הנכונים ונותנים להם את כל תשומת הלב." },
-            ].map((item, i) => (
-              <div key={i} className="quantum-card p-8 text-right">
-                <item.icon className="w-10 h-10 text-[#B8860B] mb-4" />
-                <h3 className="text-xl font-bold text-[#1A1A3E] mb-3">{item.title}</h3>
-                <p className="text-[#1A1A3E]/60 leading-relaxed text-sm">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="quantum-section-alt">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="space-y-6">
-              <div style={{ width: 60, height: 3, background: 'linear-gradient(90deg, #B8860B, #D4A020)' }} />
-              <h2 className="text-3xl md:text-4xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>למוכרים: יש לנו קונים שאתה לא יודע שהם קיימים</h2>
-              <p className="text-[#1A1A3E]/60 leading-relaxed">בזמן שמתווכים אחרים מפרסמים מודעות ומחכים, אנחנו מחוברים לרשת קונים גלובלית של יהודים מכל העולם שמחפשים נכס בישראל.</p>
-              <Link to="/sellers" className="inline-flex items-center gap-2 quantum-btn-navy text-sm">
-                <span>מה QUANTUM יכול לעשות בשבילך</span>
-                <ChevronLeft className="w-4 h-4" />
-              </Link>
-            </div>
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-[hsl(40,15%,88%)]">
-              <div className="space-y-4">
-                {["חיבור לקונים גלובליים מ-7+ מדינות", "מכירה מהירה יותר ב-60% מהממוצע", "מחיר גבוה יותר בזכות תחרות בין קונים", "תיווך מלא מהפגישה ועד החתימה", "ליווי משפטי ומקצועי לאורך כל הדרך"].map((item, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-[#B8860B]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Star className="w-3 h-3 text-[#B8860B]" />
-                    </div>
-                    <span className="text-sm text-[#1A1A3E]/80">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="quantum-section-navy">
+    <div className="min-h-screen bg-[#05070A]">
+      {/* Hero */}
+      <section className="gx-hero pt-32 pb-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="max-w-3xl mx-auto space-y-8">
-            <div style={{ width: 60, height: 3, background: 'linear-gradient(90deg, #B8860B, #D4A020)', margin: '0 auto' }} />
-            <h2 className="text-3xl md:text-4xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>אסטרטגיית שכנות: לא רק דירה, קהילה שלמה</h2>
-            <p className="text-white/60 leading-relaxed text-lg">תארו לעצמכם שאתם עולים חדשים ויודעים מראש שהשכנים שלכם בבניין החדש הם משפחות מרקע דומה, שמדברים את השפה שלכם.</p>
-            <Link to="/community" className="inline-flex items-center gap-2 quantum-btn-gold text-sm">
-              <span>גלו את אסטרטגיית השכנות</span>
-              <ChevronLeft className="w-4 h-4" />
+          <div className="gx-safety-badge mx-auto w-fit mb-6">
+            <Activity className="w-3 h-3" />
+            <span>Gender-Optimized Biological Operating System</span>
+          </div>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
+            Your Blood Speaks.
+            <br />
+            <span className="text-[#FF1F23]">We Listen.</span>
+            <br />
+            Your Protocol Follows.
+          </h1>
+          <p className="text-lg text-[#6B7A90] max-w-2xl mx-auto mb-10">
+            GenoMAX&#178; is the first Biological Operating System that reads your blood chemistry, applies gender-specific clinical intelligence, and outputs a deterministic supplement protocol calibrated to your biology.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/assessment" className="gx-btn-primary flex items-center gap-2 justify-center">
+              Initialize Your Protocol <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link to="/science" className="gx-btn-outline flex items-center gap-2 justify-center">
+              Read the Science
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="quantum-section">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div style={{ width: 60, height: 3, background: 'linear-gradient(90deg, #B8860B, #D4A020)', margin: '0 auto 24px' }} />
-            <h2 className="text-3xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>מה הלקוחות שלנו אומרים</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { text: "הם ידעו על הנכס הזה לפני שהוא בכלל עלה לשוק. סגרתי עסקה 20% מתחת למחיר השוק.", name: "יוסי כ.", role: "משקיע, תל אביב" },
-              { text: "As an American Jew buying in Israel, QUANTUM made the entire process feel personal and safe.", name: "Sarah L.", role: "Buyer, New York" },
-              { text: "QUANTUM הציעו לנו למכור ברגע שהוועדה אישרה. קיבלנו 15% יותר ממה שחשבנו.", name: "רחל ודוד מ.", role: "מוכרים, בת ים" },
-            ].map((t, i) => (
-              <div key={i} className="quantum-testimonial">
-                <p className="text-[#1A1A3E]/70 leading-relaxed text-sm mb-4">{t.text}</p>
-                <div className="border-t border-[hsl(40,15%,88%)] pt-4">
-                  <p className="font-semibold text-[#1A1A3E] text-sm">{t.name}</p>
-                  <p className="text-xs text-[#1A1A3E]/50">{t.role}</p>
-                </div>
-              </div>
-            ))}
+      {/* Evidence Bar */}
+      <section className="py-8 border-y" style={{ background: "#080B10", borderColor: "rgba(255,255,255,0.06)" }}>
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div><div className="font-mono text-2xl font-bold text-white">41</div><div className="text-xs text-[#6B7A90] mt-1">Biomarkers Processed</div></div>
+            <div><div className="font-mono text-2xl font-bold text-white">31</div><div className="text-xs text-[#6B7A90] mt-1">Safety Gates</div></div>
+            <div><div className="font-mono text-2xl font-bold text-white">524,592+</div><div className="text-xs text-[#6B7A90] mt-1">Participants Analyzed</div></div>
+            <div><div className="font-mono text-2xl font-bold text-[#FF1F23]">0</div><div className="text-xs text-[#6B7A90] mt-1">Commercial Overrides</div></div>
           </div>
         </div>
       </section>
 
-      <section className="quantum-section-alt">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="max-w-2xl mx-auto space-y-8">
-            <h2 className="text-3xl md:text-4xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>מוכנים להתחיל?</h2>
-            <p className="text-[#1A1A3E]/60 text-lg">ב-QUANTUM, אתה לא עוד לקוח. אתה הלקוח היחיד.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/contact" className="quantum-btn-gold text-center">תיאום פגישת ייעוץ חינם</Link>
-              <Link to="/neighborhoods" className="quantum-btn-outline text-center">גלו את ההזדמנויות</Link>
+      {/* POV Pillars */}
+      <section className="gx-section">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-white" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Why the Old Way is Broken</h2>
+            <p className="text-[#6B7A90] mt-4 max-w-2xl mx-auto">The $46 billion supplement industry is built on guesswork. GenoMAX&#178; replaces it with deterministic biology.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="gx-card p-8">
+              <Beaker className="w-8 h-8 text-[#FF1F23] mb-4" />
+              <h3 className="text-lg font-bold text-white mb-3">DNA Testing is Clinically Useless</h3>
+              <p className="text-sm text-[#6B7A90] leading-relaxed">524,592+ clinical trial participants prove DNA-based nutrition provides 0% additional benefit. Blood biomarkers provide real-time, actionable data.</p>
+            </div>
+            <div className="gx-card p-8">
+              <Shield className="w-8 h-8 text-[#009BFF] mb-4" />
+              <h3 className="text-lg font-bold text-white mb-3">Unisex Ignores Biology</h3>
+              <p className="text-sm text-[#6B7A90] leading-relaxed">Iron metabolism, hormonal cycling, thyroid sensitivity differ between sexes. One-protocol-fits-all is the nutritional equivalent of universal eyeglasses.</p>
+            </div>
+            <div className="gx-card p-8">
+              <Clock className="w-8 h-8 text-[#FFD600] mb-4" />
+              <h3 className="text-lg font-bold text-white mb-3">Wrong Timing Wastes Everything</h3>
+              <p className="text-sm text-[#6B7A90] leading-relaxed">Iron blocks zinc. Calcium competes with magnesium. Fat-soluble vitamins need fat. The dosing schedule is clinical, not convenience.</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Gender OS Tiles */}
+      <section className="gx-section-surface">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Two Operating Systems. One Standard.</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <Link to="/maximo" className="gx-card p-8 text-center group hover:border-[#009BFF]/40 transition-colors" style={{ borderColor: "rgba(0, 155, 255, 0.15)" }}>
+              <div className="text-2xl font-bold text-[#009BFF] mb-2" style={{ fontFamily: "'Inter Tight', sans-serif" }}>MAXimo&#178;</div>
+              <div className="text-xs font-mono text-[#6B7A90] uppercase tracking-wider mb-4">Male-Optimized BioOS</div>
+              <p className="text-sm text-[#6B7A90]">Testosterone optimization, prostate biomarkers, male iron metabolism, non-menstruating calibration.</p>
+              <div className="mt-4 text-xs text-[#009BFF] group-hover:underline">Explore MAXimo&#178; &rarr;</div>
+            </Link>
+            <Link to="/maxima" className="gx-card p-8 text-center group hover:border-[#FF2D95]/40 transition-colors" style={{ borderColor: "rgba(255, 45, 149, 0.15)" }}>
+              <div className="text-2xl font-bold text-[#FF2D95] mb-2" style={{ fontFamily: "'Inter Tight', sans-serif" }}>MAXima&#178;</div>
+              <div className="text-xs font-mono text-[#6B7A90] uppercase tracking-wider mb-4">Female-Optimized BioOS</div>
+              <p className="text-sm text-[#6B7A90]">Hormonal cycle awareness, thyroid sensitivity, female iron metabolism, pregnancy safety gates.</p>
+              <div className="mt-4 text-xs text-[#FF2D95] group-hover:underline">Explore MAXima&#178; &rarr;</div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="gx-section">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold text-white mb-12" style={{ fontFamily: "'Inter Tight', sans-serif" }}>How It Works</h2>
+          <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {[
+              { step: "01", title: "Blood Work", desc: "Upload existing results or order a kit. The Bloodwork Engine needs your data." },
+              { step: "02", title: "41 Biomarkers", desc: "Processed through 31 safety gates across 3 tiers. No shortcuts. No overrides." },
+              { step: "03", title: "Your Protocol", desc: "Gender-specific modules with chronobiology-based dosing: morning, midday, evening." },
+              { step: "04", title: "Track + Retest", desc: "Quarterly retesting shows measurable improvement. Your protocol evolves with your biology." },
+            ].map((item) => (
+              <div key={item.step} className="gx-card p-6">
+                <div className="font-mono text-2xl font-bold text-[#FF1F23] mb-3">{item.step}</div>
+                <h3 className="text-sm font-bold text-white mb-2">{item.title}</h3>
+                <p className="text-xs text-[#6B7A90] leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-12">
+            <Link to="/assessment" className="gx-btn-primary inline-flex items-center gap-2">
+              Initialize Your Protocol <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
+      <section className="gx-section-surface text-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Blood Does Not Negotiate.</h2>
+          <p className="text-[#6B7A90] mb-8">Neither should your supplement protocol.</p>
+          <Link to="/pricing" className="gx-btn-outline inline-block">View Pricing</Link>
         </div>
       </section>
     </div>
