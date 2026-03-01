@@ -13,23 +13,23 @@ const Maxima = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-maxima/10 text-maxima text-sm font-medium">
-              Female-Optimized Protocol
+              Female-Specific Protocol
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold">
               <BrandText variant="maxima" />
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-              Optimize hormones, cycle, energy, and vitality with protocols built for female biology
+              Calibrate hormones, cycle, energy, and vitality with protocols built for female biology
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/upload?gender=female&source=maxima">
+              <Link to="/assessment?gender=maxima">
                 <Button size="lg" className="bg-maxima hover:bg-maxima/90 text-maxima-foreground">
                   Build My <BrandText variant="maxima" /> Protocol
                 </Button>
               </Link>
-              <Link to="/assessment/maxima">
+              <Link to="/upload?gender=female&source=maxima">
                 <Button size="lg" variant="outline" className="border-maxima/20 hover:border-maxima">
-                  Start Assessment
+                  Upload Blood Work
                 </Button>
               </Link>
             </div>
@@ -59,7 +59,7 @@ const Maxima = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
-              Female-Specific Optimization
+              Female-Specific Calibration
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <Card className="p-6 space-y-4 transition-all duration-[280ms] hover:border-maxima/40 hover:-translate-y-1 hover:shadow-[0_0_25px_hsl(330_100%_68%/0.35)] animate-card-snap" style={{ animationDelay: "0ms" }}>
@@ -68,7 +68,7 @@ const Maxima = () => {
                 </div>
                 <h3 className="text-xl font-semibold">Hormone Balance</h3>
                 <p className="text-sm text-muted-foreground">
-                  Cycle-aware supplementation supporting estrogen and progesterone optimization
+                  Cycle-aware supplementation supporting estrogen and progesterone regulation
                 </p>
               </Card>
 
@@ -88,7 +88,7 @@ const Maxima = () => {
                 </div>
                 <h3 className="text-xl font-semibold">Bone Health</h3>
                 <p className="text-sm text-muted-foreground">
-                  Calcium, vitamin D3, and K2 optimization for long-term skeletal integrity
+                  Calcium, vitamin D3, and K2 calibration for long-term skeletal integrity
                 </p>
               </Card>
 
@@ -123,30 +123,30 @@ const Maxima = () => {
               <Card className="p-8">
                 <h3 className="text-2xl font-semibold mb-4">Foundation Layer</h3>
                 <ul className="space-y-3 text-muted-foreground">
-                  <li>• Vitamin D3 + K2 for bone health and immune function</li>
-                  <li>• Omega-3 (EPA/DHA) for inflammation control and cardiovascular health</li>
-                  <li>• Magnesium glycinate for muscle function and sleep quality</li>
-                  <li>• Methylated B-complex for energy and methylation support</li>
+                  <li>Vitamin D3 + K2 for bone health and immune function</li>
+                  <li>Omega-3 (EPA/DHA) for inflammation control and cardiovascular health</li>
+                  <li>Magnesium glycinate for muscle function and sleep quality</li>
+                  <li>Methylated B-complex for energy and methylation support</li>
                 </ul>
               </Card>
 
               <Card className="p-8">
                 <h3 className="text-2xl font-semibold mb-4">Female-Specific Layer</h3>
                 <ul className="space-y-3 text-muted-foreground">
-                  <li>• Iron bisglycinate (if ferritin below optimal)</li>
-                  <li>• Vitamin C for iron absorption enhancement</li>
-                  <li>• Calcium citrate for bone density support</li>
-                  <li>• Folate (methylated form) for reproductive health</li>
+                  <li>Iron bisglycinate (if ferritin below threshold)</li>
+                  <li>Vitamin C for iron absorption enhancement</li>
+                  <li>Calcium citrate for bone density support</li>
+                  <li>Folate (methylated form) for reproductive health</li>
                 </ul>
               </Card>
 
               <Card className="p-8">
                 <h3 className="text-2xl font-semibold mb-4">Precision Layer</h3>
                 <ul className="space-y-3 text-muted-foreground">
-                  <li>• CoQ10 for cellular energy and cardiovascular support</li>
-                  <li>• Zinc for immune function and hormone regulation</li>
-                  <li>• Probiotic blend for gut and immune health</li>
-                  <li>• Selenium for thyroid support (when indicated by biomarkers)</li>
+                  <li>CoQ10 for cellular energy and cardiovascular support</li>
+                  <li>Zinc for immune function and hormone regulation</li>
+                  <li>Probiotic blend for gut and immune health</li>
+                  <li>Selenium for thyroid support (when indicated by biomarkers)</li>
                 </ul>
               </Card>
             </div>
@@ -165,14 +165,14 @@ const Maxima = () => {
               Upload your blood work or complete our assessment
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/upload?gender=female&source=maxima">
+              <Link to="/assessment?gender=maxima">
                 <Button size="lg" className="bg-maxima hover:bg-maxima/90 text-maxima-foreground">
                   Build My <BrandText variant="maxima" /> Protocol
                 </Button>
               </Link>
-              <Link to="/assessment">
+              <Link to="/upload?gender=female&source=maxima">
                 <Button size="lg" variant="outline">
-                  Start Assessment
+                  Upload Blood Work
                 </Button>
               </Link>
             </div>
