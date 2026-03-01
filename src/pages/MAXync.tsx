@@ -13,7 +13,7 @@ import {
   TrendingUp
 } from "lucide-react";
 import { CinematicOSHero } from "@/components/os/CinematicOSHero";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { OSStatusBar } from "@/components/maxync/OSStatusBar";
 import { StreakTracker } from "@/components/maxync/StreakTracker";
 import { ModuleCard } from "@/components/maxync/ModuleCard";
@@ -93,18 +93,37 @@ const MAXync = () => {
     }
   ];
 
-  const weekDays = [
-    { day: "Mon", completion: 85, date: "Dec 11" },
-    { day: "Tue", completion: 100, date: "Dec 12" },
-    { day: "Wed", completion: 70, date: "Dec 13" },
-    { day: "Thu", completion: 100, date: "Dec 14" },
-    { day: "Fri", completion: 90, date: "Dec 15" },
-    { day: "Sat", completion: 100, date: "Dec 16" },
-    { day: "Today", completion: todayCompletion, date: "Dec 17", isToday: true }
-  ];
+  // Dynamic week days based on current date
+  const weekDays = useMemo(() => {
+    const today = new Date();
+    const dayOfWeek = today.getDay(); // 0=Sun, 1=Mon...
+    const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + mondayOffset);
+
+    const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const sampleCompletions = [85, 100, 70, 100, 90, 100];
+
+    return dayNames.map((name, i) => {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + i);
+      const isToday = date.toDateString() === today.toDateString();
+      const isPast = date < today && !isToday;
+      const isFuture = date > today;
+      const monthDay = `${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}`;
+
+      return {
+        day: isToday ? "Today" : name,
+        date: monthDay,
+        completion: isToday ? todayCompletion : (isPast ? sampleCompletions[i] || 80 : 0),
+        isToday,
+        isFuture,
+      };
+    });
+  }, [todayCompletion]);
 
   const getCompletionColor = (completion: number) => {
-    if (completion >= 70) return "hsl(186 100% 64%)";
+    if (completion >= 70) return "hsl(197 100% 47%)";
     if (completion >= 30) return "hsl(40 100% 60%)";
     return "hsl(354 100% 62%)";
   };
@@ -194,7 +213,7 @@ const MAXync = () => {
                     cx="64"
                     cy="64"
                     r="56"
-                    stroke="hsl(186 100% 64%)"
+                    stroke="hsl(197 100% 47%)"
                     strokeWidth="8"
                     fill="none"
                     strokeDasharray={351.86}
@@ -202,7 +221,7 @@ const MAXync = () => {
                     strokeLinecap="round"
                     className="transition-all duration-[650ms] ease-out"
                     style={{
-                      filter: "drop-shadow(0 0 12px hsl(186 100% 64% / 0.4))"
+                      filter: "drop-shadow(0 0 12px hsl(197 100% 47% / 0.4))"
                     }}
                   />
                 </svg>
@@ -212,7 +231,7 @@ const MAXync = () => {
                 <div 
                   className="absolute inset-0 rounded-full opacity-20 animate-os-breathing"
                   style={{
-                    background: "radial-gradient(circle, hsl(186 100% 64%) 0%, transparent 70%)"
+                    background: "radial-gradient(circle, hsl(197 100% 47%) 0%, transparent 70%)"
                   }}
                 />
               </div>
@@ -251,18 +270,20 @@ const MAXync = () => {
                     <div 
                       className="w-full h-20 rounded-lg border-2 transition-all duration-300 relative overflow-hidden"
                       style={{
-                        borderColor: getCompletionColor(day.completion),
-                        backgroundColor: `${getCompletionColor(day.completion)}15`
+                        borderColor: day.isFuture ? "hsl(var(--border))" : getCompletionColor(day.completion),
+                        backgroundColor: day.isFuture ? "transparent" : `${getCompletionColor(day.completion)}15`
                       }}
                     >
-                      <div 
-                        className="absolute bottom-0 left-0 right-0 transition-all duration-500"
-                        style={{
-                          height: `${day.completion}%`,
-                          backgroundColor: getCompletionColor(day.completion),
-                          opacity: 0.6
-                        }}
-                      />
+                      {!day.isFuture && (
+                        <div 
+                          className="absolute bottom-0 left-0 right-0 transition-all duration-500"
+                          style={{
+                            height: `${day.completion}%`,
+                            backgroundColor: getCompletionColor(day.completion),
+                            opacity: 0.6
+                          }}
+                        />
+                      )}
                       {day.isToday && (
                         <div className="absolute inset-0 animate-os-glow-pulse" 
                           style={{ 
@@ -271,7 +292,7 @@ const MAXync = () => {
                         />
                       )}
                     </div>
-                    <div className="text-xs font-bold">{day.completion}%</div>
+                    <div className="text-xs font-bold">{day.isFuture ? "-" : `${day.completion}%`}</div>
                   </div>
                 ))}
               </div>
