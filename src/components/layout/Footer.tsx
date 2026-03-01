@@ -1,72 +1,60 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
-import { useLanguage } from "@/i18n/LanguageContext";
-
-const WA = "972547669985";
 
 export const Footer = () => {
-  const { t } = useLanguage();
-  const nav = [
-    { to: "/sellers", label: t("nav_sellers") },
-    { to: "/buyers", label: t("nav_buyers") },
-    { to: "/services", label: t("nav_services") },
-    { to: "/neighborhoods", label: t("nav_neighborhoods") },
-    { to: "/about", label: t("nav_about") },
-    { to: "/assessment", label: t("assessment_title") },
-    { to: "/referral", label: "Referral" },
-  ];
-
   return (
-    <footer className="bg-[#1A1A3E] text-white pb-20 lg:pb-0">
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+    <footer className="border-t" style={{ background: "#05070A", borderColor: "rgba(255,255,255,0.06)" }}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid md:grid-cols-4 gap-12">
           <div className="space-y-4">
-            <span className="text-2xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>QUANTUM</span>
-            <div className="text-[10px] tracking-[0.2em] text-[#B8860B] uppercase">Real Estate</div>
-            <p className="text-white/60 text-sm">{t("footer_tagline")}</p>
+            <div className="flex items-center gap-1">
+              <span className="text-white font-bold text-xl" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Geno</span>
+              <span className="text-[#FF1F23] font-bold text-xl" style={{ fontFamily: "'Inter Tight', sans-serif" }}>MAX</span>
+              <span className="text-white font-bold text-sm align-super">2</span>
+            </div>
+            <p className="text-sm text-[#6B7A90] leading-relaxed">
+              Your blood speaks. We listen. Your protocol follows.
+            </p>
+            <p className="text-xs text-[#6B7A90]/60">
+              Gender-Optimized Biological Operating System
+            </p>
           </div>
+
           <div>
-            <h3 className="font-semibold text-[#B8860B] mb-4 text-sm">{t("footer_nav")}</h3>
-            <ul className="space-y-3 text-sm">
-              {nav.map((l) => (
-                <li key={l.to}>
-                  <Link to={l.to} className="text-white/60 hover:text-[#B8860B]">{l.label}</Link>
-                </li>
-              ))}
-            </ul>
+            <h4 className="text-xs font-mono text-white uppercase tracking-wider mb-4">Platform</h4>
+            <div className="space-y-2">
+              <Link to="/science" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">Science</Link>
+              <Link to="/maximo" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">MAXimo&#178;</Link>
+              <Link to="/maxima" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">MAXima&#178;</Link>
+              <Link to="/maxync" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">MAXync&#178;</Link>
+              <Link to="/compare" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">Compare</Link>
+            </div>
           </div>
+
           <div>
-            <h3 className="font-semibold text-[#B8860B] mb-4 text-sm">{t("footer_contact")}</h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-center gap-3 text-white/60">
-                <Phone className="w-4 h-4 text-[#B8860B]" />
-                <a href={`tel:+${WA}`} dir="ltr">+972-54-766-9985</a>
-              </li>
-              <li className="flex items-center gap-3 text-white/60">
-                <MessageCircle className="w-4 h-4 text-[#B8860B]" />
-                <a href={`https://wa.me/${WA}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
-              </li>
-              <li className="flex items-center gap-3 text-white/60">
-                <Mail className="w-4 h-4 text-[#B8860B]" />
-                <a href="mailto:info@quantum-re.co.il">info@quantum-re.co.il</a>
-              </li>
-              <li className="flex items-center gap-3 text-white/60">
-                <MapPin className="w-4 h-4 text-[#B8860B]" />Israel
-              </li>
-            </ul>
+            <h4 className="text-xs font-mono text-white uppercase tracking-wider mb-4">Company</h4>
+            <div className="space-y-2">
+              <Link to="/about" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">About</Link>
+              <Link to="/pricing" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">Pricing</Link>
+              <Link to="/organizations" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">Organizations</Link>
+              <Link to="/referral" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">Referral Program</Link>
+              <Link to="/faq" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">FAQ</Link>
+              <Link to="/contact" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">Contact</Link>
+            </div>
           </div>
+
           <div>
-            <h3 className="font-semibold text-[#B8860B] mb-4 text-sm">{t("footer_legal")}</h3>
-            <ul className="space-y-3 text-sm">
-              <li><Link to="/privacy" className="text-white/60 hover:text-[#B8860B]">Privacy</Link></li>
-              <li><Link to="/terms" className="text-white/60 hover:text-[#B8860B]">Terms</Link></li>
-              <li><Link to="/faq" className="text-white/60 hover:text-[#B8860B]">FAQ</Link></li>
-            </ul>
+            <h4 className="text-xs font-mono text-white uppercase tracking-wider mb-4">Legal</h4>
+            <div className="space-y-2">
+              <Link to="/privacy" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">Privacy Policy</Link>
+              <Link to="/terms" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">Terms of Service</Link>
+              <Link to="/disclaimer" className="block text-sm text-[#6B7A90] hover:text-white transition-colors">Medical Disclaimer</Link>
+            </div>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-white/10 text-center text-sm text-white/40">
-          <p>&copy; {new Date().getFullYear()} {t("footer_rights")}</p>
-          <p className="mt-2 text-xs italic">{t("footer_only_client")}</p>
+
+        <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-[#6B7A90]/50">&copy; {new Date().getFullYear()} GenoMAX&#178;. All rights reserved.</p>
+          <p className="text-xs text-[#6B7A90]/40 font-mono">Blood does not negotiate.</p>
         </div>
       </div>
     </footer>
