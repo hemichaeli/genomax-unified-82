@@ -21,7 +21,7 @@ export const FloatingAIChat = () => {
     if (isOpen && messages.length === 0) {
       setMessages([{
         role: 'assistant',
-        content: `Hi! I'm your GenoMAX² AI Advisor, trained on 524,592+ clinical data points.\n\nI can explain:\n• Why we DON'T use DNA testing (based on our research)\n• Which blood biomarkers actually matter\n• Evidence-based supplement protocols\n• Gender-specific optimization\n\nWhat would you like to know?`
+        content: `Hi! I'm your GenoMAX² AI Advisor, trained on 524,592+ clinical data points.\n\nI can explain:\n• Why we DON'T use DNA testing (based on our research)\n• Which blood biomarkers actually matter\n• Evidence-based supplement protocols\n• Gender-specific calibration\n\nWhat would you like to know?`
       }]);
     }
   }, [isOpen, messages.length]);
@@ -73,7 +73,7 @@ export const FloatingAIChat = () => {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-r from-purple-600 to-fuchsia-600 rounded-full shadow-2xl hover:shadow-fuchsia-500/50 transition-all duration-300 flex items-center justify-center group"
+        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-r from-primary to-os-cyan rounded-full shadow-2xl hover:shadow-primary/50 transition-all duration-[280ms] flex items-center justify-center group"
         aria-label="Open AI Chat"
       >
         {isOpen ? (
@@ -81,7 +81,7 @@ export const FloatingAIChat = () => {
         ) : (
           <div className="relative">
             <MessageCircle className="w-8 h-8 text-white" />
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-os-success rounded-full animate-pulse" />
           </div>
         )}
       </button>
@@ -90,16 +90,16 @@ export const FloatingAIChat = () => {
       {isOpen && (
         <div className="fixed top-4 bottom-24 left-4 right-4 md:top-auto md:bottom-24 md:right-6 md:left-auto z-50 w-auto md:w-96 md:h-[600px] bg-background border border-border rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4">
           {/* Header */}
-          <div className="bg-gradient-to-r from-purple-600 to-fuchsia-600 p-4 rounded-t-2xl">
+          <div className="bg-gradient-to-r from-primary to-os-cyan p-4 rounded-t-2xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-white" />
                 <div>
                   <h3 className="text-white font-bold text-lg">AI Advisor</h3>
-                  <p className="text-purple-100 text-xs">Trained on 524,592+ data points</p>
+                  <p className="text-white/70 text-xs">Trained on 524,592+ data points</p>
                 </div>
               </div>
-              <div className="w-3 h-3 bg-green-400 rounded-full" />
+              <div className="w-3 h-3 bg-os-success rounded-full" />
             </div>
           </div>
 
@@ -109,7 +109,7 @@ export const FloatingAIChat = () => {
               <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-[85%] ${
                   msg.role === 'user'
-                    ? 'bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white'
+                    ? 'bg-gradient-to-r from-primary to-os-cyan text-white'
                     : 'bg-muted text-foreground'
                 } p-3 rounded-2xl ${
                   msg.role === 'user' 
@@ -126,10 +126,10 @@ export const FloatingAIChat = () => {
 
                   {msg.references && msg.references.length > 0 && (
                     <div className="mt-2 pt-2 border-t border-primary/20 text-xs opacity-80">
-                      <div className="font-bold mb-1">📚 Research:</div>
+                      <div className="font-bold mb-1">Research:</div>
                       {msg.references.map((ref: any, i: number) => (
                         <div key={i} className="mb-1">
-                          • {ref.name} {ref.participants && `(n=${ref.participants.toLocaleString()})`}
+                          {ref.name} {ref.participants && `(n=${ref.participants.toLocaleString()})`}
                         </div>
                       ))}
                     </div>
@@ -187,7 +187,7 @@ export const FloatingAIChat = () => {
               <button
                 onClick={sendMessage}
                 disabled={isLoading || !inputMessage.trim()}
-                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white rounded-lg font-semibold disabled:opacity-50 hover:shadow-lg transition-all text-sm"
+                className="px-4 py-2 bg-gradient-to-r from-primary to-os-cyan text-white rounded-lg font-semibold disabled:opacity-50 hover:shadow-lg transition-all text-sm"
               >
                 Send
               </button>
