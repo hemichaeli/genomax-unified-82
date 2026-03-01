@@ -115,10 +115,10 @@ const Home = () => {
 
         <div className="max-w-4xl mx-auto text-center relative z-10 space-y-10">
           <h2 className="text-5xl md:text-6xl font-bold">
-            Ready to Upgrade Your Biology?
+            Your Blood Work. Your Protocol.
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Stop guessing. Start with a protocol built for your unique biological data.
+            Build a protocol driven by your actual biomarkers, not marketing claims.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
