@@ -1,49 +1,47 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 
 interface Props {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 interface State {
   hasError: boolean;
-  error: Error | null;
+  error?: Error;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    hasError: false,
-    error: null,
-  };
+export class ErrorBoundary extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
-  public static getDerivedStateFromError(error: Error): State {
+  static getDerivedStateFromError(error: Error): State {
     return { hasError: true, error };
   }
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error("ErrorBoundary caught:", error, errorInfo);
   }
 
-  private handleReset = () => {
-    this.setState({ hasError: false, error: null });
-    window.location.href = "/";
-  };
-
-  public render() {
+  render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-background px-6">
+        <div className="min-h-screen flex items-center justify-center px-6">
           <div className="max-w-md text-center space-y-6">
-            <div className="w-20 h-20 mx-auto rounded-full bg-destructive/10 flex items-center justify-center">
-              <span className="text-3xl">⚠</span>
-            </div>
+            <div className="text-6xl font-bold text-muted-foreground">Oops</div>
             <h1 className="text-2xl font-bold">Something went wrong</h1>
             <p className="text-muted-foreground">
-              An unexpected error occurred. Our team has been notified.
+              An unexpected error occurred. Try refreshing the page or navigating back home.
             </p>
-            <Button onClick={this.handleReset} size="lg">
-              Return Home
-            </Button>
+            <div className="flex gap-4 justify-center">
+              <Button onClick={() => window.location.reload()}>
+                Refresh Page
+              </Button>
+              <Button variant="outline" onClick={() => window.location.href = "/"}>
+                Go Home
+              </Button>
+            </div>
           </div>
         </div>
       );
