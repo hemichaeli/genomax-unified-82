@@ -2,295 +2,180 @@
 @tailwind components;
 @tailwind utilities;
 
-/* GENOMAX² BIOLOGICAL OPERATING SYSTEM DESIGN SYSTEM
-   Dark-first clinical precision aesthetic
-   Colors: Deep Black + MAX Red + Gender accent (Cyan/Magenta) */
+/* QUANTUM Real Estate Design System
+   Elegant boutique brokerage with gold + navy palette
+   Font: Playfair Display (headings) + system sans (body) */
 
 @layer base {
   :root {
-    --background: 220 20% 3%;
-    --foreground: 0 0% 95%;
-    --card: 220 15% 6%;
-    --card-foreground: 0 0% 95%;
-    --popover: 220 15% 6%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 0 100% 56%;
+    --background: 40 30% 97%;
+    --foreground: 240 30% 17%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 30% 17%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 30% 17%;
+    --primary: 40 76% 38%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 15% 10%;
-    --secondary-foreground: 0 0% 90%;
-    --muted: 220 10% 15%;
-    --muted-foreground: 220 10% 55%;
-    --accent: 0 100% 56%;
+    --secondary: 225 40% 16%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 40 15% 92%;
+    --muted-foreground: 240 10% 50%;
+    --accent: 40 76% 38%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 15% 12%;
-    --input: 220 15% 12%;
-    --ring: 0 100% 56%;
+    --border: 40 15% 88%;
+    --input: 40 15% 88%;
+    --ring: 40 76% 38%;
     --radius: 0.75rem;
-
-    /* GenoMAX² Brand Colors */
-    --gx-bg: #05070A;
-    --gx-surface: #0A0E14;
-    --gx-surface-2: #111620;
-    --gx-border: #1A2030;
-    --gx-text: #E8ECF2;
-    --gx-text-muted: #6B7A90;
-    --gx-max-red: #FF1F23;
-    --gx-maximo-cyan: #009BFF;
-    --gx-maxima-magenta: #FF2D95;
-    --gx-success: #00E676;
-    --gx-warning: #FFD600;
-
-    --sidebar-background: 220 20% 4%;
+    --sidebar-background: 225 40% 16%;
     --sidebar-foreground: 0 0% 90%;
-    --sidebar-primary: 0 100% 56%;
+    --sidebar-primary: 40 76% 38%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 15% 10%;
+    --sidebar-accent: 225 30% 22%;
     --sidebar-accent-foreground: 0 0% 90%;
-    --sidebar-border: 220 15% 12%;
-    --sidebar-ring: 0 100% 56%;
+    --sidebar-border: 225 30% 25%;
+    --sidebar-ring: 40 76% 38%;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-
+  * { @apply border-border; }
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    background: var(--gx-bg);
-    color: var(--gx-text);
   }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
+  html { scroll-behavior: smooth; }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter Tight', 'Inter', sans-serif;
+    font-family: 'Playfair Display', 'Georgia', serif;
     font-weight: 700;
-    color: var(--gx-text);
-    letter-spacing: -0.02em;
+    color: hsl(240, 30%, 17%);
+    letter-spacing: -0.01em;
   }
+  .font-display { font-family: 'Playfair Display', 'Georgia', serif; }
+}
 
-  .font-mono {
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  }
-
-  /* Superscript 2 - Global utility */
-  .sup2 {
-    font-size: 60%;
-    vertical-align: super;
-    line-height: 0;
-    position: relative;
-    top: -0.15em;
-    font-weight: inherit;
-  }
-
-  /* GenoMAX² Section Styles */
-  .gx-section {
-    padding: 80px 0;
-    background: var(--gx-bg);
-  }
-
-  .gx-section-surface {
-    padding: 80px 0;
-    background: var(--gx-surface);
-  }
-
-  .gx-section-gradient {
-    padding: 80px 0;
-    background: linear-gradient(180deg, var(--gx-bg) 0%, var(--gx-surface) 100%);
-  }
-
-  /* Cards */
-  .gx-card {
-    background: var(--gx-surface);
-    border: 1px solid var(--gx-border);
-    border-radius: 12px;
-    transition: transform 300ms cubic-bezier(0.25, 0.1, 0.25, 1),
-                border-color 300ms cubic-bezier(0.25, 0.1, 0.25, 1),
-                box-shadow 300ms cubic-bezier(0.25, 0.1, 0.25, 1);
-  }
-
-  .gx-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 31, 35, 0.3);
-    box-shadow: 0 8px 32px rgba(255, 31, 35, 0.08);
-  }
-
-  /* Buttons */
-  .gx-btn-primary {
-    background: linear-gradient(135deg, var(--gx-max-red), #E6191D);
-    color: white;
-    font-weight: 600;
-    border-radius: 8px;
-    padding: 14px 32px;
-    transition: transform 150ms, box-shadow 150ms;
-    box-shadow: 0 4px 16px rgba(255, 31, 35, 0.25);
-  }
-
-  .gx-btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(255, 31, 35, 0.35);
-  }
-
-  .gx-btn-outline {
-    background: transparent;
-    border: 1px solid var(--gx-border);
-    color: var(--gx-text);
-    font-weight: 500;
-    border-radius: 8px;
-    padding: 14px 32px;
-    transition: all 200ms;
-  }
-
-  .gx-btn-outline:hover {
-    border-color: var(--gx-max-red);
-    color: var(--gx-max-red);
-  }
-
-  .gx-btn-cyan {
-    background: linear-gradient(135deg, var(--gx-maximo-cyan), #007ACC);
-    color: white;
-    font-weight: 600;
-    border-radius: 8px;
-    padding: 14px 32px;
-    transition: transform 150ms, box-shadow 150ms;
-    box-shadow: 0 4px 16px rgba(0, 155, 255, 0.25);
-  }
-
-  .gx-btn-cyan:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(0, 155, 255, 0.35);
-  }
-
-  .gx-btn-magenta {
-    background: linear-gradient(135deg, var(--gx-maxima-magenta), #D41A7A);
-    color: white;
-    font-weight: 600;
-    border-radius: 8px;
-    padding: 14px 32px;
-    transition: transform 150ms, box-shadow 150ms;
-    box-shadow: 0 4px 16px rgba(255, 45, 149, 0.25);
-  }
-
-  .gx-btn-magenta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(255, 45, 149, 0.35);
-  }
-
+@layer components {
   /* Hero */
-  .gx-hero {
-    background: linear-gradient(180deg, var(--gx-bg) 0%, var(--gx-surface) 100%);
+  .quantum-hero {
+    background: linear-gradient(135deg, hsl(225, 40%, 16%) 0%, hsl(225, 35%, 22%) 50%, hsl(225, 30%, 28%) 100%);
     position: relative;
     overflow: hidden;
   }
-
-  .gx-hero::before {
+  .quantum-hero::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(255, 31, 35, 0.06) 0%, transparent 60%);
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 30% 20%, rgba(184, 134, 11, 0.08) 0%, transparent 60%);
     pointer-events: none;
   }
 
-  /* Evidence capsule */
-  .gx-evidence-capsule {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--gx-border);
-    border-radius: 8px;
-    padding: 12px 16px;
-    backdrop-filter: blur(8px);
-    text-align: center;
+  /* Sections */
+  .quantum-section { padding: 80px 0; background: hsl(40, 30%, 97%); }
+  .quantum-section-alt { padding: 80px 0; background: hsl(40, 20%, 95%); }
+  .quantum-section-navy {
+    padding: 80px 0;
+    background: linear-gradient(135deg, hsl(225, 40%, 16%) 0%, hsl(225, 35%, 22%) 100%);
   }
 
-  .gx-evidence-capsule .counter {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--gx-max-red);
-    letter-spacing: -0.02em;
+  /* Cards */
+  .quantum-card {
+    background: white;
+    border: 1px solid hsl(40, 15%, 88%);
+    border-radius: 12px;
+    position: relative;
+    transition: transform 300ms ease, box-shadow 300ms ease;
+  }
+  .quantum-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(26, 26, 62, 0.08);
   }
 
-  .gx-evidence-capsule .label {
-    font-size: 0.7rem;
-    color: var(--gx-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-top: 2px;
+  .quantum-testimonial {
+    background: white;
+    border: 1px solid hsl(40, 15%, 88%);
+    border-radius: 12px;
+    padding: 24px;
   }
 
-  /* Glow effects */
-  .gx-glow-red {
-    box-shadow: 0 0 40px rgba(255, 31, 35, 0.15);
-  }
-
-  .gx-glow-cyan {
-    box-shadow: 0 0 40px rgba(0, 155, 255, 0.15);
-  }
-
-  .gx-glow-magenta {
-    box-shadow: 0 0 40px rgba(255, 45, 149, 0.15);
-  }
-
-  /* Safety gate badge */
-  .gx-safety-badge {
+  /* Buttons */
+  .quantum-btn-gold {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 0.7rem;
+    gap: 8px;
+    background: linear-gradient(135deg, #B8860B 0%, #D4A020 100%);
+    color: white;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: rgba(255, 31, 35, 0.1);
-    color: var(--gx-max-red);
-    border: 1px solid rgba(255, 31, 35, 0.2);
+    border-radius: 8px;
+    padding: 12px 28px;
+    transition: transform 200ms, box-shadow 200ms;
+    box-shadow: 0 4px 16px rgba(184, 134, 11, 0.2);
+  }
+  .quantum-btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(184, 134, 11, 0.3);
   }
 
-  /* Animations */
-  @keyframes fade-up {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  .quantum-btn-navy {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: hsl(225, 40%, 16%);
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 12px 28px;
+    transition: transform 200ms, box-shadow 200ms;
+  }
+  .quantum-btn-navy:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(26, 26, 62, 0.2);
   }
 
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  .quantum-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 2px solid hsl(225, 40%, 16%);
+    color: hsl(225, 40%, 16%);
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 12px 28px;
+    transition: all 200ms;
+  }
+  .quantum-btn-outline:hover {
+    background: hsl(225, 40%, 16%);
+    color: white;
   }
 
-  @keyframes pulse-glow {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
+  /* Gold lines */
+  .quantum-gold-line-center {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #B8860B, #D4A020);
+    margin: 0 auto;
   }
-
-  .animate-fade-up {
-    animation: fade-up 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) both;
-  }
-
-  .animate-fade-in {
-    animation: fade-in 0.4s cubic-bezier(0.25, 0.1, 0.25, 1) both;
-  }
-
-  .stagger-children > * {
-    animation: fade-up 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) both;
-  }
-  .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
-  .stagger-children > *:nth-child(2) { animation-delay: 100ms; }
-  .stagger-children > *:nth-child(3) { animation-delay: 200ms; }
-  .stagger-children > *:nth-child(4) { animation-delay: 300ms; }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--gx-bg); }
-  ::-webkit-scrollbar-thumb { background: var(--gx-border); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--gx-text-muted); }
 }
+
+/* Animations */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-up { animation: fade-up 0.6s ease both; }
+.animate-fade-in { animation: fade-in 0.4s ease both; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: hsl(40, 30%, 97%); }
+::-webkit-scrollbar-thumb { background: hsl(40, 15%, 80%); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: hsl(40, 15%, 70%); }
+
+/* RTL support */
+[dir="rtl"] { text-align: right; }
+[dir="ltr"] { text-align: left; }
