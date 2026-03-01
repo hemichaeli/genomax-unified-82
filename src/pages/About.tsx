@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Target, Heart, Zap, Play } from "lucide-react";
+import { Target, Zap, Play } from "lucide-react";
 
 const About = () => {
   const navigate = useNavigate();
@@ -190,11 +190,9 @@ const About = () => {
           <p className="text-2xl md:text-3xl font-bold leading-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             Give every person a protocol they can actually trust
           </p>
-          <div className="space-y-3 text-lg text-muted-foreground max-w-2xl mx-auto pt-4">
-            <p>Replace confusion with clarity</p>
-            <p>Replace marketing with science</p>
-            <p>Replace guesswork with your actual bloodwork</p>
-          </div>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto pt-4 leading-relaxed">
+            We replace confusion with clarity, marketing with science, and guesswork with your actual bloodwork.
+          </p>
         </div>
       </section>
 
