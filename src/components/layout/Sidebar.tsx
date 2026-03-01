@@ -15,6 +15,7 @@ import {
   HelpCircle,
   ChevronLeft,
   ChevronRight,
+  Gift,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -22,7 +23,7 @@ interface SidebarProps {
   onToggle?: () => void;
 }
 
-const Sidebar = ({ collapsed = false, onToggle }: SidebarProps) => {
+export const Sidebar = ({ collapsed = false, onToggle }: SidebarProps) => {
   const { t, isRTL } = useLanguage();
   const location = useLocation();
 
@@ -37,6 +38,7 @@ const Sidebar = ({ collapsed = false, onToggle }: SidebarProps) => {
     { divider: true },
     { path: "/neighborhoods", icon: MapPin, label: t("nav_neighborhoods") },
     { path: "/community", icon: Heart, label: t("nav_community") },
+    { path: "/referral", icon: Gift, label: isRTL ? "שותפים" : "Referral" },
     { divider: true },
     { path: "/about", icon: Info, label: t("nav_about") },
     { path: "/contact", icon: Phone, label: t("nav_contact") },
@@ -52,7 +54,6 @@ const Sidebar = ({ collapsed = false, onToggle }: SidebarProps) => {
         collapsed ? "w-16" : "w-56"
       } ${isRTL ? "right-0" : "left-0"}`}
     >
-      {/* Toggle */}
       <button
         onClick={onToggle}
         className={`absolute top-4 ${
@@ -66,7 +67,6 @@ const Sidebar = ({ collapsed = false, onToggle }: SidebarProps) => {
         )}
       </button>
 
-      {/* Nav Items */}
       <nav className="flex-1 py-4 overflow-y-auto">
         <ul className="space-y-0.5 px-2">
           {navItems.map((item, i) => {
@@ -99,16 +99,10 @@ const Sidebar = ({ collapsed = false, onToggle }: SidebarProps) => {
         </ul>
       </nav>
 
-      {/* Bottom branding */}
       {!collapsed && (
         <div className="p-4 border-t border-white/10">
           <div className="text-center">
-            <span
-              className="text-sm font-bold text-white/80"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              QUANTUM
-            </span>
+            <span className="text-sm font-bold text-white/80" style={{ fontFamily: "'Playfair Display', serif" }}>QUANTUM</span>
             <p className="text-[10px] text-white/30 mt-1">v4.7.3</p>
           </div>
         </div>
