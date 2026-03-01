@@ -25,6 +25,8 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Disclaimer from "./pages/Disclaimer";
 import Shop from "./pages/Shop";
+import Pricing from "./pages/Pricing";
+import ReferralProgram from "./pages/ReferralProgram";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -55,6 +57,8 @@ const App = () => (
                 <Route path="/organizations" element={<Organizations />} />
                 <Route path="/compare" element={<Compare />} />
                 <Route path="/faq" element={<FAQ />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/referral-program" element={<ReferralProgram />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/disclaimer" element={<Disclaimer />} />
