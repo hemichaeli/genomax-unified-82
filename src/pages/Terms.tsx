@@ -1,114 +1,63 @@
+import { useLanguage } from "@/i18n/LanguageContext";
+
 const Terms = () => {
+  const { lang } = useLanguage();
+  const l = lang as string;
+
+  const content: Record<string, { title: string; updated: string; sections: Array<{ h: string; p: string }> }> = {
+    he: {
+      title: "תנאי שימוש", updated: "עודכן לאחרונה: מרץ 2026",
+      sections: [
+        { h: "הסכמה לתנאים", p: "השימוש באתר QUANTUM נדל\"ן ובשירותיו מהווה הסכמה לתנאי שימוש אלה. אם אינכם מסכימים לתנאים, אנא אל תשתמשו באתר." },
+        { h: "שירותי תיווך", p: "QUANTUM מספקת שירותי תיווך נדל\"ן בהתאם לחוק המתווכים במקרקעין, תשנ\"ו-1996. כל עסקה כפופה להסכם תיווך נפרד שייחתם בין הצדדים." },
+        { h: "מידע באתר", p: "המידע באתר מסופק למטרות מידע כללי בלבד ואינו מהווה ייעוץ משפטי, פיננסי או השקעתי. QUANTUM עושה מאמצים סבירים לוודא את דיוק המידע, אך אינה מתחייבת לדיוקו המלא." },
+        { h: "הגבלת אחריות", p: "QUANTUM לא תישא באחריות לכל נזק ישיר או עקיף הנובע מהשימוש באתר או מהסתמכות על המידע המוצג בו. החלטות השקעה הן באחריות המשתמש בלבד." },
+        { h: "קניין רוחני", p: "כל התכנים באתר, כולל טקסט, גרפיקה, לוגואים ועיצוב, הם רכושה של QUANTUM ומוגנים בחוקי זכויות יוצרים. אין להעתיק, להפיץ או להשתמש בתכנים ללא אישור מראש." },
+        { h: "פרטיות", p: "השימוש באתר כפוף גם למדיניות הפרטיות שלנו. אנא עיינו במדיניות הפרטיות להבנת האופן שבו אנו אוספים ומשתמשים במידע שלכם." },
+        { h: "שינויים בתנאים", p: "QUANTUM שומרת לעצמה את הזכות לשנות תנאים אלה בכל עת. שינויים ייכנסו לתוקף עם פרסומם באתר." },
+        { h: "דין חל וסמכות שיפוט", p: "תנאים אלה כפופים לדיני מדינת ישראל. סמכות השיפוט הבלעדית נתונה לבתי המשפט במחוז תל אביב." },
+        { h: "יצירת קשר", p: "לשאלות בנוגע לתנאי שימוש אלה: QUANTUM נדל\"ן, טלפון: 054-766-9985, אימייל: info@quantum-realestate.co.il" },
+      ]
+    },
+    en: {
+      title: "Terms of Service", updated: "Last updated: March 2026",
+      sections: [
+        { h: "Agreement to Terms", p: "By using the QUANTUM Real Estate website and services, you agree to these terms. If you do not agree, please do not use the site." },
+        { h: "Brokerage Services", p: "QUANTUM provides real estate brokerage services in accordance with Israeli Real Estate Brokers Law, 1996. Every transaction is subject to a separate brokerage agreement." },
+        { h: "Website Information", p: "Information on the site is provided for general informational purposes only and does not constitute legal, financial, or investment advice. QUANTUM makes reasonable efforts to ensure accuracy but does not guarantee it." },
+        { h: "Limitation of Liability", p: "QUANTUM shall not be liable for any direct or indirect damages arising from use of the site or reliance on information presented. Investment decisions are solely the user's responsibility." },
+        { h: "Intellectual Property", p: "All content on the site, including text, graphics, logos, and design, is QUANTUM's property and protected by copyright law. No copying, distribution, or use without prior permission." },
+        { h: "Privacy", p: "Use of the site is also subject to our Privacy Policy. Please review it to understand how we collect and use your information." },
+        { h: "Changes to Terms", p: "QUANTUM reserves the right to modify these terms at any time. Changes take effect upon publication on the site." },
+        { h: "Governing Law", p: "These terms are governed by the laws of the State of Israel. Exclusive jurisdiction is granted to the courts of the Tel Aviv District." },
+        { h: "Contact", p: "For questions about these terms: QUANTUM Real Estate, Phone: 054-766-9985, Email: info@quantum-realestate.co.il" },
+      ]
+    },
+  };
+
+  const c = content[l] || content.en;
+
   return (
-    <div className="min-h-screen py-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto prose prose-lg dark:prose-invert">
-          <h1>Terms of Service</h1>
-          <p className="text-muted-foreground">Last updated: {new Date().toLocaleDateString()}</p>
-
-          <h2>1. Acceptance of Terms</h2>
-          <p>
-            By accessing or using GenoMAX² services, you agree to be bound by these Terms of Service. 
-            If you do not agree to these terms, do not use our services.
-          </p>
-
-          <h2>2. Description of Service</h2>
-          <p>
-            GenoMAX² provides personalized, gender-specific supplement protocols based on biomarker analysis 
-            and health assessments. We are not a medical provider and do not diagnose, treat, or cure diseases.
-          </p>
-
-          <h2>3. Eligibility</h2>
-          <p>
-            You must be at least 18 years old to use our services. By using GenoMAX², you represent that you 
-            meet this age requirement.
-          </p>
-
-          <h2>4. Account Registration</h2>
-          <ul>
-            <li>You must provide accurate and complete information</li>
-            <li>You are responsible for maintaining account security</li>
-            <li>You must notify us immediately of any unauthorized access</li>
-            <li>You may not share your account credentials</li>
-          </ul>
-
-          <h2>5. Subscription and Billing</h2>
-          <ul>
-            <li>Subscriptions renew automatically unless cancelled</li>
-            <li>You may cancel at any time before your next billing date</li>
-            <li>Refunds are provided according to our refund policy</li>
-            <li>We reserve the right to change pricing with advance notice</li>
-          </ul>
-
-          <h2>6. User Responsibilities</h2>
-          <p>You agree to:</p>
-          <ul>
-            <li>Provide accurate health information</li>
-            <li>Consult with healthcare providers before starting any supplement protocol</li>
-            <li>Inform us of any adverse reactions or concerns</li>
-            <li>Use the service only for lawful purposes</li>
-            <li>Not attempt to reverse engineer or compromise our platform</li>
-          </ul>
-
-          <h2>7. Intellectual Property</h2>
-          <p>
-            All content, algorithms, trademarks, and other intellectual property on our platform are owned 
-            by GenoMAX² or our licensors. You may not copy, modify, or distribute our content without 
-            written permission.
-          </p>
-
-          <h2>8. Limitation of Liability</h2>
-          <p>
-            GenoMAX² is not liable for:
-          </p>
-          <ul>
-            <li>Any health outcomes or adverse reactions from supplement use</li>
-            <li>Decisions made based on our recommendations</li>
-            <li>Service interruptions or technical issues</li>
-            <li>Third-party actions or products</li>
-          </ul>
-          <p>
-            Our total liability shall not exceed the amount you paid us in the 12 months preceding any claim.
-          </p>
-
-          <h2>9. Indemnification</h2>
-          <p>
-            You agree to indemnify and hold GenoMAX² harmless from any claims, damages, or expenses arising 
-            from your use of our services or violation of these terms.
-          </p>
-
-          <h2>10. Termination</h2>
-          <p>
-            We may suspend or terminate your account if you violate these terms. You may terminate your 
-            account at any time by contacting us.
-          </p>
-
-          <h2>11. Dispute Resolution</h2>
-          <p>
-            Any disputes shall be resolved through binding arbitration in accordance with the rules of 
-            the American Arbitration Association. You waive the right to participate in class actions.
-          </p>
-
-          <h2>12. Changes to Terms</h2>
-          <p>
-            We may modify these terms at any time. Continued use of our services after changes constitutes 
-            acceptance of the new terms.
-          </p>
-
-          <h2>13. Governing Law</h2>
-          <p>
-            These terms are governed by the laws of the State of Delaware, United States, without regard 
-            to conflict of law principles.
-          </p>
-
-          <h2>14. Contact Information</h2>
-          <p>
-            Questions about these terms? Contact us at:
-            <br />
-            Email: legal@genomax2.ai
-          </p>
+    <div className="min-h-screen">
+      <section className="quantum-hero py-20 md:py-28">
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <div style={{ width: 60, height: 3, background: 'linear-gradient(90deg, #B8860B, #D4A020)', margin: '0 auto 24px' }} />
+          <h1 className="text-4xl md:text-5xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>{c.title}</h1>
+          <p className="text-sm text-white/40 mt-4">{c.updated}</p>
         </div>
-      </div>
+      </section>
+      <section className="quantum-section">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <div className="space-y-8">
+            {c.sections.map((s, i) => (
+              <div key={i} className="space-y-3">
+                <h2 className="text-xl font-bold text-[#1A1A3E]" style={{ fontFamily: "'Playfair Display', serif" }}>{s.h}</h2>
+                <p className="text-[#1A1A3E]/70 leading-relaxed">{s.p}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
