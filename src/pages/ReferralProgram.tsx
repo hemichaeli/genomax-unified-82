@@ -1,140 +1,183 @@
+import React from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 import { Link } from "react-router-dom";
-import { Gift, Users, Star, ArrowRight, Share2, Trophy, Repeat } from "lucide-react";
-
-const tiers = [
-  {
-    icon: Gift,
-    title: "Every Referral",
-    reward: "$20 credit",
-    friendGets: "$20 off first month",
-    description: "Share your referral link. When your friend subscribes to any tier, you both benefit.",
-    color: "text-os-cyan",
-    border: "border-os-cyan/30",
-    bg: "bg-os-cyan/5",
-  },
-  {
-    icon: Star,
-    title: "3 Referrals",
-    reward: "Free month",
-    friendGets: "$20 off first month",
-    description: "Reach 3 successful referrals and your next month is free (up to $139 value).",
-    color: "text-[#FFD700]",
-    border: "border-[#FFD700]/30",
-    bg: "bg-[#FFD700]/5",
-  },
-  {
-    icon: Trophy,
-    title: "10+ Referrals",
-    reward: "Ambassador",
-    friendGets: "$25 off first month",
-    description: "Permanent 15% discount, early access to new modules, and exclusive Protocol Box variants.",
-    color: "text-[#FF2A2A]",
-    border: "border-[#FF2A2A]/30",
-    bg: "bg-[#FF2A2A]/5",
-  },
-];
+import { Gift, Users, DollarSign, ArrowLeft, ArrowRight, Share2, CheckCircle2, Star, Sparkles } from "lucide-react";
 
 const ReferralProgram = () => {
+  const { isRTL, lang } = useLanguage();
+  const Arrow = isRTL ? ArrowLeft : ArrowRight;
+
+  const content = {
+    he: {
+      title: "תוכנית השותפים של QUANTUM",
+      subtitle: "הכירו לנו לקוח, הרוויחו יחד. כי המלצה טובה שווה זהב.",
+      howTitle: "איך זה עובד?",
+      steps: [
+        { icon: Share2, title: "הפנו לקוח", desc: "שלחו לנו את הפרטים של מישהו שרוצה לקנות או למכור נכס בפינוי-בינוי." },
+        { icon: Users, title: "אנחנו מטפלים", desc: "הצוות שלנו נכנס לפעולה - פגישה, ניתוח שוק, והצגת הזדמנויות." },
+        { icon: DollarSign, title: "אתם מרוויחים", desc: "ברגע שהעסקה נסגרת, אתם מקבלים בונוס הפניה ישירות לחשבון." },
+      ],
+      tiers: [
+        { label: "עסקה ראשונה", reward: "₪3,000", desc: "בונוס קבוע על ההפניה הראשונה שמסתיימת בעסקה" },
+        { label: "3+ עסקאות", reward: "₪5,000", desc: "מעמד שותף מועדף + בונוס מוגדל לכל עסקה" },
+        { label: "שותף VIP", reward: "0.5%", desc: "עמלה מהעסקה + מעמד שותף VIP עם הטבות בלעדיות" },
+      ],
+      whoTitle: "למי זה מתאים?",
+      whoList: [
+        "מתווכים שעובדים בתחומים אחרים (שכירויות, מסחרי)",
+        "עורכי דין בתחום הנדל\"ן",
+        "יועצי משכנתאות",
+        "מנהלי קהילות עולים חדשים",
+        "כל מי שמכיר מישהו שרוצה לקנות או למכור",
+      ],
+      ctaTitle: "רוצים להצטרף?",
+      ctaDesc: "שלחו לנו הודעה וניצור איתכם קשר תוך 24 שעות.",
+      ctaBtn: "הצטרפו לתוכנית",
+      note: "* הבונוסים משולמים לאחר השלמת העסקה בלבד. פרטים מלאים בהסכם השותפות.",
+    },
+    en: {
+      title: "QUANTUM Referral Program",
+      subtitle: "Introduce a client, earn together. Because a good referral is worth gold.",
+      howTitle: "How It Works",
+      steps: [
+        { icon: Share2, title: "Refer a Client", desc: "Send us the details of someone looking to buy or sell a property in Israeli urban renewal." },
+        { icon: Users, title: "We Take Over", desc: "Our team steps in with a meeting, market analysis, and curated opportunities." },
+        { icon: DollarSign, title: "You Earn", desc: "Once the deal closes, you receive a referral bonus directly to your account." },
+      ],
+      tiers: [
+        { label: "First Deal", reward: "₪3,000", desc: "Fixed bonus on your first referral that results in a deal" },
+        { label: "3+ Deals", reward: "₪5,000", desc: "Preferred partner status + increased bonus per deal" },
+        { label: "VIP Partner", reward: "0.5%", desc: "Commission from the deal + VIP partner status with exclusive benefits" },
+      ],
+      whoTitle: "Who Is This For?",
+      whoList: [
+        "Agents working in other real estate areas (rentals, commercial)",
+        "Real estate attorneys",
+        "Mortgage advisors",
+        "New immigrant community leaders",
+        "Anyone who knows someone looking to buy or sell",
+      ],
+      ctaTitle: "Ready to Join?",
+      ctaDesc: "Send us a message and we'll get back to you within 24 hours.",
+      ctaBtn: "Join the Program",
+      note: "* Bonuses are paid only after deal completion. Full details in the partnership agreement.",
+    },
+    fr: {
+      title: "Programme de parrainage QUANTUM",
+      subtitle: "Présentez un client, gagnez ensemble. Car une bonne recommandation vaut de l'or.",
+      howTitle: "Comment ça marche ?",
+      steps: [
+        { icon: Share2, title: "Référez un client", desc: "Envoyez-nous les coordonnées de quelqu'un cherchant à acheter ou vendre un bien en renouvellement urbain." },
+        { icon: Users, title: "Nous prenons le relais", desc: "Notre équipe intervient : rencontre, analyse de marché et opportunités sélectionnées." },
+        { icon: DollarSign, title: "Vous gagnez", desc: "Une fois la transaction conclue, vous recevez un bonus directement sur votre compte." },
+      ],
+      tiers: [
+        { label: "Première affaire", reward: "₪3,000", desc: "Bonus fixe sur votre première référence conclue" },
+        { label: "3+ affaires", reward: "₪5,000", desc: "Statut partenaire préféré + bonus augmenté par affaire" },
+        { label: "Partenaire VIP", reward: "0.5%", desc: "Commission sur la transaction + statut VIP avec avantages exclusifs" },
+      ],
+      whoTitle: "Pour qui ?",
+      whoList: [
+        "Agents dans d'autres domaines immobiliers (locations, commercial)",
+        "Avocats en immobilier",
+        "Conseillers en prêts hypothécaires",
+        "Leaders de communautés de nouveaux immigrants",
+        "Toute personne connaissant quelqu'un qui cherche à acheter ou vendre",
+      ],
+      ctaTitle: "Prêt à rejoindre ?",
+      ctaDesc: "Envoyez-nous un message et nous vous recontacterons sous 24 heures.",
+      ctaBtn: "Rejoindre le programme",
+      note: "* Les bonus sont versés uniquement après la conclusion de la transaction.",
+    },
+    es: {
+      title: "Programa de Referidos QUANTUM",
+      subtitle: "Presente un cliente, gane juntos. Porque una buena recomendación vale oro.",
+      howTitle: "¿Cómo funciona?",
+      steps: [
+        { icon: Share2, title: "Refiera un cliente", desc: "Envíenos los datos de alguien que busca comprar o vender una propiedad en renovación urbana." },
+        { icon: Users, title: "Nosotros nos encargamos", desc: "Nuestro equipo toma el control: reunión, análisis de mercado y oportunidades seleccionadas." },
+        { icon: DollarSign, title: "Usted gana", desc: "Una vez cerrado el trato, recibe un bono directamente en su cuenta." },
+      ],
+      tiers: [
+        { label: "Primera operación", reward: "₪3,000", desc: "Bono fijo por su primera referencia que resulte en operación" },
+        { label: "3+ operaciones", reward: "₪5,000", desc: "Estatus de socio preferido + bono aumentado por operación" },
+        { label: "Socio VIP", reward: "0.5%", desc: "Comisión de la operación + estatus VIP con beneficios exclusivos" },
+      ],
+      whoTitle: "¿Para quién es?",
+      whoList: [
+        "Agentes en otras áreas inmobiliarias (alquileres, comercial)",
+        "Abogados inmobiliarios",
+        "Asesores hipotecarios",
+        "Líderes de comunidades de nuevos inmigrantes",
+        "Cualquiera que conozca a alguien que busca comprar o vender",
+      ],
+      ctaTitle: "¿Listo para unirse?",
+      ctaDesc: "Envíenos un mensaje y le contactaremos en 24 horas.",
+      ctaBtn: "Unirse al programa",
+      note: "* Los bonos se pagan solo después de completar la transacción.",
+    },
+    ru: {
+      title: "Реферальная программа QUANTUM",
+      subtitle: "Порекомендуйте клиента, зарабатывайте вместе. Потому что хорошая рекомендация на вес золота.",
+      howTitle: "Как это работает?",
+      steps: [
+        { icon: Share2, title: "Порекомендуйте клиента", desc: "Отправьте нам данные того, кто хочет купить или продать недвижимость в проекте обновления." },
+        { icon: Users, title: "Мы берём на себя", desc: "Наша команда проводит встречу, анализ рынка и подбор возможностей." },
+        { icon: DollarSign, title: "Вы зарабатываете", desc: "После закрытия сделки вы получаете реферальный бонус на свой счёт." },
+      ],
+      tiers: [
+        { label: "Первая сделка", reward: "₪3,000", desc: "Фиксированный бонус за первую рекомендацию, завершившуюся сделкой" },
+        { label: "3+ сделки", reward: "₪5,000", desc: "Статус привилегированного партнёра + увеличенный бонус за сделку" },
+        { label: "VIP партнёр", reward: "0.5%", desc: "Комиссия от сделки + статус VIP с эксклюзивными преимуществами" },
+      ],
+      whoTitle: "Для кого это?",
+      whoList: [
+        "Агенты в других сферах недвижимости (аренда, коммерция)",
+        "Юристы по недвижимости",
+        "Ипотечные консультанты",
+        "Лидеры общин новых репатриантов",
+        "Все, кто знает кого-то, кто хочет купить или продать",
+      ],
+      ctaTitle: "Готовы присоединиться?",
+      ctaDesc: "Отправьте нам сообщение, и мы свяжемся с вами в течение 24 часов.",
+      ctaBtn: "Присоединиться к программе",
+      note: "* Бонусы выплачиваются только после завершения сделки.",
+    },
+  };
+
+  const c = content[lang] || content.en;
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[hsl(40,30%,97%)]">
       {/* Hero */}
-      <section className="py-24 px-6 relative overflow-hidden">
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at 50% 0%, hsl(186 100% 64% / 0.06) 0%, transparent 60%)",
-          }}
-        />
-        <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
-          <p className="text-os-cyan font-mono text-sm tracking-[0.2em] uppercase">
-            Referral Program
-          </p>
-          <h1 className="text-4xl md:text-6xl font-bold font-heading leading-tight">
-            Share Your Biological Advantage
+      <section className="quantum-hero text-white py-20 lg:py-28">
+        <div className="container mx-auto px-4 text-center">
+          <Gift className="w-14 h-14 text-[hsl(38,76%,44%)] mx-auto mb-6" />
+          <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4 font-display">
+            {c.title}
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Every person you refer earns you credits. Every referral strengthens the community. Your biology improves. Theirs begins.
-          </p>
+          <div className="quantum-gold-line-center mb-6" />
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">{c.subtitle}</p>
         </div>
       </section>
 
       {/* How It Works */}
-      <section className="pb-16 px-6">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold font-heading text-center mb-12">
-            How It Works
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center space-y-4">
-              <div className="w-14 h-14 rounded-full bg-os-cyan/10 border border-os-cyan/30 flex items-center justify-center mx-auto">
-                <Share2 className="w-6 h-6 text-os-cyan" />
-              </div>
-              <h3 className="font-bold text-lg">1. Share Your Link</h3>
-              <p className="text-sm text-muted-foreground">
-                Get your unique referral link from your dashboard. Share it via Instagram, WhatsApp, email, or text.
-              </p>
-            </div>
-            <div className="text-center space-y-4">
-              <div className="w-14 h-14 rounded-full bg-os-cyan/10 border border-os-cyan/30 flex items-center justify-center mx-auto">
-                <Users className="w-6 h-6 text-os-cyan" />
-              </div>
-              <h3 className="font-bold text-lg">2. Friend Subscribes</h3>
-              <p className="text-sm text-muted-foreground">
-                Your friend gets $20 off their first month. They upload blood work, build their protocol, and start optimizing.
-              </p>
-            </div>
-            <div className="text-center space-y-4">
-              <div className="w-14 h-14 rounded-full bg-os-cyan/10 border border-os-cyan/30 flex items-center justify-center mx-auto">
-                <Repeat className="w-6 h-6 text-os-cyan" />
-              </div>
-              <h3 className="font-bold text-lg">3. You Earn Credits</h3>
-              <p className="text-sm text-muted-foreground">
-                $20 credit applied to your next order. Credits stack. Reach milestones for bigger rewards.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Tier Cards */}
-      <section className="py-16 px-6 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold font-heading text-center mb-4">
-            Referral Tiers
-          </h2>
-          <p className="text-muted-foreground text-center mb-12 max-w-lg mx-auto">
-            The more you share, the more you earn. Credits are applied to your subscription, keeping every dollar in your protocol.
-          </p>
-          <div className="grid md:grid-cols-3 gap-6">
-            {tiers.map((tier) => {
-              const Icon = tier.icon;
+      <section className="quantum-section">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12 font-display">{c.howTitle}</h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            {c.steps.map((step, i) => {
+              const Icon = step.icon;
               return (
-                <div
-                  key={tier.title}
-                  className={`rounded-2xl border ${tier.border} ${tier.bg} p-8 space-y-4 transition-all duration-[280ms] hover:translate-y-[-4px] hover:shadow-panel`}
-                >
-                  <Icon className={`w-8 h-8 ${tier.color}`} />
-                  <h3 className="text-xl font-bold font-heading">
-                    {tier.title}
-                  </h3>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">You get:</span>
-                      <span className={`font-bold ${tier.color}`}>
-                        {tier.reward}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Friend gets:</span>
-                      <span className="font-medium text-foreground">
-                        {tier.friendGets}
-                      </span>
-                    </div>
+                <div key={i} className="text-center">
+                  <div className="w-16 h-16 rounded-2xl bg-[hsl(225,40%,16%)] flex items-center justify-center mx-auto mb-4">
+                    <Icon className="w-8 h-8 text-[hsl(38,76%,44%)]" />
                   </div>
-                  <p className="text-sm text-muted-foreground pt-2">
-                    {tier.description}
-                  </p>
+                  <div className="text-sm font-bold text-[hsl(38,76%,44%)] mb-1">
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <h3 className="text-lg font-bold mb-2">{step.title}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{step.desc}</p>
                 </div>
               );
             })}
@@ -142,75 +185,65 @@ const ReferralProgram = () => {
         </div>
       </section>
 
-      {/* Why Credits */}
-      <section className="py-16 px-6 border-t border-border bg-secondary/30">
-        <div className="max-w-3xl mx-auto text-center space-y-6">
-          <h2 className="text-2xl font-bold font-heading">
-            Why Credits, Not Cash
-          </h2>
-          <p className="text-muted-foreground">
-            Referral rewards are subscription credits. Every dollar circulates within your Biological Operating System. A subscriber with accumulated credits has even more reason to stay, optimize, and refer again. This is not a payout program. It is a compounding advantage.
-          </p>
-        </div>
-      </section>
-
-      {/* Professional Channel */}
-      <section className="py-16 px-6 border-t border-border">
-        <div className="max-w-4xl mx-auto">
-          <div className="rounded-2xl border border-border bg-gradient-to-b from-[#1a1a2e] to-[#0A0E1A] p-10 md:flex items-center gap-10">
-            <div className="flex-1 space-y-4">
-              <p className="text-os-cyan font-mono text-xs tracking-[0.2em] uppercase">
-                For Practitioners
-              </p>
-              <h3 className="text-2xl font-bold font-heading">
-                Professional Referral Channel
-              </h3>
-              <p className="text-muted-foreground">
-                Doctors, nutritionists, and trainers who refer clients receive a 10% recurring revenue share on each subscription for 12 months. Refer your patients to clinical-grade, blood-based protocols they can trust.
-              </p>
-              <Link to="/organizations">
-                <button className="mt-4 px-6 py-3 rounded-full border-2 border-os-cyan bg-transparent text-foreground font-bold text-sm transition-all duration-[280ms] hover:bg-os-cyan/10">
-                  Learn About B2B Partnerships
-                  <ArrowRight className="w-4 h-4 inline ml-2" />
-                </button>
-              </Link>
-            </div>
-            <div className="mt-8 md:mt-0 text-center">
-              <div className="text-6xl font-bold font-heading text-os-cyan">
-                10%
+      {/* Tiers */}
+      <section className="quantum-section-alt">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {c.tiers.map((tier, i) => (
+              <div
+                key={i}
+                className={`quantum-card p-8 text-center ${
+                  i === 2 ? "border-2 border-[hsl(38,76%,44%)] ring-2 ring-[hsl(38,76%,44%)]/20" : ""
+                }`}
+              >
+                {i === 2 && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <span className="bg-[hsl(38,76%,44%)] text-white text-xs font-bold px-4 py-1 rounded-full flex items-center gap-1">
+                      <Sparkles className="w-3 h-3" /> VIP
+                    </span>
+                  </div>
+                )}
+                <div className="text-sm font-medium text-gray-500 mb-2">{tier.label}</div>
+                <div className="text-4xl font-bold text-[hsl(38,76%,44%)] mb-3 font-display">
+                  {tier.reward}
+                </div>
+                <p className="text-sm text-gray-600">{tier.desc}</p>
               </div>
-              <p className="text-sm text-muted-foreground mt-1">
-                recurring for 12 months
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* UGC Section */}
-      <section className="py-16 px-6 border-t border-border">
-        <div className="max-w-3xl mx-auto text-center space-y-6">
-          <h2 className="text-2xl font-bold font-heading">
-            #MyBioOS
-          </h2>
-          <p className="text-muted-foreground">
-            Share your Protocol Box on Instagram with <span className="text-os-cyan font-mono">#MyBioOS</span> for a chance to win a free quarter. Show the world what a Biological Operating System looks like on your kitchen counter.
-          </p>
+      {/* Who */}
+      <section className="quantum-section">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <h2 className="text-3xl font-bold text-center mb-8 font-display">{c.whoTitle}</h2>
+          <div className="quantum-card p-8">
+            <ul className="space-y-3">
+              {c.whoList.map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-6 border-t border-border">
-        <div className="max-w-3xl mx-auto text-center space-y-8">
-          <h2 className="text-3xl md:text-4xl font-bold font-heading">
-            Start Your Protocol. Share Your Advantage.
-          </h2>
-          <Link to="/assessment">
-            <button className="px-10 py-4 rounded-full font-bold text-white text-lg transition-all duration-[280ms] hover:opacity-90 bg-gradient-to-r from-[#00AEEF] to-[#006AFB]">
-              Get Started
-              <ArrowRight className="w-5 h-5 inline ml-2" />
-            </button>
+      <section className="quantum-section-navy text-center">
+        <div className="container mx-auto px-4">
+          <Star className="w-10 h-10 text-[hsl(38,76%,44%)] mx-auto mb-4" />
+          <h2 className="text-3xl font-bold text-white mb-3 font-display">{c.ctaTitle}</h2>
+          <p className="text-gray-300 mb-8">{c.ctaDesc}</p>
+          <Link
+            to="/contact"
+            className="quantum-btn-gold inline-flex items-center gap-2"
+          >
+            {c.ctaBtn} <Arrow className="w-4 h-4" />
           </Link>
+          <p className="text-xs text-white/30 mt-6">{c.note}</p>
         </div>
       </section>
     </div>
