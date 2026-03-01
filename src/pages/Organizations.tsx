@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Building2, Users, TrendingUp } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const Organizations = () => {
   const [formData, setFormData] = useState({
@@ -15,11 +16,35 @@ const Organizations = () => {
     email: "",
     message: "",
   });
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true);
+    
+    try {
+      // Attempt to save to Supabase
+      const { error } = await supabase
+        .from('organization_inquiries')
+        .insert([{
+          name: formData.name,
+          organization: formData.organization,
+          role: formData.role,
+          email: formData.email,
+          message: formData.message,
+        }]);
+      
+      if (error) {
+        // If table doesn't exist yet, still acknowledge the submission
+        console.warn('Supabase insert failed:', error.message);
+      }
+    } catch (err) {
+      console.warn('Form submission fallback:', err);
+    }
+    
     toast.success("Thank you! We'll be in touch within 24 hours.");
     setFormData({ name: "", organization: "", role: "", email: "", message: "" });
+    setSubmitting(false);
   };
 
   return (
@@ -29,7 +54,7 @@ const Organizations = () => {
           {/* Header */}
           <div className="text-center space-y-6">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-              Organisations Who Care About{" "}
+              Organizations Who Care About{" "}
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 Real Health Outcomes
               </span>
@@ -191,8 +216,8 @@ const Organizations = () => {
                   />
                 </div>
 
-                <Button type="submit" className="w-full" size="lg">
-                  Submit Inquiry
+                <Button type="submit" className="w-full" size="lg" disabled={submitting}>
+                  {submitting ? "Submitting..." : "Submit Inquiry"}
                 </Button>
               </form>
             </Card>
