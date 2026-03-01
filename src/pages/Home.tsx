@@ -7,6 +7,7 @@ import { SupplementGraveyardSection } from "@/components/home/SupplementGraveyar
 import { GenderMattersSection } from "@/components/home/GenderMattersSection";
 import { HowItWorksSection } from "@/components/home/HowItWorksSection";
 import { SmartSupplySection } from "@/components/home/SmartSupplySection";
+import { ProtocolBoxHero } from "@/components/home/ProtocolBoxHero";
 import { MAXyncHeroSection } from "@/components/maxync/MAXyncHeroSection";
 import { VideoPlaceholder } from "@/components/home/VideoPlaceholder";
 import { BrandText } from "@/components/BrandText";
@@ -99,9 +100,11 @@ const Home = () => {
       {/* Smart OS Supply Section */}
       <SmartSupplySection />
 
+      {/* Protocol Box Hero */}
+      <ProtocolBoxHero />
+
       {/* MAXync² Hero Section */}
       <MAXyncHeroSection />
-
 
       {/* Final CTA Section */}
       <section className="py-32 px-6 relative overflow-hidden">
