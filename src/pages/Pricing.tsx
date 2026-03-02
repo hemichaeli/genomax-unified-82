@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Shield, CreditCard } from "lucide-react";
 
-const SUPLIFUL_MAXIMO = "https://genomax-2.myshopify.com";
-const SUPLIFUL_MAXIMA = "https://fetkqh-60.myshopify.com";
+const SHOPIFY_MAXIMO = "https://genomax-2.myshopify.com";
+const SHOPIFY_MAXIMA = "https://fetkqh-60.myshopify.com";
 
 const tiers = [
   {
@@ -14,7 +14,6 @@ const tiers = [
     features: ["OCR blood upload", "Protocol generation", "Basic modules", "3-window dosing schedule", "Protocol Box (welcome gift)", "Email support"],
     cta: "Start Essential",
     highlight: false,
-    shopPath: "/collections/essential",
   },
   {
     name: "Pro",
@@ -25,7 +24,6 @@ const tiers = [
     features: ["Everything in Essential", "Expanded biomarker panel", "MAXync\u00B2 daily execution layer", "Quarterly retest reminders", "Trend dashboard", "Priority support"],
     cta: "Start Pro",
     highlight: true,
-    shopPath: "/collections/pro",
   },
   {
     name: "Elite",
@@ -36,14 +34,12 @@ const tiers = [
     features: ["Everything in Pro", "White-label blood kit (when available)", "Advanced analytics", "Drug-nutrient interaction screening", "Dedicated account manager", "Early access to new modules"],
     cta: "Start Elite",
     highlight: false,
-    shopPath: "/collections/elite",
   },
 ];
 
 const Pricing = () => {
-  const handleTierSelect = (tier: typeof tiers[0]) => {
-    // Store selected tier for assessment flow
-    try { sessionStorage.setItem("gx_tier", tier.name.toLowerCase()); } catch {}
+  const handleTierSelect = (tierName: string) => {
+    try { sessionStorage.setItem("gx_tier", tierName.toLowerCase()); } catch {}
   };
 
   return (
@@ -85,34 +81,32 @@ const Pricing = () => {
                   ))}
                 </div>
 
-                {/* Primary CTA: Assessment flow */}
                 <Link
                   to="/assessment"
-                  onClick={() => handleTierSelect(tier)}
+                  onClick={() => handleTierSelect(tier.name)}
                   className={`text-center text-sm font-medium py-3 px-6 rounded-lg transition-colors mb-3 block ${
                     tier.highlight ? "gx-btn-primary w-full justify-center" : "gx-btn-outline w-full justify-center"
                   }`}
                 >
-                  {tier.cta}
+                  {tier.cta} <ArrowRight className="w-4 h-4 inline ml-1" />
                 </Link>
 
-                {/* Secondary: Direct shop links */}
                 <div className="flex gap-2">
                   <a
-                    href={`${SUPLIFUL_MAXIMO}${tier.shopPath}`}
+                    href={`${SHOPIFY_MAXIMO}/collections/all`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 text-center text-xs py-2 px-3 rounded border border-[#00AEEF]/30 text-[#00AEEF] hover:bg-[#00AEEF]/10 transition-colors"
                   >
-                    MAXimo&#178;
+                    MAXimo&#178; Modules
                   </a>
                   <a
-                    href={`${SUPLIFUL_MAXIMA}${tier.shopPath}`}
+                    href={`${SHOPIFY_MAXIMA}/collections/all`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 text-center text-xs py-2 px-3 rounded border border-[#E6007A]/30 text-[#E6007A] hover:bg-[#E6007A]/10 transition-colors"
                   >
-                    MAXima&#178;
+                    MAXima&#178; Modules
                   </a>
                 </div>
               </div>
@@ -121,7 +115,6 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* Protocol Box */}
       <section className="gx-section-surface">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-3xl mx-auto">
@@ -133,7 +126,6 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* HSA/FSA */}
       <section className="gx-section">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
@@ -155,7 +147,6 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* Guarantee + Trust */}
       <section className="gx-section-surface text-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl space-y-4">
           <Shield className="w-8 h-8 text-[#FF1F23] mx-auto" />
