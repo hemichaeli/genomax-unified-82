@@ -8,7 +8,7 @@ const Manifesto = () => (
       <header className="text-center mb-16">
         <p className="text-xs font-mono text-[#FF1F23] tracking-[0.3em] mb-4">THE MANIFESTO</p>
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-6" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
-          Why We Built a Biological Operating System Instead of Another Supplement Brand
+          Why We Built an AI-Powered Biological Operating System Instead of Another Supplement Brand
         </h1>
         <p className="text-2xl font-bold text-[#FF1F23]" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
           Blood does not negotiate.
@@ -55,24 +55,65 @@ const Manifesto = () => (
           <P className="text-white font-bold">No ingredient enters a GenoMAX&#178; protocol because it is profitable. It enters because the evidence demands it and the safety data permits it.</P>
         </Section>
 
-        <Section title="A Biological Operating System">
-          <P>We did not build another supplement brand. We built a Biological Operating System.</P>
-          <P>The distinction matters. Supplement brands sell products. Operating systems process inputs, apply logic, and generate outputs. Supplement brands have ingredient lists. Operating systems have engines, safety architectures, and protocol generators. Supplement brands compete on marketing. Operating systems compete on accuracy, reliability, and the depth of their intelligence layer.</P>
-          <P>GenoMAX&#178; processes your blood biomarker data through the Bloodwork Engine, a deterministic interpretation system that maps 41 biomarkers through 31 safety gates, applies gender-specific reference ranges, computes derived markers like HOMA-IR and zinc-to-copper ratios, and produces a complete assessment of your current biological state.</P>
-          <P>The system then monitors adherence, prompts quarterly retesting, displays biomarker trends over time, and adjusts your protocol based on how your biology actually responds. The longer you use the system, the more personalized it becomes. Not because of an algorithm learning your preferences, but because your longitudinal blood data creates an increasingly precise picture of your biochemistry.</P>
+        {/* NEW: AI Brain Section */}
+        <Section title="The Brain: AI That Thinks in Biology">
+          <P>Raw blood data is necessary. It is not sufficient. A list of biomarker values is just numbers until something interprets them in clinical context, weighs them against each other, resolves conflicts between competing priorities, and produces a coherent action plan. That something is the GenoMAX&#178; Brain.</P>
+          <P>The Brain is an AI-powered clinical intelligence layer that sits between your blood data and your protocol. It does not simply match low values to supplements. It reasons. When your iron is low but your CRP is elevated, the Brain recognizes that the iron reading may be suppressed by acute inflammation and holds iron supplementation until the next blood draw confirms true deficiency. When your vitamin D is suboptimal but you are already taking a calcium-heavy protocol, the Brain adjusts dosing to avoid hypercalcemia risk. When your homocysteine is elevated, it does not blindly add B12. It cross-references your methylation markers, checks for MTHFR-related context, evaluates your folate and B6 status, and composes a methylation support protocol where every component has a clinical reason to be there.</P>
+          <P>This is not a lookup table. It is not a decision tree with fixed branches. The Brain orchestrates across every biomarker, every safety gate, every nutrient interaction, and every gender-specific consideration simultaneously, producing a protocol that no human practitioner could assemble as quickly or as consistently.</P>
+          <P>The AI layer also powers the explainability engine. Every module in your protocol comes with a plain-language explanation of why it was selected, what biomarker triggered it, what evidence supports it, and what the expected outcome is. You do not take anything on faith. You take it because the Brain showed you the reasoning.</P>
+          <P className="text-white font-bold">Other companies give you a list. GenoMAX&#178; gives you a mind that understands your biology.</P>
+        </Section>
+
+        {/* NEW: Living System Section */}
+        <Section title="A Living System, Not a Static Prescription">
+          <P>Here is the fundamental problem with every other supplement recommendation service: they hand you a protocol and walk away. Whether it comes from a questionnaire, a DNA test, or even a single blood draw, the output is a snapshot. A frozen moment. And biology does not freeze.</P>
+          <P className="text-white font-bold text-lg">Your body changes. Your protocol must change with it.</P>
+          <P>You age. Your hormonal profile shifts. You start a new medication. You develop a new health concern. You go through a period of high stress that alters your cortisol and inflammatory markers. You move to a different climate that changes your vitamin D synthesis. You shift your diet. You get pregnant. You enter perimenopause. You train for a marathon. You recover from surgery.</P>
+          <P>Every one of these changes alters what your body needs. A protocol generated six months ago from a single blood draw is already wrong. Not slightly wrong. Fundamentally wrong, because the biology it was calibrated to no longer exists.</P>
+          <P>GenoMAX&#178; is architected for continuous adaptation. Every quarterly blood draw feeds new data into the Bloodwork Engine. The Brain re-evaluates your entire protocol against your current biology, not your historical biology. Modules are added, removed, or re-dosed. Dosing windows shift. Safety gates activate or deactivate as your biomarkers move. Your trend dashboard shows you exactly how each marker has changed and what the Brain did about it.</P>
+
+          <div className="my-8 p-6 rounded-lg border border-[#1A2030] bg-[#0A0E1A]">
+            <p className="text-xs font-mono text-[#FF1F23] mb-3 tracking-wider">THE SYSTEM EVOLVES ON TWO AXES</p>
+            <div className="space-y-4">
+              <div>
+                <p className="text-white font-bold mb-1" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Your biology evolves.</p>
+                <p className="text-sm text-[#6B7A90]">New blood work. New conditions. New medications. Age-related shifts. Lifestyle changes. Pregnancy, menopause, training cycles, recovery periods. The Brain recalibrates your protocol every time new data arrives.</p>
+              </div>
+              <div className="border-t border-[#1A2030] pt-4">
+                <p className="text-white font-bold mb-1" style={{ fontFamily: "'Inter Tight', sans-serif" }}>The science evolves.</p>
+                <p className="text-sm text-[#6B7A90]">New meta-analyses published. New biomarkers validated. New safety signals identified. New supplement formulations approved. New drug-nutrient interactions discovered. The platform absorbs new clinical evidence continuously, and your protocol benefits from it automatically.</p>
+              </div>
+            </div>
+          </div>
+
+          <P>This is why a one-time recommendation from any service, including ours, is inherently incomplete. The value of GenoMAX&#178; is not in the first protocol. It is in the tenth. The twentieth. It is in the compounding intelligence that comes from tracking your biology over months and years, building a longitudinal dataset of your unique biomarker responses, and continuously refining what works specifically for you.</P>
+          <P>A cheaper alternative can give you a list of supplements based on today's blood work. It cannot give you a system that remembers your ferritin was 180 ng/mL eight months ago, dropped to 65 after the Brain removed iron, and is now holding steady at 72. It cannot warn you that your current medication change will interact with three modules in your protocol. It cannot tell you that your vitamin D consistently drops every winter and preemptively adjust your dose in October.</P>
+          <P className="text-white font-bold">Static recommendations expire. Living systems compound.</P>
+        </Section>
+
+        {/* Updated: BioOS Section with AI emphasis */}
+        <Section title="An AI-Powered Biological Operating System">
+          <P>We did not build another supplement brand. We built an AI-powered Biological Operating System.</P>
+          <P>The distinction matters. Supplement brands sell products. Operating systems process inputs, apply intelligence, and generate outputs that improve over time. Supplement brands have ingredient lists. Operating systems have engines, safety architectures, AI brains, and protocol generators. Supplement brands compete on marketing. Operating systems compete on accuracy, adaptability, and the depth of their intelligence layer.</P>
+          <P>GenoMAX&#178; processes your blood biomarker data through the Bloodwork Engine, a deterministic interpretation system that maps 41 biomarkers through 31 safety gates, applies gender-specific reference ranges, and computes derived markers like HOMA-IR and zinc-to-copper ratios. That assessment feeds into the Brain, which orchestrates constraint resolution, nutrient interaction logic, and evidence-weighted module selection to compose a protocol unique to your current biology.</P>
+          <P>The Brain does not stop working after your protocol is generated. It monitors adherence patterns through MAXync&#178;. It flags when retesting is due. It absorbs new clinical evidence as the platform's research pipeline validates new biomarkers, new safety signals, and new modules. When you retest, the Brain does not start from scratch. It builds on everything it already knows about you.</P>
+          <P>Every user who retests adds another data point to the platform's understanding of how specific biomarkers respond to specific interventions in specific demographics. Over time, the AI layer does not just personalize to you. It learns patterns across thousands of users, refining its recommendations with real-world outcome data that no clinical trial can replicate at this scale.</P>
+          <P className="text-white font-bold">The longer you stay, the smarter the system gets for you. That is not a marketing claim. It is an architectural fact.</P>
         </Section>
 
         <Section title="The Category We Are Creating">
-          <P>There is no existing market category for what GenoMAX&#178; does. Personalized supplements exist. Blood test companies exist. Supplement companies that offer blood tests exist. But no platform combines real-time blood biomarker interpretation, gender-optimized formulation logic, and chronobiology-based dosing into a single deterministic system with hard safety enforcement.</P>
+          <P>There is no existing market category for what GenoMAX&#178; does. Personalized supplements exist. Blood test companies exist. AI health platforms exist. But no platform combines real-time blood biomarker interpretation, gender-optimized formulation logic, AI-powered clinical orchestration, and chronobiology-based dosing into a single deterministic system with hard safety enforcement and continuous adaptation.</P>
           <P className="text-white font-bold text-lg">We are not entering a market. We are creating one.</P>
           <P>The category is Gender-Optimized Biological Operating Systems. It does not exist yet. When it does, GenoMAX&#178; will be the company that defined it, named it, and set its standards.</P>
+          <P>Research on category creation shows that the company that defines a new category captures approximately 76% of the total market value in that space. The company that arrives second captures a fraction. The company that arrives third captures nearly nothing.</P>
+          <P>This is not arrogance. It is arithmetic.</P>
         </Section>
 
-        <Section title="Your Blood Speaks. We Listen.">
-          <P>If you are currently taking supplements chosen by a questionnaire, you are guessing. If you are taking supplements chosen by a DNA test, you are guessing with more expensive data. If you are taking the same formula as the opposite sex, you are ignoring half of what makes your biology unique.</P>
-          <P>GenoMAX&#178; exists because we refused to accept any of these compromises. We refused to sell supplements. We refused to guess. We refused to let commercial incentives override clinical data.</P>
-          <P>We built a system that reads your blood, applies gender-specific clinical intelligence, and outputs a deterministic protocol that evolves with your biology.</P>
-          <P className="text-xl text-white font-bold" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Your blood speaks. We listen. Your protocol follows.</P>
+        <Section title="Your Blood Speaks. The Brain Listens. Your Protocol Evolves.">
+          <P>If you are currently taking supplements chosen by a questionnaire, you are guessing. If you are taking supplements chosen by a DNA test, you are guessing with more expensive data. If you are taking the same formula as the opposite sex, you are ignoring half of what makes your biology unique. If you took a blood test once, got a list, and never retested, you are running on outdated instructions while your biology moved on without you.</P>
+          <P>GenoMAX&#178; exists because we refused to accept any of these compromises. We refused to sell supplements. We refused to guess. We refused to let commercial incentives override clinical data. And we refused to build a system that becomes irrelevant the day after it delivers its first recommendation.</P>
+          <P>We built an AI-powered operating system that reads your blood, applies gender-specific clinical intelligence, composes a deterministic protocol, and then keeps watching, keeps learning, keeps adapting as your biology changes and as science advances.</P>
+          <P className="text-xl text-white font-bold" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Your blood speaks. The Brain listens. Your protocol evolves.</P>
         </Section>
       </div>
 
