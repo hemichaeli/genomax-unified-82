@@ -17,6 +17,10 @@ import About from "./pages/About";
 import Organizations from "./pages/Organizations";
 import ReferralProgram from "./pages/ReferralProgram";
 import Manifesto from "./pages/Manifesto";
+import Learn from "./pages/Learn";
+import ArticleDNA from "./pages/articles/ArticleDNA";
+import ArticleInteractions from "./pages/articles/ArticleInteractions";
+import ArticleBloodWork from "./pages/articles/ArticleBloodWork";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
 import Shop from "./pages/Shop";
@@ -49,6 +53,10 @@ const App = () => (
               <Route path="/organizations" element={<Organizations />} />
               <Route path="/referral" element={<ReferralProgram />} />
               <Route path="/manifesto" element={<Manifesto />} />
+              <Route path="/learn" element={<Learn />} />
+              <Route path="/learn/dna-test-supplements" element={<ArticleDNA />} />
+              <Route path="/learn/nutrient-interactions" element={<ArticleInteractions />} />
+              <Route path="/learn/blood-work-biology" element={<ArticleBloodWork />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/shop" element={<Shop />} />
