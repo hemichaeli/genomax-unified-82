@@ -16,6 +16,7 @@ import Assessment from "./pages/Assessment";
 import About from "./pages/About";
 import Organizations from "./pages/Organizations";
 import ReferralProgram from "./pages/ReferralProgram";
+import Manifesto from "./pages/Manifesto";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
 import Shop from "./pages/Shop";
@@ -47,6 +48,7 @@ const App = () => (
               <Route path="/about" element={<About />} />
               <Route path="/organizations" element={<Organizations />} />
               <Route path="/referral" element={<ReferralProgram />} />
+              <Route path="/manifesto" element={<Manifesto />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/shop" element={<Shop />} />
