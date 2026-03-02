@@ -4,6 +4,7 @@ import { Menu, X, ArrowRight } from "lucide-react";
 
 const navLinks = [
   { path: "/science", label: "Science" },
+  { path: "/learn", label: "Learn" },
   { path: "/maximo", label: "MAXimo\u00B2" },
   { path: "/maxima", label: "MAXima\u00B2" },
   { path: "/pricing", label: "Pricing" },
@@ -30,7 +31,7 @@ export const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm transition-colors ${location.pathname === link.path ? "text-white font-medium" : "text-[#6B7A90] hover:text-white"}`}
+                className={`text-sm transition-colors ${location.pathname === link.path || (link.path === "/learn" && location.pathname.startsWith("/learn")) ? "text-white font-medium" : "text-[#6B7A90] hover:text-white"}`}
               >
                 {link.label}
               </Link>
@@ -57,7 +58,7 @@ export const Header = () => {
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className={`block text-sm py-2 ${location.pathname === link.path ? "text-white font-medium" : "text-[#6B7A90]"}`}
+                className={`block text-sm py-2 ${location.pathname === link.path || (link.path === "/learn" && location.pathname.startsWith("/learn")) ? "text-white font-medium" : "text-[#6B7A90]"}`}
               >
                 {link.label}
               </Link>
