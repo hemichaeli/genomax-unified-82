@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Upload, FileText, ArrowRight, Clock, User, Loader2, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Shield, Activity } from "lucide-react";
+import { Upload, FileText, ArrowRight, Clock, User, Loader2, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Shield, Activity, Sun, Utensils, Moon, Package, Pill } from "lucide-react";
 
 const API_BASE = "https://web-production-97b74.up.railway.app";
 
@@ -22,18 +22,65 @@ interface BiomarkerResult {
   confidence?: number;
 }
 
+interface SKUItem {
+  sku: string;
+  product_name: string;
+  intent_id: string;
+  shopify_handle?: string;
+  reason_codes?: string[];
+  dosing_window: string;
+}
+
+interface PipelineResult {
+  protocol_id: string;
+  os_environment: string;
+  phases_completed: string[];
+  sku_plan: SKUItem[];
+  dosing_schedule: Record<string, string[]>;
+  safety_gates_activated: any[];
+  blocked_ingredients: string[];
+  interaction_warnings: any[];
+  interaction_removals: any[];
+  medications_screened: string[];
+  audit: any;
+}
+
 const GOAL_OPTIONS = [
-  "Energy & Vitality",
-  "Immune Support",
-  "Cardiovascular Health",
-  "Cognitive Performance",
-  "Muscle & Recovery",
-  "Hormonal Balance",
-  "Metabolic Optimization",
-  "Sleep Quality",
-  "Gut Health",
-  "Longevity",
+  { label: "Energy & Vitality", code: "energy" },
+  { label: "Immune Support", code: "immunity" },
+  { label: "Cardiovascular Health", code: "heart" },
+  { label: "Cognitive Performance", code: "focus" },
+  { label: "Muscle & Recovery", code: "recovery" },
+  { label: "Hormonal Balance", code: "hormones" },
+  { label: "Metabolic Optimization", code: "metabolism" },
+  { label: "Sleep Quality", code: "sleep" },
+  { label: "Gut Health", code: "gut" },
+  { label: "Longevity", code: "longevity" },
 ];
+
+const DOSING_LABELS: Record<string, { label: string; desc: string; color: string }> = {
+  morning_fasted: { label: "Morning (Fasted)", desc: "Take on empty stomach, 30 min before food", color: "#FFD600" },
+  midday_with_food: { label: "Midday (With Food)", desc: "Take with a meal containing dietary fat", color: "#00E676" },
+  evening_before_sleep: { label: "Evening (Before Sleep)", desc: "Take 30-60 min before bedtime", color: "#7C4DFF" },
+};
+
+const DOSING_ICONS: Record<string, typeof Sun> = {
+  morning_fasted: Sun,
+  midday_with_food: Utensils,
+  evening_before_sleep: Moon,
+};
+
+const INTENT_LABELS: Record<string, string> = {
+  vitamin_d_immune: "Low Vitamin D detected",
+  b12_energy_support: "Energy optimization",
+  iron_energy_support: "Iron status support",
+  zinc_immune_support: "Immune function",
+  coq10_cellular_energy: "Cellular energy",
+  vitamin_c_immune: "Antioxidant support",
+  magnesium_sleep: "Sleep & recovery",
+  omega3_brain_support: "Brain health",
+  sleep_support_melatonin: "Sleep regulation",
+};
 
 const Assessment = () => {
   const [step, setStep] = useState<Step>("profile");
@@ -42,15 +89,14 @@ const Assessment = () => {
   const [dragActive, setDragActive] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
+  const [processingStage, setProcessingStage] = useState(0);
   const [results, setResults] = useState<BiomarkerResult[]>([]);
-  const [protocolSummary, setProtocolSummary] = useState<any>(null);
-  const [safetyGates, setSafetyGates] = useState<any[]>([]);
-  const [interactions, setInteractions] = useState<any[]>([]);
+  const [pipeline, setPipeline] = useState<PipelineResult | null>(null);
 
-  const toggleGoal = (goal: string) => {
+  const toggleGoal = (code: string) => {
     setProfile((p) => ({
       ...p,
-      goals: p.goals.includes(goal) ? p.goals.filter((g) => g !== goal) : [...p.goals, goal],
+      goals: p.goals.includes(code) ? p.goals.filter((g) => g !== code) : [...p.goals, code],
     }));
   };
 
@@ -90,11 +136,15 @@ const Assessment = () => {
     setUploading(true);
     setUploadError("");
     setStep("processing");
+    setProcessingStage(0);
 
     try {
-      // Step 1: Try OCR file parse endpoint
+      // Stage 1: OCR extraction
+      setProcessingStage(1);
       const formData = new FormData();
       formData.append("file", file);
+
+      let markers: BiomarkerResult[] = [];
 
       const ocrRes = await fetch(`${API_BASE}/api/v1/bloodwork/ocr/parse`, {
         method: "POST",
@@ -103,99 +153,73 @@ const Assessment = () => {
 
       if (ocrRes.ok) {
         const ocrData = await ocrRes.json();
-        const markers = ocrData.markers || ocrData.normalized_markers || ocrData.biomarkers || [];
-        await processBloodworkResults(markers);
-        return;
+        markers = ocrData.markers || ocrData.normalized_markers || ocrData.biomarkers || [];
+      } else {
+        // Fallback: text parse
+        const text = await file.text();
+        const textRes = await fetch(`${API_BASE}/api/v1/bloodwork/ocr/parse-text`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+        if (textRes.ok) {
+          const data = await textRes.json();
+          markers = data.markers || data.normalized_markers || data.biomarkers || [];
+        } else {
+          throw new Error("Could not extract biomarkers from this file. Try a clearer image or PDF.");
+        }
       }
 
-      // Fallback: Read file as text and use parse-text endpoint
-      const text = await file.text();
-      const textRes = await fetch(`${API_BASE}/api/v1/bloodwork/ocr/parse-text`, {
+      if (markers.length === 0) {
+        throw new Error("No biomarkers detected. Please upload a lab report with blood test values.");
+      }
+
+      setResults(markers);
+      setProcessingStage(2);
+
+      // Stage 2: Run full D4 pipeline
+      const meds = profile.medications.trim()
+        ? profile.medications.split(",").map((m) => m.trim()).filter(Boolean)
+        : [];
+
+      const pipelineRes = await fetch(`${API_BASE}/api/v1/brain/pipeline`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({
+          sex: profile.gender,
+          biomarkers: markers.map((m) => ({
+            code: m.code,
+            value: m.value,
+            unit: m.unit || "ng/mL",
+          })),
+          goals: profile.goals.length > 0 ? profile.goals : ["energy", "immunity"],
+          medications: meds.length > 0 ? meds : undefined,
+          age: parseInt(profile.age),
+        }),
       });
 
-      if (textRes.ok) {
-        const data = await textRes.json();
-        const markers = data.markers || data.normalized_markers || data.biomarkers || [];
-        await processBloodworkResults(markers);
+      setProcessingStage(3);
+
+      if (pipelineRes.ok) {
+        const pipelineData = await pipelineRes.json();
+        setPipeline(pipelineData);
       } else {
-        throw new Error("Could not process this file.");
+        const errData = await pipelineRes.json().catch(() => ({}));
+        throw new Error(errData.detail || "Protocol generation failed. Please try again.");
       }
+
+      setProcessingStage(4);
+      setStep("results");
+      setUploading(false);
     } catch (err: any) {
-      setUploadError(err.message || "Upload failed. Please try a clearer image or PDF of your lab results.");
+      setUploadError(err.message || "Upload failed. Please try again.");
       setStep("upload");
       setUploading(false);
     }
   };
 
-  const processBloodworkResults = async (markers: BiomarkerResult[]) => {
-    setResults(markers);
-
-    // Step 2: Run through Bloodwork Engine
-    try {
-      const engineRes = await fetch(`${API_BASE}/api/v1/bloodwork/analyze`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          markers,
-          gender: profile.gender,
-          age: parseInt(profile.age),
-        }),
-      });
-
-      if (engineRes.ok) {
-        const engineData = await engineRes.json();
-        setSafetyGates(engineData.safety_gates_triggered || engineData.gates || []);
-      }
-    } catch {
-      // Analysis optional for displaying results
-    }
-
-    // Step 3: Check drug-nutrient interactions if medications provided
-    if (profile.medications.trim()) {
-      try {
-        const meds = profile.medications.split(",").map((m) => m.trim()).filter(Boolean);
-        const intRes = await fetch(`${API_BASE}/api/v1/brain/interactions`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ medications: meds }),
-        });
-        if (intRes.ok) {
-          const intData = await intRes.json();
-          setInteractions(intData.interactions || intData.warnings || []);
-        }
-      } catch {
-        // Interactions check optional
-      }
-    }
-
-    // Step 4: Try Brain orchestrator v2
-    try {
-      const brainRes = await fetch(`${API_BASE}/api/v1/brain/orchestrate/v2`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          bloodwork_input: { markers, gender: profile.gender, age: parseInt(profile.age) },
-          selected_goals: profile.goals,
-          assessment_context: {
-            conditions: profile.conditions || "",
-            medications: profile.medications || "",
-          },
-        }),
-      });
-      if (brainRes.ok) {
-        const brainData = await brainRes.json();
-        setProtocolSummary(brainData);
-      }
-    } catch {
-      // Brain orchestration optional for now
-    }
-
-    setStep("results");
-    setUploading(false);
-  };
+  const accentColor = profile.gender === "female" ? "#E6007A" : "#00AEEF";
+  const envLabel = profile.gender === "female" ? "MAXima\u00B2" : "MAXimo\u00B2";
 
   return (
     <div className="min-h-screen bg-[#05070A]">
@@ -208,10 +232,8 @@ const Assessment = () => {
             {step === "profile" && "Tell us about yourself. Gender-specific optimization starts here."}
             {step === "upload" && "Upload your blood work. The Bloodwork Engine needs your data."}
             {step === "processing" && "Processing your biomarkers through 31 safety gates..."}
-            {step === "results" && "Your biomarker analysis is ready."}
+            {step === "results" && "Your protocol is ready."}
           </p>
-
-          {/* Progress bar */}
           <div className="flex items-center justify-center gap-2 mt-8 max-w-md mx-auto">
             {(["profile", "upload", "processing", "results"] as Step[]).map((s, i) => (
               <div key={s} className="flex items-center gap-2 flex-1">
@@ -231,17 +253,8 @@ const Assessment = () => {
                 <label className="block text-sm font-bold text-white mb-3">Biological Sex *</label>
                 <div className="grid grid-cols-2 gap-4">
                   {(["male", "female"] as const).map((g) => (
-                    <button
-                      key={g}
-                      onClick={() => setProfile((p) => ({ ...p, gender: g }))}
-                      className={`p-4 rounded-lg border-2 transition-all text-center ${
-                        profile.gender === g
-                          ? g === "male"
-                            ? "border-[#00AEEF] bg-[#00AEEF]/10 text-[#00AEEF]"
-                            : "border-[#E6007A] bg-[#E6007A]/10 text-[#E6007A]"
-                          : "border-[#1A2030] text-[#6B7A90] hover:border-[#6B7A90]/50"
-                      }`}
-                    >
+                    <button key={g} onClick={() => setProfile((p) => ({ ...p, gender: g }))}
+                      className={`p-4 rounded-lg border-2 transition-all text-center ${profile.gender === g ? g === "male" ? "border-[#00AEEF] bg-[#00AEEF]/10 text-[#00AEEF]" : "border-[#E6007A] bg-[#E6007A]/10 text-[#E6007A]" : "border-[#1A2030] text-[#6B7A90] hover:border-[#6B7A90]/50"}`}>
                       <User className="w-6 h-6 mx-auto mb-2" />
                       <span className="text-sm font-bold">{g === "male" ? "MAXimo\u00B2" : "MAXima\u00B2"}</span>
                       <span className="block text-xs mt-1 opacity-70">{g === "male" ? "Male-Optimized" : "Female-Optimized"}</span>
@@ -249,67 +262,35 @@ const Assessment = () => {
                   ))}
                 </div>
               </div>
-
               <div>
                 <label className="block text-sm font-bold text-white mb-2">Age *</label>
-                <input
-                  type="number"
-                  min="18"
-                  max="120"
-                  value={profile.age}
-                  onChange={(e) => setProfile((p) => ({ ...p, age: e.target.value }))}
-                  placeholder="Enter your age"
-                  className="w-full bg-[#0D1117] border border-[#1A2030] rounded-lg px-4 py-3 text-white placeholder-[#6B7A90]/50 focus:border-[#FF1F23] focus:outline-none"
-                />
+                <input type="number" min="18" max="120" value={profile.age} onChange={(e) => setProfile((p) => ({ ...p, age: e.target.value }))} placeholder="Enter your age"
+                  className="w-full bg-[#0D1117] border border-[#1A2030] rounded-lg px-4 py-3 text-white placeholder-[#6B7A90]/50 focus:border-[#FF1F23] focus:outline-none" />
               </div>
-
               <div>
                 <label className="block text-sm font-bold text-white mb-2">Current Medications</label>
-                <textarea
-                  value={profile.medications}
-                  onChange={(e) => setProfile((p) => ({ ...p, medications: e.target.value }))}
-                  placeholder="List any medications, separated by commas (e.g., Metformin, Lisinopril)"
-                  rows={2}
-                  className="w-full bg-[#0D1117] border border-[#1A2030] rounded-lg px-4 py-3 text-white placeholder-[#6B7A90]/50 focus:border-[#FF1F23] focus:outline-none resize-none"
-                />
+                <textarea value={profile.medications} onChange={(e) => setProfile((p) => ({ ...p, medications: e.target.value }))} placeholder="List any medications, separated by commas (e.g., Metformin, Lisinopril)" rows={2}
+                  className="w-full bg-[#0D1117] border border-[#1A2030] rounded-lg px-4 py-3 text-white placeholder-[#6B7A90]/50 focus:border-[#FF1F23] focus:outline-none resize-none" />
                 <p className="text-xs text-[#6B7A90]/60 mt-1">Used for drug-nutrient interaction screening. Never shared.</p>
               </div>
-
               <div>
                 <label className="block text-sm font-bold text-white mb-2">Existing Conditions</label>
-                <textarea
-                  value={profile.conditions}
-                  onChange={(e) => setProfile((p) => ({ ...p, conditions: e.target.value }))}
-                  placeholder="Any diagnosed conditions (e.g., hypothyroidism, iron deficiency)"
-                  rows={2}
-                  className="w-full bg-[#0D1117] border border-[#1A2030] rounded-lg px-4 py-3 text-white placeholder-[#6B7A90]/50 focus:border-[#FF1F23] focus:outline-none resize-none"
-                />
+                <textarea value={profile.conditions} onChange={(e) => setProfile((p) => ({ ...p, conditions: e.target.value }))} placeholder="Any diagnosed conditions (e.g., hypothyroidism, iron deficiency)" rows={2}
+                  className="w-full bg-[#0D1117] border border-[#1A2030] rounded-lg px-4 py-3 text-white placeholder-[#6B7A90]/50 focus:border-[#FF1F23] focus:outline-none resize-none" />
               </div>
-
               <div>
                 <label className="block text-sm font-bold text-white mb-3">Health Goals</label>
                 <div className="flex flex-wrap gap-2">
                   {GOAL_OPTIONS.map((goal) => (
-                    <button
-                      key={goal}
-                      onClick={() => toggleGoal(goal)}
-                      className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
-                        profile.goals.includes(goal)
-                          ? "border-[#FF1F23] bg-[#FF1F23]/10 text-[#FF1F23]"
-                          : "border-[#1A2030] text-[#6B7A90] hover:border-[#6B7A90]/50"
-                      }`}
-                    >
-                      {goal}
+                    <button key={goal.code} onClick={() => toggleGoal(goal.code)}
+                      className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${profile.goals.includes(goal.code) ? "border-[#FF1F23] bg-[#FF1F23]/10 text-[#FF1F23]" : "border-[#1A2030] text-[#6B7A90] hover:border-[#6B7A90]/50"}`}>
+                      {goal.label}
                     </button>
                   ))}
                 </div>
               </div>
-
-              <button
-                onClick={() => setStep("upload")}
-                disabled={!profileValid}
-                className={`gx-btn-primary w-full justify-center flex items-center gap-2 ${!profileValid ? "opacity-40 cursor-not-allowed" : ""}`}
-              >
+              <button onClick={() => setStep("upload")} disabled={!profileValid}
+                className={`gx-btn-primary w-full justify-center flex items-center gap-2 ${!profileValid ? "opacity-40 cursor-not-allowed" : ""}`}>
                 Continue to Blood Upload <ChevronRight className="w-4 h-4" />
               </button>
             </div>
@@ -326,23 +307,15 @@ const Assessment = () => {
                 <Upload className="w-12 h-12 text-[#009BFF] mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-white mb-3">Upload Blood Work</h3>
                 <p className="text-sm text-[#6B7A90] mb-6">Upload existing lab results from any provider. Our OCR engine extracts biomarker values automatically.</p>
-
-                <div
-                  onDragEnter={handleDrag}
-                  onDragLeave={handleDrag}
-                  onDragOver={handleDrag}
-                  onDrop={handleDrop}
-                  className={`border-2 border-dashed rounded-lg p-8 transition-colors cursor-pointer ${
-                    dragActive ? "border-[#009BFF] bg-[#009BFF]/5" : file ? "border-[#00E676] bg-[#00E676]/5" : "border-[#1A2030] hover:border-[#009BFF]/40"
-                  }`}
-                  onClick={() => document.getElementById("file-input")?.click()}
-                >
+                <div onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop}
+                  className={`border-2 border-dashed rounded-lg p-8 transition-colors cursor-pointer ${dragActive ? "border-[#009BFF] bg-[#009BFF]/5" : file ? "border-[#00E676] bg-[#00E676]/5" : "border-[#1A2030] hover:border-[#009BFF]/40"}`}
+                  onClick={() => document.getElementById("file-input")?.click()}>
                   <input id="file-input" type="file" accept=".pdf,.png,.jpg,.jpeg,.webp" onChange={handleFileSelect} className="hidden" />
                   {file ? (
                     <>
                       <CheckCircle2 className="w-8 h-8 text-[#00E676] mx-auto mb-2" />
                       <p className="text-sm text-[#00E676] font-bold">{file.name}</p>
-                      <p className="text-xs text-[#6B7A90] mt-1">{(file.size / 1024).toFixed(0)} KB - Click to change</p>
+                      <p className="text-xs text-[#6B7A90] mt-1">{(file.size / 1024).toFixed(0)} KB</p>
                     </>
                   ) : (
                     <>
@@ -352,23 +325,17 @@ const Assessment = () => {
                     </>
                   )}
                 </div>
-
                 {uploadError && (
                   <div className="mt-4 p-3 rounded-lg bg-[#FF1F23]/10 border border-[#FF1F23]/30">
                     <p className="text-xs text-[#FF1F23]">{uploadError}</p>
                   </div>
                 )}
-
-                <button
-                  onClick={handleUpload}
-                  disabled={!file || uploading}
-                  className={`gx-btn-primary w-full justify-center flex items-center gap-2 mt-6 ${!file ? "opacity-40 cursor-not-allowed" : ""}`}
-                >
+                <button onClick={handleUpload} disabled={!file || uploading}
+                  className={`gx-btn-primary w-full justify-center flex items-center gap-2 mt-6 ${!file ? "opacity-40 cursor-not-allowed" : ""}`}>
                   {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
                   {uploading ? "Processing..." : "Analyze Blood Work"}
                 </button>
               </div>
-
               <div className="gx-card p-8 text-center relative">
                 <div className="absolute top-4 right-4 px-2 py-1 rounded text-xs font-mono bg-[#FFD600]/10 text-[#FFD600]">Coming Q2 2026</div>
                 <Clock className="w-12 h-12 text-[#6B7A90]/30 mx-auto mb-4" />
@@ -379,7 +346,6 @@ const Assessment = () => {
                 </div>
               </div>
             </div>
-
             <button onClick={() => setStep("profile")} className="mt-6 text-sm text-[#6B7A90] hover:text-white flex items-center gap-1 mx-auto">
               <ChevronLeft className="w-4 h-4" /> Back to Profile
             </button>
@@ -395,10 +361,21 @@ const Assessment = () => {
               <Loader2 className="w-16 h-16 text-[#FF1F23] mx-auto mb-6 animate-spin" />
               <h2 className="text-2xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Bloodwork Engine Running</h2>
               <div className="space-y-3 text-left">
-                {["OCR extracting biomarker values...", "Validating against reference ranges...", "Running 31 safety gates...", "Applying gender-specific logic...", "Generating protocol..."].map((msg, i) => (
+                {[
+                  "OCR extracting biomarker values...",
+                  "Running 31 safety gates with gender-specific thresholds...",
+                  "Composing protocol from 218 modules...",
+                  "Generating chronobiology-based dosing schedule...",
+                ].map((msg, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-[#FF1F23] animate-pulse" style={{ animationDelay: `${i * 0.3}s` }} />
-                    <span className="text-sm text-[#6B7A90]">{msg}</span>
+                    {processingStage > i ? (
+                      <CheckCircle2 className="w-4 h-4 text-[#00E676] flex-shrink-0" />
+                    ) : processingStage === i ? (
+                      <Loader2 className="w-4 h-4 text-[#FF1F23] animate-spin flex-shrink-0" />
+                    ) : (
+                      <div className="w-4 h-4 rounded-full border border-[#1A2030] flex-shrink-0" />
+                    )}
+                    <span className={`text-sm ${processingStage >= i ? "text-white" : "text-[#6B7A90]/50"}`}>{msg}</span>
                   </div>
                 ))}
               </div>
@@ -408,89 +385,203 @@ const Assessment = () => {
       )}
 
       {/* STEP 4: RESULTS */}
-      {step === "results" && (
+      {step === "results" && pipeline && (
         <section className="gx-section">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-8">
-            {/* Safety gates */}
-            {safetyGates.length > 0 && (
-              <div className="gx-card p-6 border-l-4 border-[#FF9500]">
-                <div className="flex items-center gap-2 mb-3">
-                  <Shield className="w-5 h-5 text-[#FF9500]" />
-                  <h3 className="text-sm font-bold text-white">Safety Gates Triggered</h3>
-                </div>
-                {safetyGates.map((gate: any, i: number) => (
-                  <div key={i} className="text-xs text-[#6B7A90] mb-1">
-                    <span className="text-[#FF9500] font-mono">{gate.gate_id || gate.name || gate.code || `Gate ${i + 1}`}:</span>{" "}
-                    {gate.message || gate.action || gate.description || "Review required"}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Drug-nutrient interactions */}
-            {interactions.length > 0 && (
-              <div className="gx-card p-6 border-l-4 border-[#FF1F23]">
-                <div className="flex items-center gap-2 mb-3">
-                  <AlertTriangle className="w-5 h-5 text-[#FF1F23]" />
-                  <h3 className="text-sm font-bold text-white">Drug-Nutrient Interactions</h3>
-                </div>
-                {interactions.map((int: any, i: number) => (
-                  <div key={i} className="text-xs text-[#6B7A90] mb-2 p-2 rounded bg-[#FF1F23]/5">
-                    <span className="text-[#FF1F23] font-bold">{int.severity || "Warning"}:</span>{" "}
-                    {int.message || int.description || JSON.stringify(int)}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Biomarkers */}
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-6">
+            {/* Protocol header */}
             <div className="gx-card p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Activity className="w-5 h-5 text-[#009BFF]" />
-                <h3 className="text-sm font-bold text-white">Extracted Biomarkers ({results.length})</h3>
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-xl font-bold text-white" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
+                    Your <span style={{ color: accentColor }}>{envLabel}</span> Protocol
+                  </h2>
+                  <p className="text-xs text-[#6B7A90] mt-1 font-mono">
+                    {pipeline.sku_plan.length} modules selected from {results.length} biomarkers analyzed
+                  </p>
+                </div>
+                <div className="text-right">
+                  <span className="text-xs font-mono px-2 py-1 rounded" style={{ backgroundColor: `${accentColor}15`, color: accentColor }}>
+                    {pipeline.os_environment}
+                  </span>
+                </div>
               </div>
-              {results.length > 0 ? (
-                <div className="grid gap-2">
-                  {results.map((m: any, i: number) => (
-                    <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-[#0D1117]">
-                      <span className="text-sm text-white font-mono">{m.code || m.name || m.biomarker || `Marker ${i + 1}`}</span>
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm text-white font-bold">{m.value}</span>
-                        <span className="text-xs text-[#6B7A90]">{m.unit || ""}</span>
-                        {m.flag && (
-                          <span className={`text-xs font-mono px-2 py-0.5 rounded ${m.flag === "H" || m.flag === "HIGH" ? "bg-[#FF1F23]/20 text-[#FF1F23]" : m.flag === "L" || m.flag === "LOW" ? "bg-[#FF9500]/20 text-[#FF9500]" : "bg-[#00E676]/20 text-[#00E676]"}`}>
-                            {m.flag}
-                          </span>
-                        )}
+              <div className="flex flex-wrap gap-3 text-xs">
+                {pipeline.phases_completed.map((phase) => (
+                  <span key={phase} className="px-2 py-1 rounded bg-[#00E676]/10 text-[#00E676] font-mono">
+                    {phase}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Safety gates */}
+            {pipeline.safety_gates_activated.length > 0 && (
+              <div className="gx-card p-6 border-l-4 border-[#FF9500]">
+                <div className="flex items-center gap-2 mb-4">
+                  <Shield className="w-5 h-5 text-[#FF9500]" />
+                  <h3 className="text-sm font-bold text-white">Safety Gates Activated</h3>
+                </div>
+                <div className="space-y-2">
+                  {pipeline.safety_gates_activated.map((gate: any, i: number) => (
+                    <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-[#FF9500]/5">
+                      <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${gate.action === "BLOCK" ? "bg-[#FF1F23]/20 text-[#FF1F23]" : "bg-[#FF9500]/20 text-[#FF9500]"}`}>
+                        {gate.action || "ACTIVE"}
+                      </span>
+                      <div className="flex-1">
+                        <p className="text-sm text-white">{gate.name || gate.gate_id}</p>
+                        <p className="text-xs text-[#6B7A90] mt-0.5">{gate.description || `Triggered by ${gate.trigger_marker}: ${gate.trigger_value}`}</p>
                       </div>
                     </div>
                   ))}
                 </div>
-              ) : (
-                <p className="text-sm text-[#6B7A90]">No biomarkers could be extracted. Please try uploading a clearer lab report.</p>
-              )}
-            </div>
-
-            {/* Protocol summary */}
-            {protocolSummary && (
-              <div className="gx-card p-6">
-                <h3 className="text-sm font-bold text-white mb-3">Protocol Preview</h3>
-                <pre className="text-xs text-[#6B7A90] font-mono overflow-auto max-h-60 bg-[#0D1117] p-4 rounded-lg">
-                  {JSON.stringify(protocolSummary, null, 2)}
-                </pre>
+                {pipeline.blocked_ingredients.length > 0 && (
+                  <p className="text-xs text-[#FF9500] mt-3 font-mono">
+                    Blocked ingredients: {pipeline.blocked_ingredients.join(", ")}
+                  </p>
+                )}
               </div>
             )}
 
+            {/* Drug-nutrient interactions */}
+            {pipeline.interaction_warnings.length > 0 && (
+              <div className="gx-card p-6 border-l-4 border-[#FF1F23]">
+                <div className="flex items-center gap-2 mb-4">
+                  <AlertTriangle className="w-5 h-5 text-[#FF1F23]" />
+                  <h3 className="text-sm font-bold text-white">Drug-Nutrient Interactions</h3>
+                  <span className="text-xs text-[#6B7A90]">({pipeline.medications_screened.join(", ")})</span>
+                </div>
+                <div className="space-y-2">
+                  {pipeline.interaction_warnings.map((int: any, i: number) => (
+                    <div key={i} className="p-3 rounded-lg bg-[#FF1F23]/5">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`text-xs font-bold px-2 py-0.5 rounded ${int.severity === "HIGH" ? "bg-[#FF1F23]/20 text-[#FF1F23]" : int.severity === "MODERATE" ? "bg-[#FF9500]/20 text-[#FF9500]" : "bg-[#FFD600]/20 text-[#FFD600]"}`}>
+                          {int.severity}
+                        </span>
+                        <span className="text-sm text-white">{int.product_name}</span>
+                      </div>
+                      <p className="text-xs text-[#6B7A90]">
+                        {int.ingredient} interacts with {int.drug_class}: {int.mechanism}
+                      </p>
+                      {int.clinical_action && (
+                        <p className="text-xs text-[#FF9500] mt-1">{int.clinical_action}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                {pipeline.interaction_removals.length > 0 && (
+                  <div className="mt-3 p-3 rounded-lg bg-[#FF1F23]/10">
+                    <p className="text-xs text-[#FF1F23] font-bold mb-1">Modules Removed From Protocol:</p>
+                    {pipeline.interaction_removals.map((r: any, i: number) => (
+                      <p key={i} className="text-xs text-[#6B7A90]">{r.product_name} - {r.reason}</p>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Dosing Schedule */}
+            <div className="gx-card p-6">
+              <div className="flex items-center gap-2 mb-6">
+                <Pill className="w-5 h-5" style={{ color: accentColor }} />
+                <h3 className="text-sm font-bold text-white">Your Dosing Schedule</h3>
+                <span className="text-xs text-[#6B7A90]">Chronobiology-optimized timing</span>
+              </div>
+              <div className="space-y-6">
+                {Object.entries(DOSING_LABELS).map(([window, meta]) => {
+                  const items = pipeline.sku_plan.filter((s) => s.dosing_window === window);
+                  if (items.length === 0) return null;
+                  const Icon = DOSING_ICONS[window] || Sun;
+                  return (
+                    <div key={window}>
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${meta.color}15` }}>
+                          <Icon className="w-5 h-5" style={{ color: meta.color }} />
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-bold text-white">{meta.label}</h4>
+                          <p className="text-xs text-[#6B7A90]">{meta.desc}</p>
+                        </div>
+                        <span className="ml-auto text-xs font-mono px-2 py-1 rounded" style={{ backgroundColor: `${meta.color}15`, color: meta.color }}>
+                          {items.length} module{items.length !== 1 ? "s" : ""}
+                        </span>
+                      </div>
+                      <div className="space-y-2 ml-13 pl-6 border-l-2" style={{ borderColor: `${meta.color}30` }}>
+                        {items.map((item, i) => (
+                          <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-[#0D1117] hover:bg-[#0D1117]/80 transition-colors">
+                            <div className="flex items-center gap-3">
+                              <Package className="w-4 h-4 text-[#6B7A90]" />
+                              <div>
+                                <p className="text-sm text-white font-medium">{item.product_name}</p>
+                                <p className="text-xs text-[#6B7A90]">
+                                  {INTENT_LABELS[item.intent_id] || item.intent_id.replace(/_/g, " ")}
+                                </p>
+                              </div>
+                            </div>
+                            <span className="text-xs font-mono text-[#6B7A90]">{item.sku}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Biomarkers analyzed */}
+            <details className="gx-card">
+              <summary className="p-6 cursor-pointer flex items-center gap-2">
+                <Activity className="w-5 h-5 text-[#009BFF]" />
+                <span className="text-sm font-bold text-white">Biomarkers Analyzed ({results.length})</span>
+                <ChevronRight className="w-4 h-4 text-[#6B7A90] ml-auto" />
+              </summary>
+              <div className="px-6 pb-6 space-y-2">
+                {results.map((m, i) => (
+                  <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-[#0D1117]">
+                    <span className="text-sm text-white font-mono">{m.code || `Marker ${i + 1}`}</span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm text-white font-bold">{m.value}</span>
+                      <span className="text-xs text-[#6B7A90]">{m.unit || ""}</span>
+                      {m.flag && (
+                        <span className={`text-xs font-mono px-2 py-0.5 rounded ${m.flag === "H" || m.flag === "HIGH" ? "bg-[#FF1F23]/20 text-[#FF1F23]" : m.flag === "L" || m.flag === "LOW" ? "bg-[#FF9500]/20 text-[#FF9500]" : "bg-[#00E676]/20 text-[#00E676]"}`}>
+                          {m.flag}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </details>
+
             {/* CTA */}
-            <div className="text-center space-y-4">
+            <div className="text-center space-y-4 pt-4">
               <Link to="/pricing" className="gx-btn-primary inline-flex items-center gap-2">
                 Choose Your Protocol Tier <ArrowRight className="w-4 h-4" />
               </Link>
               <div>
-                <button onClick={() => { setStep("upload"); setFile(null); setResults([]); setSafetyGates([]); setInteractions([]); setProtocolSummary(null); }} className="text-sm text-[#6B7A90] hover:text-white">
+                <button onClick={() => { setStep("upload"); setFile(null); setResults([]); setPipeline(null); }}
+                  className="text-sm text-[#6B7A90] hover:text-white">
                   Upload Different Results
                 </button>
               </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Results fallback (no pipeline) */}
+      {step === "results" && !pipeline && (
+        <section className="gx-section">
+          <div className="container mx-auto px-4 text-center max-w-lg">
+            <div className="gx-card p-8">
+              <AlertTriangle className="w-12 h-12 text-[#FF9500] mx-auto mb-4" />
+              <h2 className="text-xl font-bold text-white mb-3">Protocol Generation Issue</h2>
+              <p className="text-sm text-[#6B7A90] mb-6">
+                We extracted {results.length} biomarkers but could not generate your protocol. This may happen with unusual lab report formats.
+              </p>
+              <button onClick={() => { setStep("upload"); setFile(null); setResults([]); }}
+                className="gx-btn-primary inline-flex items-center gap-2">
+                Try Again <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </section>
