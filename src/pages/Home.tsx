@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield, Beaker, Clock, Activity } from "lucide-react";
+import { ArrowRight, Shield, Beaker, Clock, Activity, Check, Package } from "lucide-react";
 
 const Home = () => {
   return (
@@ -94,8 +94,80 @@ const Home = () => {
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* Protocol Box Hero */}
       <section className="gx-section">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="gx-safety-badge w-fit mb-4">
+                <Package className="w-3 h-3" />
+                <span>Included With Every Subscription</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
+                The Protocol Box
+              </h2>
+              <p className="text-[#6B7A90] mb-6">
+                A premium 31-day dosing organizer engineered around your chronobiology-based schedule. Morning fasted. Midday with food. Evening before sleep. Not packaging. A precision instrument for protocol execution.
+              </p>
+              <div className="space-y-3 mb-8">
+                {[
+                  "Morning/Midday/Evening compartments matching dosing windows",
+                  "MAXimo\u00B2 cyan or MAXima\u00B2 magenta accent trim",
+                  "QR code linked to your MAXync\u00B2 daily execution view",
+                  "Soft-touch matte dark navy (#0A0E1A) finish",
+                  "Designed to be photographed. #MyBioOS",
+                ].map((f) => (
+                  <div key={f} className="flex items-start gap-3">
+                    <Check className="w-4 h-4 text-[#00E676] flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-[#6B7A90]">{f}</span>
+                  </div>
+                ))}
+              </div>
+              <Link to="/pricing" className="gx-btn-outline inline-flex items-center gap-2">
+                View Pricing Tiers <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="gx-card p-0 overflow-hidden">
+              <div className="aspect-square bg-gradient-to-br from-[#0A0E1A] to-[#05070A] flex items-center justify-center relative">
+                {/* Protocol Box visual */}
+                <div className="relative">
+                  <div className="w-64 h-48 rounded-xl border-2 border-[#1A2030] bg-[#0A0E1A] shadow-2xl p-4 transform -rotate-3">
+                    <div className="text-center mb-3">
+                      <span className="text-white font-bold text-sm" style={{ fontFamily: "'Inter Tight', sans-serif" }}>GenoMAX&#178;</span>
+                      <span className="text-[#FF1F23] text-sm font-bold ml-1">Protocol Box</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="rounded-lg bg-[#00AEEF]/10 border border-[#00AEEF]/20 p-2 text-center">
+                        <div className="text-[8px] font-mono text-[#00AEEF] mb-1">AM</div>
+                        <div className="text-[7px] text-[#6B7A90]">Fasted</div>
+                      </div>
+                      <div className="rounded-lg bg-[#FFD600]/10 border border-[#FFD600]/20 p-2 text-center">
+                        <div className="text-[8px] font-mono text-[#FFD600] mb-1">MID</div>
+                        <div className="text-[7px] text-[#6B7A90]">W/ Food</div>
+                      </div>
+                      <div className="rounded-lg bg-[#9B59B6]/10 border border-[#9B59B6]/20 p-2 text-center">
+                        <div className="text-[8px] font-mono text-[#9B59B6] mb-1">PM</div>
+                        <div className="text-[7px] text-[#6B7A90]">Pre-Sleep</div>
+                      </div>
+                    </div>
+                    <div className="mt-3 flex justify-between items-center">
+                      <div className="text-[7px] font-mono text-[#6B7A90]">DAY 01/31</div>
+                      <div className="w-8 h-8 rounded bg-[#1A2030] flex items-center justify-center">
+                        <div className="text-[6px] text-[#6B7A90]">QR</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* Accent glow */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#FF1F23]/5 to-transparent pointer-events-none" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="gx-section-surface">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-12" style={{ fontFamily: "'Inter Tight', sans-serif" }}>How It Works</h2>
           <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
@@ -121,7 +193,7 @@ const Home = () => {
       </section>
 
       {/* Bottom CTA */}
-      <section className="gx-section-surface text-center">
+      <section className="gx-section text-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Blood Does Not Negotiate.</h2>
           <p className="text-[#6B7A90] mb-8">Neither should your supplement protocol.</p>
