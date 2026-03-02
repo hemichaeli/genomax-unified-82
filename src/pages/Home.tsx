@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield, Beaker, Clock, Activity, Check, Package } from "lucide-react";
+import { ArrowRight, Shield, Beaker, Clock, Activity, Check, Package, Camera, Hash, Users, Share2 } from "lucide-react";
 
 const Home = () => {
   return (
@@ -129,7 +129,6 @@ const Home = () => {
             </div>
             <div className="gx-card p-0 overflow-hidden">
               <div className="aspect-square bg-gradient-to-br from-[#0A0E1A] to-[#05070A] flex items-center justify-center relative">
-                {/* Protocol Box visual */}
                 <div className="relative">
                   <div className="w-64 h-48 rounded-xl border-2 border-[#1A2030] bg-[#0A0E1A] shadow-2xl p-4 transform -rotate-3">
                     <div className="text-center mb-3">
@@ -158,7 +157,6 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-                {/* Accent glow */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#FF1F23]/5 to-transparent pointer-events-none" />
               </div>
             </div>
@@ -166,8 +164,77 @@ const Home = () => {
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* #MyBioOS UGC Gallery */}
       <section className="gx-section-surface">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 bg-[#FF1F23]/10 border border-[#FF1F23]/20 rounded-full px-4 py-1.5 mb-4">
+              <Hash className="w-3 h-3 text-[#FF1F23]" />
+              <span className="text-xs text-[#FF1F23] font-mono font-medium">MyBioOS</span>
+            </div>
+            <h2 className="text-3xl font-bold text-white mb-3" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
+              The Community
+            </h2>
+            <p className="text-[#6B7A90] max-w-xl mx-auto">
+              Real protocols. Real biomarker improvements. Share your Protocol Box, your results, and your biological journey.
+            </p>
+          </div>
+
+          {/* UGC Preview Grid - placeholder cards until real UGC is available */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-5xl mx-auto mb-8">
+            {[
+              { type: "unboxing", env: "MAXimo\u00B2", color: "#00AEEF", metric: "Protocol Box", label: "Day 1" },
+              { type: "results", env: "MAXima\u00B2", color: "#E6007A", metric: "Vitamin D: 22 \u2192 48 ng/mL", label: "90-day retest" },
+              { type: "unboxing", env: "MAXima\u00B2", color: "#E6007A", metric: "Protocol Box", label: "Unboxing" },
+              { type: "results", env: "MAXimo\u00B2", color: "#00AEEF", metric: "Ferritin: 180 \u2192 72 ng/mL", label: "Iron blocked" },
+              { type: "results", env: "MAXimo\u00B2", color: "#00AEEF", metric: "B12: 280 \u2192 650 pg/mL", label: "6-month trend" },
+              { type: "unboxing", env: "MAXimo\u00B2", color: "#00AEEF", metric: "Morning fasted", label: "AM routine" },
+              { type: "results", env: "MAXima\u00B2", color: "#E6007A", metric: "Homocysteine: 14 \u2192 8 \u00B5mol/L", label: "Methylation fix" },
+              { type: "unboxing", env: "MAXima\u00B2", color: "#E6007A", metric: "Protocol Box", label: "Kitchen counter" },
+            ].map((card, i) => (
+              <div
+                key={i}
+                className="gx-card p-0 overflow-hidden group cursor-pointer hover:border-[#FF1F23]/30 transition-colors"
+              >
+                <div className="aspect-square bg-gradient-to-br from-[#0D1117] to-[#080B10] flex flex-col items-center justify-center p-4 relative">
+                  {card.type === "unboxing" ? (
+                    <Camera className="w-8 h-8 mb-3 transition-transform group-hover:scale-110" style={{ color: card.color }} />
+                  ) : (
+                    <Activity className="w-8 h-8 mb-3 transition-transform group-hover:scale-110" style={{ color: card.color }} />
+                  )}
+                  <div className="text-xs font-mono text-white text-center mb-1">{card.metric}</div>
+                  <div className="text-[10px] text-[#6B7A90]">{card.label}</div>
+                  <div className="absolute top-2 right-2">
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded" style={{ background: `${card.color}15`, color: card.color }}>
+                      {card.env}
+                    </span>
+                  </div>
+                  <div className="absolute bottom-2 left-2">
+                    <span className="text-[9px] text-[#6B7A90]/40 font-mono">#MyBioOS</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <p className="text-xs text-[#6B7A90] mb-4">
+              Share your Protocol Box on Instagram with <span className="text-[#FF1F23] font-mono">#MyBioOS</span> for a chance to win a free quarter.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link to="/referral" className="gx-btn-outline inline-flex items-center gap-2 text-xs">
+                <Users className="w-3.5 h-3.5" /> Join the Referral Program
+              </Link>
+              <Link to="/assessment" className="gx-btn-outline inline-flex items-center gap-2 text-xs">
+                <Share2 className="w-3.5 h-3.5" /> Get Your Protocol
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="gx-section">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-12" style={{ fontFamily: "'Inter Tight', sans-serif" }}>How It Works</h2>
           <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
@@ -193,7 +260,7 @@ const Home = () => {
       </section>
 
       {/* Bottom CTA */}
-      <section className="gx-section text-center">
+      <section className="gx-section-surface text-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Blood Does Not Negotiate.</h2>
           <p className="text-[#6B7A90] mb-8">Neither should your supplement protocol.</p>
