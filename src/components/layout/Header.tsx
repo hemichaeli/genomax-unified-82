@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, TrendingUp, Users } from "lucide-react";
 
 const navLinks = [
   { path: "/science", label: "Science" },
@@ -12,9 +12,16 @@ const navLinks = [
   { path: "/about", label: "About" },
 ];
 
+const dashboardLinks = [
+  { path: "/dashboard/trends", label: "Trends", icon: TrendingUp },
+  { path: "/dashboard/referrals", label: "Referrals", icon: Users },
+];
+
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [dashOpen, setDashOpen] = useState(false);
   const location = useLocation();
+  const isDashboardPage = location.pathname.startsWith("/dashboard");
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50" style={{ background: "rgba(5, 7, 10, 0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
@@ -39,6 +46,37 @@ export const Header = () => {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
+            <div className="relative">
+              <button
+                onClick={() => setDashOpen(!dashOpen)}
+                className={`text-sm px-3 py-1.5 rounded-md transition-colors flex items-center gap-1.5 ${isDashboardPage ? "text-white bg-white/5" : "text-[#6B7A90] hover:text-white"}`}
+              >
+                <TrendingUp className="w-3.5 h-3.5" />
+                Dashboard
+              </button>
+              {dashOpen && (
+                <div
+                  className="absolute right-0 top-full mt-2 w-44 rounded-lg border border-white/10 py-1 shadow-xl"
+                  style={{ background: "rgba(13, 17, 23, 0.98)" }}
+                  onMouseLeave={() => setDashOpen(false)}
+                >
+                  {dashboardLinks.map((link) => {
+                    const Icon = link.icon;
+                    return (
+                      <Link
+                        key={link.path}
+                        to={link.path}
+                        onClick={() => setDashOpen(false)}
+                        className={`flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${location.pathname === link.path ? "text-white bg-white/5" : "text-[#6B7A90] hover:text-white hover:bg-white/5"}`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        {link.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
             <Link to="/assessment" className="gx-btn-primary text-sm flex items-center gap-2">
               Initialize Protocol <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -63,6 +101,23 @@ export const Header = () => {
                 {link.label}
               </Link>
             ))}
+            <div className="border-t border-white/10 pt-3 mt-3">
+              <p className="text-xs text-[#6B7A90]/60 uppercase tracking-wider mb-2">Dashboard</p>
+              {dashboardLinks.map((link) => {
+                const Icon = link.icon;
+                return (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className={`flex items-center gap-2 text-sm py-2 ${location.pathname === link.path ? "text-white font-medium" : "text-[#6B7A90]"}`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </div>
             <Link to="/assessment" onClick={() => setIsOpen(false)} className="gx-btn-primary text-sm flex items-center gap-2 justify-center mt-4">
               Initialize Protocol <ArrowRight className="w-3.5 h-3.5" />
             </Link>
