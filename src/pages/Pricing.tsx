@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Shield, CreditCard } from "lucide-react";
+import { ArrowRight, Check, Star, Shield, CreditCard, Wallet } from "lucide-react";
 
 const SHOPIFY_MAXIMO = "https://genomax-2.myshopify.com";
 const SHOPIFY_MAXIMA = "https://fetkqh-60.myshopify.com";
@@ -49,9 +49,14 @@ const Pricing = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
             Invest in Your Biology
           </h1>
-          <p className="text-lg text-[#6B7A90] max-w-2xl mx-auto">
+          <p className="text-lg text-[#6B7A90] max-w-2xl mx-auto mb-6">
             All tiers operate on 3-month minimum subscriptions. Meaningful biomarker changes require at least 90 days. This is not a billing trick. It is a medical fact.
           </p>
+          {/* HSA/FSA hero badge */}
+          <div className="inline-flex items-center gap-2 bg-[#00E676]/8 border border-[#00E676]/25 rounded-full px-4 py-2">
+            <Wallet className="w-3.5 h-3.5 text-[#00E676]" />
+            <span className="text-xs text-[#00E676] font-mono font-medium">HSA / FSA Eligible &middot; Save ~30% with pre-tax funds</span>
+          </div>
         </div>
       </section>
 
@@ -71,6 +76,13 @@ const Pricing = () => {
                   <span className="text-sm text-[#6B7A90]">{tier.period}</span>
                 </div>
                 <p className="text-xs text-[#6B7A90]/60 mb-2 font-mono">{tier.commitment}</p>
+
+                {/* Per-card HSA/FSA badge */}
+                <div className="flex items-center gap-1.5 mb-4 bg-[#00E676]/6 border border-[#00E676]/20 rounded-md px-2 py-1 w-fit">
+                  <Wallet className="w-3 h-3 text-[#00E676]" />
+                  <span className="text-[10px] font-mono text-[#00E676] font-medium">HSA / FSA eligible</span>
+                </div>
+
                 <p className="text-xs text-[#6B7A90] mb-6">{tier.target}</p>
                 <div className="space-y-3 flex-1 mb-8">
                   {tier.features.map((f, i) => (
@@ -112,6 +124,22 @@ const Pricing = () => {
               </div>
             ))}
           </div>
+
+          {/* Trust row below cards */}
+          <div className="flex flex-wrap justify-center gap-6 mt-10 max-w-3xl mx-auto">
+            <div className="flex items-center gap-2 text-xs text-[#6B7A90]">
+              <Wallet className="w-3.5 h-3.5 text-[#00E676]" />
+              <span>HSA / FSA accepted &middot; ~30% savings</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-[#6B7A90]">
+              <Shield className="w-3.5 h-3.5 text-[#FF1F23]" />
+              <span>31 safety gates &middot; no commercial override</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-[#6B7A90]">
+              <CreditCard className="w-3.5 h-3.5 text-[#6B7A90]" />
+              <span>3-month minimum &middot; cancel after commitment</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -140,7 +168,7 @@ const Pricing = () => {
                   <h2 className="text-xl font-bold text-white" style={{ fontFamily: "'Inter Tight', sans-serif" }}>HSA/FSA Eligible</h2>
                   <span className="px-2 py-0.5 rounded text-xs font-mono bg-[#00E676]/10 text-[#00E676]">Save ~30%</span>
                 </div>
-                <p className="text-sm text-[#6B7A90]">GenoMAX&#178; protocols qualify as preventative healthcare. Use pre-tax health spending accounts via Letter of Medical Necessity through our Truemed partnership.</p>
+                <p className="text-sm text-[#6B7A90]">GenoMAX&#178; protocols qualify as preventative healthcare. Use pre-tax health spending accounts via Letter of Medical Necessity through our Truemed partnership. Eligible consumers save approximately 30% on subscription costs.</p>
               </div>
             </div>
           </div>
