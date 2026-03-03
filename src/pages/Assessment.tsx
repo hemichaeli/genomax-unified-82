@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Upload, FileText, ArrowRight, Clock, User, Loader2, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Shield, Activity, Sun, Utensils, Moon, Package, Pill, TrendingUp } from "lucide-react";
+import { Upload, FileText, ArrowRight, Clock, User, Loader2, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Shield, Activity, Sun, Utensils, Moon, Package, Pill, TrendingUp, ShoppingCart } from "lucide-react";
 
 const API_BASE = "https://web-production-97b74.up.railway.app";
 const DEMO_USER_ID = "00000000-0000-0000-0000-000000000001";
@@ -115,7 +115,24 @@ const saveTrendSession = async (
       }),
     });
   } catch {
-    // Non-critical: trend save failure should not block user experience
+    // Non-critical
+  }
+};
+
+/** Persist session for cross-page gender routing and protocol highlighting */
+const persistSession = (profileData: ProfileData, pipelineData: PipelineResult) => {
+  try {
+    localStorage.setItem("gx_session", JSON.stringify({
+      gender: profileData.gender,
+      environment: pipelineData.os_environment,
+      protocol_skus: pipelineData.sku_plan.map((s) => s.sku),
+      protocol_handles: pipelineData.sku_plan.map((s) => s.shopify_handle).filter(Boolean),
+      protocol_id: pipelineData.protocol_id,
+      sku_count: pipelineData.sku_plan.length,
+      saved_at: Date.now(),
+    }));
+  } catch {
+    // Non-critical: localStorage may be unavailable
   }
 };
 
@@ -178,7 +195,6 @@ const Assessment = () => {
     setProcessingStage(0);
 
     try {
-      // Stage 1: OCR extraction
       setProcessingStage(1);
       const formData = new FormData();
       formData.append("file", file);
@@ -194,7 +210,6 @@ const Assessment = () => {
         const ocrData = await ocrRes.json();
         markers = ocrData.markers || ocrData.normalized_markers || ocrData.biomarkers || [];
       } else {
-        // Fallback: text parse
         const text = await file.text();
         const textRes = await fetch(`${API_BASE}/api/v1/bloodwork/ocr/parse-text`, {
           method: "POST",
@@ -216,7 +231,6 @@ const Assessment = () => {
       setResults(markers);
       setProcessingStage(2);
 
-      // Stage 2: Run full D4 pipeline
       const meds = profile.medications.trim()
         ? profile.medications.split(",").map((m) => m.trim()).filter(Boolean)
         : [];
@@ -243,7 +257,9 @@ const Assessment = () => {
         const pipelineData = await pipelineRes.json();
         setPipeline(pipelineData);
 
-        // Save to trend dashboard (fire-and-forget)
+        // Persist session for Shop page gender routing + protocol highlighting
+        persistSession(profile as ProfileData, pipelineData);
+
         saveTrendSession(profile as ProfileData, markers, pipelineData).then(() => {
           setTrendSaved(true);
         });
@@ -603,12 +619,21 @@ const Assessment = () => {
 
             {/* CTA */}
             <div className="text-center space-y-4 pt-4">
+              <p className="text-sm text-[#6B7A90]">Your protocol is saved. Shop your exact modules or subscribe to receive them monthly.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Link to="/pricing" className="gx-btn-primary inline-flex items-center gap-2">
-                  Choose Your Protocol Tier <ArrowRight className="w-4 h-4" />
+                <Link
+                  to="/shop"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-bold text-sm transition-all"
+                  style={{ backgroundColor: accentColor, color: "#fff" }}
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  Shop Your {pipeline.sku_plan.length} Protocol Modules
+                </Link>
+                <Link to="/pricing" className="gx-btn-outline inline-flex items-center gap-2">
+                  Subscribe for Monthly Delivery <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link to="/dashboard/trends" className="gx-btn-outline inline-flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4" /> View Trend Dashboard
+                  <TrendingUp className="w-4 h-4" /> Trends
                 </Link>
               </div>
               <div>
