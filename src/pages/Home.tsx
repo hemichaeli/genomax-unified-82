@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield, Beaker, Clock, Activity, Check, Package, Camera, Hash, Users, Share2 } from "lucide-react";
+import { ArrowRight, Shield, Beaker, Clock, Activity, Check, Package, Camera, Hash, Users, Share2, Wallet } from "lucide-react";
 
 const Home = () => {
   return (
@@ -21,12 +21,20 @@ const Home = () => {
           <p className="text-lg text-[#6B7A90] max-w-2xl mx-auto mb-10">
             GenoMAX&#178; is the first Biological Operating System that reads your blood chemistry, applies gender-specific clinical intelligence, and outputs a deterministic supplement protocol calibrated to your biology.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <Link to="/assessment" className="gx-btn-primary flex items-center gap-2 justify-center">
               Initialize Your Protocol <ArrowRight className="w-4 h-4" />
             </Link>
             <Link to="/science" className="gx-btn-outline flex items-center gap-2 justify-center">
               Read the Science
+            </Link>
+          </div>
+          {/* HSA/FSA badge under CTAs */}
+          <div className="flex justify-center">
+            <Link to="/pricing" className="inline-flex items-center gap-1.5 text-xs text-[#00E676]/70 hover:text-[#00E676] transition-colors">
+              <Wallet className="w-3 h-3" />
+              <span>HSA / FSA eligible &middot; use pre-tax funds to save ~30%</span>
+              <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
         </div>
@@ -263,8 +271,14 @@ const Home = () => {
       <section className="gx-section-surface text-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Blood Does Not Negotiate.</h2>
-          <p className="text-[#6B7A90] mb-8">Neither should your supplement protocol.</p>
-          <Link to="/pricing" className="gx-btn-outline inline-block">View Pricing</Link>
+          <p className="text-[#6B7A90] mb-6">Neither should your supplement protocol.</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link to="/pricing" className="gx-btn-outline inline-block">View Pricing</Link>
+            <Link to="/pricing" className="inline-flex items-center gap-1.5 text-xs text-[#00E676]/60 hover:text-[#00E676] transition-colors">
+              <Wallet className="w-3 h-3" />
+              <span>HSA / FSA eligible</span>
+            </Link>
+          </div>
         </div>
       </section>
     </div>
