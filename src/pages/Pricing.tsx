@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Shield, CreditCard, Wallet } from "lucide-react";
 
 const SHOPIFY_MAXIMO = "https://genomax-2.myshopify.com";
-const SHOPIFY_MAXIMA = "https://maxima-8845.myshopify.com";
+const SHOPIFY_MAXIMA = "https://fetkqh-60.myshopify.com";
 
 const tiers = [
   {
