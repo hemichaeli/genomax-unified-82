@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ShoppingCart, Search, Loader2, ExternalLink, Shield, Package, Clock } from "lucide-react";
+import { ArrowRight, ShoppingCart, Search, Loader2, ExternalLink, Shield, Package, Clock, CheckCircle2, Dna } from "lucide-react";
 
 const API_BASE = "https://web-production-97b74.up.railway.app";
 
@@ -14,6 +14,16 @@ const SHOPIFY_STORES: Record<string, { url: string; cart: string }> = {
     cart: "https://fetkqh-60.myshopify.com/cart",
   },
 };
+
+interface GXSession {
+  gender: "male" | "female";
+  environment: string;
+  protocol_skus: string[];
+  protocol_handles: string[];
+  protocol_id: string;
+  sku_count: number;
+  saved_at: number;
+}
 
 interface Product {
   module_code: string;
@@ -46,6 +56,20 @@ const DOSING_LABELS: Record<string, { label: string; color: string }> = {
   evening_before_sleep: { label: "PM", color: "#9B59B6" },
 };
 
+/** Read gx_session from localStorage; discard if older than 24h */
+const loadSession = (): GXSession | null => {
+  try {
+    const raw = localStorage.getItem("gx_session");
+    if (!raw) return null;
+    const s = JSON.parse(raw) as GXSession;
+    const age = Date.now() - (s.saved_at || 0);
+    if (age > 86400000) return null; // 24h expiry
+    return s;
+  } catch {
+    return null;
+  }
+};
+
 const Shop = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -53,6 +77,17 @@ const Shop = () => {
   const [search, setSearch] = useState("");
   const [envFilter, setEnvFilter] = useState<"all" | "MAXimo\u00B2" | "MAXima\u00B2">("all");
   const [catFilter, setCatFilter] = useState("all");
+  const [protocolOnly, setProtocolOnly] = useState(false);
+  const [session, setSession] = useState<GXSession | null>(null);
+
+  // Load session on mount and auto-set environment filter
+  useEffect(() => {
+    const s = loadSession();
+    if (s) {
+      setSession(s);
+      setEnvFilter(s.environment as "MAXimo\u00B2" | "MAXima\u00B2");
+    }
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -75,9 +110,17 @@ const Shop = () => {
     fetchProducts();
   }, []);
 
+  const isInProtocol = (product: Product): boolean => {
+    if (!session) return false;
+    if (session.protocol_skus.includes(product.module_code)) return true;
+    if (product.shopify_handle && session.protocol_handles.includes(product.shopify_handle)) return true;
+    return false;
+  };
+
   const filtered = products.filter((p) => {
     if (envFilter !== "all" && p.os_environment !== envFilter) return false;
     if (catFilter !== "all" && p.category_prefix !== catFilter) return false;
+    if (protocolOnly && !isInProtocol(p)) return false;
     if (search && !p.product_name?.toLowerCase().includes(search.toLowerCase()) && !p.module_code?.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
@@ -102,6 +145,9 @@ const Shop = () => {
 
   const shoppableCount = products.filter((p) => p.shopify_handle).length;
   const totalCount = products.length;
+  const protocolMatchCount = session ? products.filter(isInProtocol).length : 0;
+  const accentColor = session?.gender === "female" ? "#E6007A" : "#00AEEF";
+  const envLabel = session?.gender === "female" ? "MAXima\u00B2" : "MAXimo\u00B2";
 
   return (
     <div className="min-h-screen bg-[#05070A]">
@@ -115,7 +161,7 @@ const Shop = () => {
             Precision <span className="text-[#FF1F23]">Modules</span>
           </h1>
           <p className="text-lg text-[#6B7A90] max-w-2xl mx-auto mb-6">
-            Every module in our catalog is backed by meta-analytic evidence and classified through our three-tier evidence system. TIER 1 and TIER 2 modules only.
+            Every module is backed by meta-analytic evidence and classified through our three-tier evidence system. TIER 1 and TIER 2 modules only.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-[#6B7A90]">
             <span className="flex items-center gap-1"><Shield className="w-3 h-3 text-[#00E676]" /> TIER 1: Strong meta-analytic evidence</span>
@@ -130,6 +176,46 @@ const Shop = () => {
           </div>
         </div>
       </section>
+
+      {/* Protocol session banner */}
+      {session && (
+        <section className="border-b border-t border-[#1A2030]" style={{ backgroundColor: `${accentColor}08` }}>
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${accentColor}20` }}>
+                  <Dna className="w-4 h-4" style={{ color: accentColor }} />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-white">
+                    Your <span style={{ color: accentColor }}>{envLabel}</span> protocol is active
+                  </p>
+                  <p className="text-xs text-[#6B7A90]">
+                    {session.sku_count} modules prescribed &mdash; {protocolMatchCount} available in catalog
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setProtocolOnly((v) => !v)}
+                  className={`text-xs px-3 py-1.5 rounded-full border transition-colors flex items-center gap-1.5 ${
+                    protocolOnly
+                      ? "text-white border-transparent"
+                      : "border-[#1A2030] text-[#6B7A90] hover:border-[#6B7A90]/50"
+                  }`}
+                  style={protocolOnly ? { backgroundColor: accentColor, borderColor: accentColor } : {}}
+                >
+                  <CheckCircle2 className="w-3 h-3" />
+                  {protocolOnly ? "Showing protocol only" : "Show protocol only"}
+                </button>
+                <Link to="/assessment" className="text-xs text-[#6B7A90] hover:text-white underline underline-offset-2">
+                  Rerun assessment
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Filters */}
       <section className="border-b border-[#1A2030]">
@@ -203,10 +289,26 @@ const Shop = () => {
                 const productUrl = getProductUrl(product);
                 const cartUrl = getAddToCartUrl(product);
                 const dosingInfo = product.dosing_window ? DOSING_LABELS[product.dosing_window] : null;
+                const inProtocol = isInProtocol(product);
 
                 return (
-                  <div key={product.module_code} className="gx-card p-5 flex flex-col group hover:border-[#FF1F23]/30 transition-colors">
-                    <div className="flex items-start justify-between mb-3">
+                  <div
+                    key={product.module_code}
+                    className={`gx-card p-5 flex flex-col group transition-colors relative ${
+                      inProtocol
+                        ? "border-[#00E676]/40 hover:border-[#00E676]/70"
+                        : "hover:border-[#FF1F23]/30"
+                    }`}
+                  >
+                    {/* Protocol badge */}
+                    {inProtocol && (
+                      <div className="absolute -top-2 left-4 flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#00E676] text-[#05070A]">
+                        <CheckCircle2 className="w-2.5 h-2.5" />
+                        IN YOUR PROTOCOL
+                      </div>
+                    )}
+
+                    <div className="flex items-start justify-between mb-3 mt-1">
                       <span className={`text-xs font-mono px-2 py-0.5 rounded ${
                         product.os_environment === "MAXimo\u00B2"
                           ? "bg-[#00AEEF]/10 text-[#00AEEF]"
@@ -245,7 +347,6 @@ const Shop = () => {
                       </div>
                     )}
 
-                    {/* Shopify checkout integration */}
                     {productUrl ? (
                       <div className="flex gap-2 mt-auto">
                         <a
@@ -256,25 +357,19 @@ const Shop = () => {
                         >
                           View <ExternalLink className="w-3 h-3" />
                         </a>
-                        {cartUrl ? (
-                          <a
-                            href={cartUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="gx-btn-primary flex-1 justify-center flex items-center gap-2 text-xs"
-                          >
-                            <ShoppingCart className="w-3 h-3" /> Buy
-                          </a>
-                        ) : (
-                          <a
-                            href={productUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="gx-btn-primary flex-1 justify-center flex items-center gap-2 text-xs"
-                          >
-                            <ShoppingCart className="w-3 h-3" /> Buy
-                          </a>
-                        )}
+                        <a
+                          href={cartUrl || productUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 justify-center flex items-center gap-2 text-xs px-3 py-2 rounded-lg font-bold transition-colors"
+                          style={
+                            inProtocol
+                              ? { backgroundColor: "#00E676", color: "#05070A" }
+                              : { backgroundColor: "#FF1F23", color: "#fff" }
+                          }
+                        >
+                          <ShoppingCart className="w-3 h-3" /> Buy
+                        </a>
                       </div>
                     ) : (
                       <div className="mt-auto">
@@ -292,29 +387,65 @@ const Shop = () => {
               })}
             </div>
           )}
+
+          {/* Empty state for protocol-only filter */}
+          {!loading && !error && filtered.length === 0 && protocolOnly && (
+            <div className="text-center py-20">
+              <Package className="w-10 h-10 text-[#6B7A90]/30 mx-auto mb-4" />
+              <p className="text-sm text-[#6B7A90] mb-2">No protocol modules found in catalog with shopify handles yet.</p>
+              <p className="text-xs text-[#6B7A90]/60 mb-6">Your protocol modules will appear here as products are published to Shopify.</p>
+              <button
+                onClick={() => setProtocolOnly(false)}
+                className="gx-btn-outline inline-flex items-center gap-2 text-xs"
+              >
+                Show All Modules
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Protocol CTA */}
       <section className="gx-section-surface text-center">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
-            Your Protocol is Not a Shopping Cart
-          </h2>
-          <p className="text-sm text-[#6B7A90] max-w-xl mx-auto mb-3">
-            Individual modules are available, but GenoMAX&#178; is designed as a complete Biological Operating System. Upload your blood work and let the Bloodwork Engine determine your protocol.
-          </p>
-          <p className="text-xs text-[#6B7A90]/60 max-w-lg mx-auto mb-6">
-            All modules are manufactured and fulfilled by Supliful under FDA cGMP standards with third-party testing for purity and potency.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/assessment" className="gx-btn-primary inline-flex items-center gap-2">
-              Initialize Protocol <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link to="/pricing" className="gx-btn-outline inline-flex items-center gap-2">
-              View Subscription Tiers
-            </Link>
-          </div>
+          {session ? (
+            <>
+              <h2 className="text-2xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
+                Subscribe for Monthly <span style={{ color: accentColor }}>{envLabel}</span> Delivery
+              </h2>
+              <p className="text-sm text-[#6B7A90] max-w-xl mx-auto mb-6">
+                Your protocol updates every quarter as your biomarkers change. Subscribe to receive your exact modules on autopilot.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/pricing" className="gx-btn-primary inline-flex items-center gap-2">
+                  Subscribe Now <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link to="/assessment" className="gx-btn-outline inline-flex items-center gap-2">
+                  Rerun Assessment
+                </Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className="text-2xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
+                Your Protocol is Not a Shopping Cart
+              </h2>
+              <p className="text-sm text-[#6B7A90] max-w-xl mx-auto mb-3">
+                Individual modules are available, but GenoMAX&#178; is designed as a complete Biological Operating System. Upload your blood work and let the Bloodwork Engine determine your protocol.
+              </p>
+              <p className="text-xs text-[#6B7A90]/60 max-w-lg mx-auto mb-6">
+                All modules are manufactured and fulfilled by Supliful under FDA cGMP standards with third-party testing for purity and potency.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/assessment" className="gx-btn-primary inline-flex items-center gap-2">
+                  Initialize Protocol <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link to="/pricing" className="gx-btn-outline inline-flex items-center gap-2">
+                  View Subscription Tiers
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </section>
     </div>
