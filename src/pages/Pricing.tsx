@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Shield, CreditCard, Wallet } from "lucide-react";
 
 const SHOPIFY_MAXIMO = "https://genomax-2.myshopify.com";
-const SHOPIFY_MAXIMA = "https://fetkqh-60.myshopify.com";
+const SHOPIFY_MAXIMA = "https://maxima-8845.myshopify.com";
 
 const tiers = [
   {
@@ -52,7 +52,6 @@ const Pricing = () => {
           <p className="text-lg text-[#6B7A90] max-w-2xl mx-auto mb-6">
             All tiers operate on 3-month minimum subscriptions. Meaningful biomarker changes require at least 90 days. This is not a billing trick. It is a medical fact.
           </p>
-          {/* HSA/FSA hero badge */}
           <div className="inline-flex items-center gap-2 bg-[#00E676]/8 border border-[#00E676]/25 rounded-full px-4 py-2">
             <Wallet className="w-3.5 h-3.5 text-[#00E676]" />
             <span className="text-xs text-[#00E676] font-mono font-medium">HSA / FSA Eligible &middot; Save ~30% with pre-tax funds</span>
@@ -77,7 +76,6 @@ const Pricing = () => {
                 </div>
                 <p className="text-xs text-[#6B7A90]/60 mb-2 font-mono">{tier.commitment}</p>
 
-                {/* Per-card HSA/FSA badge */}
                 <div className="flex items-center gap-1.5 mb-4 bg-[#00E676]/6 border border-[#00E676]/20 rounded-md px-2 py-1 w-fit">
                   <Wallet className="w-3 h-3 text-[#00E676]" />
                   <span className="text-[10px] font-mono text-[#00E676] font-medium">HSA / FSA eligible</span>
@@ -125,7 +123,6 @@ const Pricing = () => {
             ))}
           </div>
 
-          {/* Trust row below cards */}
           <div className="flex flex-wrap justify-center gap-6 mt-10 max-w-3xl mx-auto">
             <div className="flex items-center gap-2 text-xs text-[#6B7A90]">
               <Wallet className="w-3.5 h-3.5 text-[#00E676]" />
