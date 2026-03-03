@@ -1,8 +1,9 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Upload, FileText, ArrowRight, Clock, User, Loader2, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Shield, Activity, Sun, Utensils, Moon, Package, Pill } from "lucide-react";
+import { Upload, FileText, ArrowRight, Clock, User, Loader2, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Shield, Activity, Sun, Utensils, Moon, Package, Pill, TrendingUp } from "lucide-react";
 
 const API_BASE = "https://web-production-97b74.up.railway.app";
+const DEMO_USER_ID = "00000000-0000-0000-0000-000000000001";
 
 type Step = "profile" | "upload" | "processing" | "results";
 
@@ -82,6 +83,42 @@ const INTENT_LABELS: Record<string, string> = {
   sleep_support_melatonin: "Sleep regulation",
 };
 
+/** Save session to trend dashboard (fire-and-forget) */
+const saveTrendSession = async (
+  profileData: ProfileData,
+  markers: BiomarkerResult[],
+  pipelineData: PipelineResult
+) => {
+  try {
+    await fetch(`${API_BASE}/api/v1/trends/save`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: DEMO_USER_ID,
+        sex: profileData.gender,
+        age: profileData.age ? parseInt(profileData.age) : null,
+        upload_method: "ocr",
+        biomarkers: markers.map((m) => ({
+          code: m.code,
+          value: m.value,
+          unit: m.unit || "ng/mL",
+          flag: m.flag || null,
+        })),
+        protocol: {
+          os_environment: pipelineData.os_environment,
+          sku_plan: pipelineData.sku_plan,
+          safety_gates: pipelineData.safety_gates_activated,
+          blocked_ingredients: pipelineData.blocked_ingredients,
+          interaction_warnings: pipelineData.interaction_warnings,
+          dosing_schedule: pipelineData.dosing_schedule,
+        },
+      }),
+    });
+  } catch {
+    // Non-critical: trend save failure should not block user experience
+  }
+};
+
 const Assessment = () => {
   const [step, setStep] = useState<Step>("profile");
   const [profile, setProfile] = useState<ProfileData>({ gender: "", age: "", medications: "", conditions: "", goals: [] });
@@ -92,6 +129,7 @@ const Assessment = () => {
   const [processingStage, setProcessingStage] = useState(0);
   const [results, setResults] = useState<BiomarkerResult[]>([]);
   const [pipeline, setPipeline] = useState<PipelineResult | null>(null);
+  const [trendSaved, setTrendSaved] = useState(false);
 
   const toggleGoal = (code: string) => {
     setProfile((p) => ({
@@ -135,6 +173,7 @@ const Assessment = () => {
     if (!file) return;
     setUploading(true);
     setUploadError("");
+    setTrendSaved(false);
     setStep("processing");
     setProcessingStage(0);
 
@@ -203,6 +242,11 @@ const Assessment = () => {
       if (pipelineRes.ok) {
         const pipelineData = await pipelineRes.json();
         setPipeline(pipelineData);
+
+        // Save to trend dashboard (fire-and-forget)
+        saveTrendSession(profile as ProfileData, markers, pipelineData).then(() => {
+          setTrendSaved(true);
+        });
       } else {
         const errData = await pipelineRes.json().catch(() => ({}));
         throw new Error(errData.detail || "Protocol generation failed. Please try again.");
@@ -411,6 +455,11 @@ const Assessment = () => {
                     {phase}
                   </span>
                 ))}
+                {trendSaved && (
+                  <span className="px-2 py-1 rounded bg-[#009BFF]/10 text-[#009BFF] font-mono flex items-center gap-1">
+                    <TrendingUp className="w-3 h-3" /> Saved to Trends
+                  </span>
+                )}
               </div>
             </div>
 
@@ -554,11 +603,16 @@ const Assessment = () => {
 
             {/* CTA */}
             <div className="text-center space-y-4 pt-4">
-              <Link to="/pricing" className="gx-btn-primary inline-flex items-center gap-2">
-                Choose Your Protocol Tier <ArrowRight className="w-4 h-4" />
-              </Link>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link to="/pricing" className="gx-btn-primary inline-flex items-center gap-2">
+                  Choose Your Protocol Tier <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link to="/dashboard/trends" className="gx-btn-outline inline-flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4" /> View Trend Dashboard
+                </Link>
+              </div>
               <div>
-                <button onClick={() => { setStep("upload"); setFile(null); setResults([]); setPipeline(null); }}
+                <button onClick={() => { setStep("upload"); setFile(null); setResults([]); setPipeline(null); setTrendSaved(false); }}
                   className="text-sm text-[#6B7A90] hover:text-white">
                   Upload Different Results
                 </button>
