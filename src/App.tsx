@@ -18,6 +18,7 @@ import Organizations from "./pages/Organizations";
 import ReferralProgram from "./pages/ReferralProgram";
 import ReferralDashboard from "./pages/ReferralDashboard";
 import ReferralLanding from "./pages/ReferralLanding";
+import TrendDashboard from "./pages/TrendDashboard";
 import Manifesto from "./pages/Manifesto";
 import Learn from "./pages/Learn";
 import ArticleDNA from "./pages/articles/ArticleDNA";
@@ -55,6 +56,7 @@ const App = () => (
               <Route path="/organizations" element={<Organizations />} />
               <Route path="/referral" element={<ReferralProgram />} />
               <Route path="/dashboard/referrals" element={<ReferralDashboard />} />
+              <Route path="/dashboard/trends" element={<TrendDashboard />} />
               <Route path="/ref/:code" element={<ReferralLanding />} />
               <Route path="/manifesto" element={<Manifesto />} />
               <Route path="/learn" element={<Learn />} />
