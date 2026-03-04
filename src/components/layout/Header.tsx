@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ArrowRight, TrendingUp, Users } from "lucide-react";
+import { Menu, X, ArrowRight, TrendingUp, Users, Check, CreditCard } from "lucide-react";
 
 const navLinks = [
   { path: "/science", label: "Science" },
@@ -14,7 +14,9 @@ const navLinks = [
 
 const dashboardLinks = [
   { path: "/dashboard/trends", label: "Trends", icon: TrendingUp },
+  { path: "/dashboard/maxync", label: "MAXync\u00B2", icon: Check },
   { path: "/dashboard/referrals", label: "Referrals", icon: Users },
+  { path: "/dashboard/subscription", label: "Subscription", icon: CreditCard },
 ];
 
 export const Header = () => {
@@ -56,7 +58,7 @@ export const Header = () => {
               </button>
               {dashOpen && (
                 <div
-                  className="absolute right-0 top-full mt-2 w-44 rounded-lg border border-white/10 py-1 shadow-xl"
+                  className="absolute right-0 top-full mt-2 w-48 rounded-lg border border-white/10 py-1 shadow-xl"
                   style={{ background: "rgba(13, 17, 23, 0.98)" }}
                   onMouseLeave={() => setDashOpen(false)}
                 >
