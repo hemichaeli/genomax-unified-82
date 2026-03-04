@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Shield, CreditCard, Wallet } from "lucide-react";
 
-const SHOPIFY_MAXIMO = "https://genomax-2.myshopify.com";
-const SHOPIFY_MAXIMA = "https://fetkqh-60.myshopify.com";
-
 const tiers = [
   {
     name: "Essential",
@@ -21,7 +18,7 @@ const tiers = [
     period: "/month",
     commitment: "3-month minimum",
     target: "Performance-focused adults, athletes",
-    features: ["Everything in Essential", "Expanded biomarker panel", "MAXync\u00B2 daily execution layer", "Quarterly retest reminders", "Trend dashboard", "Priority support"],
+    features: ["Everything in Essential", "Expanded biomarker panel", "MAXync\u00b2 daily execution layer", "Quarterly retest reminders", "Trend dashboard", "Priority support"],
     cta: "Start Pro",
     highlight: true,
   },
@@ -38,10 +35,6 @@ const tiers = [
 ];
 
 const Pricing = () => {
-  const handleTierSelect = (tierName: string) => {
-    try { sessionStorage.setItem("gx_tier", tierName.toLowerCase()); } catch {}
-  };
-
   return (
     <div className="min-h-screen bg-[#05070A]">
       <section className="gx-hero pt-32 pb-16">
@@ -92,8 +85,7 @@ const Pricing = () => {
                 </div>
 
                 <Link
-                  to="/assessment"
-                  onClick={() => handleTierSelect(tier.name)}
+                  to={`/checkout?tier=${tier.name.toLowerCase()}`}
                   className={`text-center text-sm font-medium py-3 px-6 rounded-lg transition-colors mb-3 block ${
                     tier.highlight ? "gx-btn-primary w-full justify-center" : "gx-btn-outline w-full justify-center"
                   }`}
@@ -101,24 +93,12 @@ const Pricing = () => {
                   {tier.cta} <ArrowRight className="w-4 h-4 inline ml-1" />
                 </Link>
 
-                <div className="flex gap-2">
-                  <a
-                    href={`${SHOPIFY_MAXIMO}/collections/all`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 text-center text-xs py-2 px-3 rounded border border-[#00AEEF]/30 text-[#00AEEF] hover:bg-[#00AEEF]/10 transition-colors"
-                  >
-                    MAXimo&#178; Modules
-                  </a>
-                  <a
-                    href={`${SHOPIFY_MAXIMA}/collections/all`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 text-center text-xs py-2 px-3 rounded border border-[#E6007A]/30 text-[#E6007A] hover:bg-[#E6007A]/10 transition-colors"
-                  >
-                    MAXima&#178; Modules
-                  </a>
-                </div>
+                <Link
+                  to="/shop"
+                  className="text-center text-xs py-2 px-3 rounded border border-[#1A2030] text-[#6B7A90] hover:border-[#6B7A90]/50 transition-colors block"
+                >
+                  Browse Individual Modules
+                </Link>
               </div>
             ))}
           </div>
@@ -177,7 +157,7 @@ const Pricing = () => {
           <Shield className="w-8 h-8 text-[#FF1F23] mx-auto" />
           <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Blood Does Not Negotiate</h2>
           <p className="text-[#6B7A90]">Every protocol is generated deterministically from your blood biomarker data. No commercial override. No ingredient gets into a protocol because it is profitable. It gets in because the blood data demands it.</p>
-          <Link to="/assessment" className="gx-btn-primary inline-flex items-center gap-2">
+          <Link to="/checkout?tier=pro" className="gx-btn-primary inline-flex items-center gap-2">
             Initialize Your Protocol <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
