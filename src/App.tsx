@@ -8,6 +8,8 @@ import { Footer } from "@/components/layout/Footer";
 import Home from "./pages/Home";
 import Science from "./pages/Science";
 import Pricing from "./pages/Pricing";
+import Checkout from "./pages/Checkout";
+import CheckoutSuccess from "./pages/CheckoutSuccess";
 import Maximo from "./pages/Maximo";
 import Maxima from "./pages/Maxima";
 import MAXync from "./pages/MAXync";
@@ -47,6 +49,8 @@ const App = () => (
               <Route path="/" element={<Home />} />
               <Route path="/science" element={<Science />} />
               <Route path="/pricing" element={<Pricing />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/checkout/success" element={<CheckoutSuccess />} />
               <Route path="/maximo" element={<Maximo />} />
               <Route path="/maxima" element={<Maxima />} />
               <Route path="/maxync" element={<MAXync />} />
