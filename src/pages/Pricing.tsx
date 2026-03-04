@@ -1,13 +1,19 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Shield, CreditCard, Wallet, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { ArrowRight, Check, Star, Shield, CreditCard, Wallet, Loader2, Gift, X } from "lucide-react";
 
 const API_BASE = "https://web-production-97b74.up.railway.app";
+
+interface ReferralState {
+  code: string;
+  discount: number;
+  referrer: string;
+}
 
 const tiers = [
   {
     name: "Essential",
-    price: "$89",
+    price: 89,
     period: "/month",
     commitment: "3-month minimum",
     target: "Health-conscious consumers starting optimization",
@@ -18,7 +24,7 @@ const tiers = [
   },
   {
     name: "Pro",
-    price: "$139",
+    price: 139,
     period: "/month",
     commitment: "3-month minimum",
     target: "Performance-focused adults, athletes",
@@ -29,7 +35,7 @@ const tiers = [
   },
   {
     name: "Elite",
-    price: "$169",
+    price: 169,
     period: "/month",
     commitment: "3-month minimum",
     target: "Executives, elite athletes, longevity-focused",
@@ -41,14 +47,63 @@ const tiers = [
 ];
 
 const Pricing = () => {
+  const [searchParams] = useSearchParams();
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [referral, setReferral] = useState<ReferralState | null>(null);
+  const [dismissedBanner, setDismissedBanner] = useState(false);
 
-  const handleSubscribe = async (tierKey: string, tierName: string) => {
+  // Load referral from URL params or localStorage
+  useEffect(() => {
+    const refCode = searchParams.get("ref");
+    const refDiscount = searchParams.get("discount");
+
+    if (refCode) {
+      const state: ReferralState = {
+        code: refCode,
+        discount: refDiscount ? parseFloat(refDiscount) : 20,
+        referrer: searchParams.get("from") || "",
+      };
+      setReferral(state);
+      // Persist for checkout
+      try {
+        localStorage.setItem("gx_referral_code", state.code);
+        localStorage.setItem("gx_referral_discount", String(state.discount));
+        localStorage.setItem("gx_referral_referrer", state.referrer);
+      } catch {}
+      return;
+    }
+
+    // Check localStorage for previously stored referral
+    try {
+      const code = localStorage.getItem("gx_referral_code");
+      const discount = localStorage.getItem("gx_referral_discount");
+      const ts = localStorage.getItem("gx_referral_ts");
+      if (code) {
+        // Expire after 30 days
+        if (ts) {
+          const age = Date.now() - new Date(ts).getTime();
+          if (age > 30 * 24 * 60 * 60 * 1000) {
+            localStorage.removeItem("gx_referral_code");
+            localStorage.removeItem("gx_referral_discount");
+            localStorage.removeItem("gx_referral_referrer");
+            localStorage.removeItem("gx_referral_ts");
+            return;
+          }
+        }
+        setReferral({
+          code,
+          discount: discount ? parseFloat(discount) : 20,
+          referrer: localStorage.getItem("gx_referral_referrer") || "",
+        });
+      }
+    } catch {}
+  }, [searchParams]);
+
+  const handleSubscribe = async (tierKey: string) => {
     setLoadingTier(tierKey);
     setError("");
 
-    // Determine OS environment from session or default
     let osEnv = "MAXimo\u00B2";
     try {
       const raw = localStorage.getItem("gx_session");
@@ -58,7 +113,6 @@ const Pricing = () => {
       }
     } catch {}
 
-    // Generate or retrieve user_id
     let userId = "";
     try {
       userId = localStorage.getItem("gx_user_id") || "";
@@ -71,14 +125,21 @@ const Pricing = () => {
     }
 
     try {
+      const body: Record<string, any> = {
+        user_id: userId,
+        tier: tierKey,
+        os_environment: osEnv,
+      };
+
+      // Attach referral code if present
+      if (referral?.code) {
+        body.referral_code = referral.code;
+      }
+
       const res = await fetch(`${API_BASE}/api/v1/billing/create-checkout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: userId,
-          tier: tierKey,
-          os_environment: osEnv,
-        }),
+        body: JSON.stringify(body),
       });
 
       if (res.ok) {
@@ -89,12 +150,10 @@ const Pricing = () => {
         }
       }
 
-      // Fallback: if Stripe not yet configured, go to assessment
       const errData = await res.json().catch(() => null);
       const errMsg = errData?.detail || "";
 
       if (errMsg.includes("not configured") || errMsg.includes("not installed")) {
-        // Stripe keys not set yet - fall back to assessment flow
         try { sessionStorage.setItem("gx_tier", tierKey); } catch {}
         window.location.href = "/assessment";
         return;
@@ -102,7 +161,6 @@ const Pricing = () => {
 
       setError("Could not start checkout. Please try again.");
     } catch {
-      // Network error - fall back to assessment
       try { sessionStorage.setItem("gx_tier", tierKey); } catch {}
       window.location.href = "/assessment";
     } finally {
@@ -110,9 +168,45 @@ const Pricing = () => {
     }
   };
 
+  const formatPrice = (base: number) => {
+    if (referral && !dismissedBanner) {
+      const discounted = base - referral.discount;
+      return (
+        <span className="flex items-baseline gap-2">
+          <span className="font-mono text-4xl font-bold text-white">${discounted}</span>
+          <span className="font-mono text-lg text-[#6B7A90] line-through">${base}</span>
+        </span>
+      );
+    }
+    return <span className="font-mono text-4xl font-bold text-white">${base}</span>;
+  };
+
   return (
     <div className="min-h-screen bg-[#05070A]">
-      <section className="gx-hero pt-32 pb-16">
+
+      {/* Referral discount banner */}
+      {referral && !dismissedBanner && (
+        <div className="fixed top-0 left-0 right-0 z-50 bg-[#FF1F23] text-white py-2.5 px-4">
+          <div className="container mx-auto flex items-center justify-center gap-3">
+            <Gift className="w-4 h-4 shrink-0" />
+            <span className="text-sm font-medium">
+              ${referral.discount} off your first month
+              {referral.referrer ? ` from ${referral.referrer}` : ""}
+            </span>
+            <span className="text-xs text-white/60 font-mono hidden sm:inline">|</span>
+            <span className="text-xs text-white/60 font-mono hidden sm:inline">Code: {referral.code}</span>
+            <button
+              onClick={() => setDismissedBanner(true)}
+              className="ml-2 p-0.5 rounded hover:bg-white/20 transition-colors"
+              aria-label="Dismiss"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      <section className={`gx-hero pb-16 ${referral && !dismissedBanner ? "pt-44" : "pt-32"}`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
             Invest in Your Biology
@@ -145,9 +239,19 @@ const Pricing = () => {
                 )}
                 <h3 className="text-lg font-bold text-white mb-1">{tier.name}</h3>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="font-mono text-4xl font-bold text-white">{tier.price}</span>
+                  {formatPrice(tier.price)}
                   <span className="text-sm text-[#6B7A90]">{tier.period}</span>
                 </div>
+
+                {referral && !dismissedBanner && (
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <Gift className="w-3 h-3 text-[#FF1F23]" />
+                    <span className="text-[10px] font-mono text-[#FF1F23]">
+                      ${referral.discount} referral discount applied to first month
+                    </span>
+                  </div>
+                )}
+
                 <p className="text-xs text-[#6B7A90]/60 mb-2 font-mono">{tier.commitment}</p>
 
                 <div className="flex items-center gap-1.5 mb-4 bg-[#00E676]/6 border border-[#00E676]/20 rounded-md px-2 py-1 w-fit">
@@ -166,7 +270,7 @@ const Pricing = () => {
                 </div>
 
                 <button
-                  onClick={() => handleSubscribe(tier.tier_key, tier.name)}
+                  onClick={() => handleSubscribe(tier.tier_key)}
                   disabled={loadingTier !== null}
                   className={`text-center text-sm font-medium py-3 px-6 rounded-lg transition-colors mb-3 w-full flex items-center justify-center gap-2 ${
                     tier.highlight
