@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Upload, FileText, ArrowRight, Clock, User, Loader2, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Shield, Activity, Sun, Utensils, Moon, Package, Pill, TrendingUp, ShoppingCart, Gift } from "lucide-react";
+import { Upload, FileText, ArrowRight, Clock, User, Loader2, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Shield, Activity, Sun, Utensils, Moon, Package, Pill, TrendingUp, ShoppingCart, Gift, Info } from "lucide-react";
 
 const API_BASE = "https://web-production-97b74.up.railway.app";
 const DEMO_USER_ID = "00000000-0000-0000-0000-000000000001";
@@ -32,17 +32,29 @@ interface SKUItem {
   dosing_window: string;
 }
 
+interface ClinicalWarning {
+  type: string;
+  severity: string;
+  gate_id: string;
+  title: string;
+  message: string;
+  detail: string;
+  affected_ingredients: string[];
+  retest_recommendation: string;
+}
+
 interface PipelineResult {
   protocol_id: string;
   os_environment: string;
   phases_completed: string[];
   sku_plan: SKUItem[];
   dosing_schedule: Record<string, string[]>;
-  safety_gates_activated: any[];
+  safety_gates_activated: string[];
   blocked_ingredients: string[];
   interaction_warnings: any[];
   interaction_removals: any[];
   medications_screened: string[];
+  clinical_warnings: ClinicalWarning[];
   audit: any;
 }
 
@@ -309,6 +321,15 @@ const Assessment = () => {
   const accentColor = profile.gender === "female" ? "#E6007A" : "#00AEEF";
   const envLabel = profile.gender === "female" ? "MAXima\u00B2" : "MAXimo\u00B2";
 
+  // Helper to classify safety gate strings for badge rendering
+  const getGateBadge = (gate: string) => {
+    if (gate.startsWith("BLOCK_")) return { label: "BLOCK", color: "#FF1F23", bg: "rgba(255,31,35,0.15)" };
+    if (gate.startsWith("EXCEPTION_")) return { label: "DEFERRED", color: "#FF9500", bg: "rgba(255,149,0,0.15)" };
+    if (gate.startsWith("CAUTION_")) return { label: "CAUTION", color: "#FFD600", bg: "rgba(255,214,0,0.15)" };
+    if (gate.startsWith("FLAG_")) return { label: "FLAG", color: "#009BFF", bg: "rgba(0,155,255,0.15)" };
+    return { label: "ACTIVE", color: "#FF9500", bg: "rgba(255,149,0,0.15)" };
+  };
+
   return (
     <div className="min-h-screen bg-[#05070A]">
 
@@ -516,31 +537,74 @@ const Assessment = () => {
               </div>
             </div>
 
-            {pipeline.safety_gates_activated.length > 0 && (
+            {/* Clinical Warnings (v1.4.0) - deferred safety gates with retest recommendations */}
+            {pipeline.clinical_warnings && pipeline.clinical_warnings.length > 0 && (
               <div className="gx-card p-6 border-l-4 border-[#FF9500]">
                 <div className="flex items-center gap-2 mb-4">
-                  <Shield className="w-5 h-5 text-[#FF9500]" />
-                  <h3 className="text-sm font-bold text-white">Safety Gates Activated</h3>
+                  <Info className="w-5 h-5 text-[#FF9500]" />
+                  <h3 className="text-sm font-bold text-white">Clinical Alerts</h3>
+                  <span className="text-xs px-2 py-0.5 rounded bg-[#FF9500]/15 text-[#FF9500] font-mono">Requires Attention</span>
                 </div>
-                <div className="space-y-2">
-                  {pipeline.safety_gates_activated.map((gate: any, i: number) => (
-                    <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-[#FF9500]/5">
-                      <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${gate.action === "BLOCK" ? "bg-[#FF1F23]/20 text-[#FF1F23]" : "bg-[#FF9500]/20 text-[#FF9500]"}`}>
-                        {gate.action || "ACTIVE"}
-                      </span>
-                      <div className="flex-1">
-                        <p className="text-sm text-white">{gate.name || gate.gate_id}</p>
-                        <p className="text-xs text-[#6B7A90] mt-0.5">{gate.description || `Triggered by ${gate.trigger_marker}: ${gate.trigger_value}`}</p>
+                <div className="space-y-3">
+                  {pipeline.clinical_warnings.map((warning, i) => (
+                    <div key={i} className="p-4 rounded-lg bg-[#FF9500]/5 border border-[#FF9500]/20">
+                      <div className="flex items-start gap-3">
+                        <AlertTriangle className="w-4 h-4 text-[#FF9500] mt-0.5 flex-shrink-0" />
+                        <div className="flex-1 space-y-2">
+                          <p className="text-sm text-white font-medium">{warning.message}</p>
+                          <p className="text-xs text-[#6B7A90]">{warning.detail}</p>
+                          {warning.affected_ingredients && warning.affected_ingredients.length > 0 && (
+                            <div className="flex flex-wrap gap-1">
+                              {warning.affected_ingredients.map((ing, j) => (
+                                <span key={j} className="text-xs px-2 py-0.5 rounded bg-[#FF9500]/10 text-[#FF9500]/80 font-mono">
+                                  {ing.replace(/_/g, " ")}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          <div className="mt-2 p-3 rounded bg-[#0D1117] border border-[#1A2030]">
+                            <p className="text-xs text-[#009BFF]">
+                              <span className="font-bold">Retest recommendation:</span> {warning.retest_recommendation}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Safety Gates */}
+            {pipeline.safety_gates_activated.length > 0 && (
+              <div className="gx-card p-6 border-l-4 border-[#1A2030]">
+                <div className="flex items-center gap-2 mb-4">
+                  <Shield className="w-5 h-5 text-[#6B7A90]" />
+                  <h3 className="text-sm font-bold text-white">Safety Gates Activated</h3>
+                  <span className="text-xs text-[#6B7A90] font-mono">{pipeline.safety_gates_activated.length} gates</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {pipeline.safety_gates_activated.map((gate, i) => {
+                    const badge = getGateBadge(gate);
+                    return (
+                      <div key={i} className="flex items-center gap-2 p-2 rounded-lg bg-[#0D1117]">
+                        <span className="text-xs font-mono font-bold px-2 py-0.5 rounded" style={{ backgroundColor: badge.bg, color: badge.color }}>
+                          {badge.label}
+                        </span>
+                        <span className="text-xs text-[#6B7A90] font-mono">{gate.replace(/^(BLOCK_|EXCEPTION_|CAUTION_|FLAG_)/, "")}</span>
+                      </div>
+                    );
+                  })}
+                </div>
                 {pipeline.blocked_ingredients.length > 0 && (
-                  <p className="text-xs text-[#FF9500] mt-3 font-mono">Blocked ingredients: {pipeline.blocked_ingredients.join(", ")}</p>
+                  <p className="text-xs text-[#FF1F23] mt-3 font-mono">
+                    Blocked: {pipeline.blocked_ingredients.join(", ")}
+                  </p>
                 )}
               </div>
             )}
 
+            {/* Drug-Nutrient Interactions */}
             {pipeline.interaction_warnings.length > 0 && (
               <div className="gx-card p-6 border-l-4 border-[#FF1F23]">
                 <div className="flex items-center gap-2 mb-4">
