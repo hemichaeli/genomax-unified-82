@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
-import { Link } from "react-router-dom";
-import { Upload, FileText, ArrowRight, Clock, User, Loader2, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Shield, Activity, Sun, Utensils, Moon, Package, Pill, TrendingUp, ShoppingCart } from "lucide-react";
+import { useState, useCallback, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { Upload, FileText, ArrowRight, Clock, User, Loader2, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Shield, Activity, Sun, Utensils, Moon, Package, Pill, TrendingUp, ShoppingCart, Gift } from "lucide-react";
 
 const API_BASE = "https://web-production-97b74.up.railway.app";
 const DEMO_USER_ID = "00000000-0000-0000-0000-000000000001";
@@ -83,7 +83,6 @@ const INTENT_LABELS: Record<string, string> = {
   sleep_support_melatonin: "Sleep regulation",
 };
 
-/** Save session to trend dashboard (fire-and-forget) */
 const saveTrendSession = async (
   profileData: ProfileData,
   markers: BiomarkerResult[],
@@ -114,12 +113,9 @@ const saveTrendSession = async (
         },
       }),
     });
-  } catch {
-    // Non-critical
-  }
+  } catch {}
 };
 
-/** Persist session for cross-page gender routing and protocol highlighting */
 const persistSession = (profileData: ProfileData, pipelineData: PipelineResult) => {
   try {
     localStorage.setItem("gx_session", JSON.stringify({
@@ -131,12 +127,11 @@ const persistSession = (profileData: ProfileData, pipelineData: PipelineResult) 
       sku_count: pipelineData.sku_plan.length,
       saved_at: Date.now(),
     }));
-  } catch {
-    // Non-critical: localStorage may be unavailable
-  }
+  } catch {}
 };
 
 const Assessment = () => {
+  const [searchParams] = useSearchParams();
   const [step, setStep] = useState<Step>("profile");
   const [profile, setProfile] = useState<ProfileData>({ gender: "", age: "", medications: "", conditions: "", goals: [] });
   const [file, setFile] = useState<File | null>(null);
@@ -147,6 +142,42 @@ const Assessment = () => {
   const [results, setResults] = useState<BiomarkerResult[]>([]);
   const [pipeline, setPipeline] = useState<PipelineResult | null>(null);
   const [trendSaved, setTrendSaved] = useState(false);
+  const [referralDiscount, setReferralDiscount] = useState<number | null>(null);
+  const [referralCode, setReferralCode] = useState<string>("");
+
+  // Read referral params from URL (?ref=CODE&discount=20&os=maximo)
+  useEffect(() => {
+    const refCode = searchParams.get("ref");
+    const refDiscount = searchParams.get("discount");
+    const osParam = searchParams.get("os");
+
+    if (refCode) {
+      setReferralCode(refCode);
+      setReferralDiscount(refDiscount ? parseFloat(refDiscount) : 20);
+      // Persist for checkout
+      try {
+        localStorage.setItem("gx_referral_code", refCode);
+        localStorage.setItem("gx_referral_discount", refDiscount || "20");
+      } catch {}
+    } else {
+      // Check localStorage
+      try {
+        const stored = localStorage.getItem("gx_referral_code");
+        const storedDiscount = localStorage.getItem("gx_referral_discount");
+        if (stored) {
+          setReferralCode(stored);
+          setReferralDiscount(storedDiscount ? parseFloat(storedDiscount) : 20);
+        }
+      } catch {}
+    }
+
+    // Pre-select gender from OS param
+    if (osParam === "maximo") {
+      setProfile((p) => ({ ...p, gender: "male" }));
+    } else if (osParam === "maxima") {
+      setProfile((p) => ({ ...p, gender: "female" }));
+    }
+  }, [searchParams]);
 
   const toggleGoal = (code: string) => {
     setProfile((p) => ({
@@ -256,10 +287,7 @@ const Assessment = () => {
       if (pipelineRes.ok) {
         const pipelineData = await pipelineRes.json();
         setPipeline(pipelineData);
-
-        // Persist session for Shop page gender routing + protocol highlighting
         persistSession(profile as ProfileData, pipelineData);
-
         saveTrendSession(profile as ProfileData, markers, pipelineData).then(() => {
           setTrendSaved(true);
         });
@@ -283,7 +311,19 @@ const Assessment = () => {
 
   return (
     <div className="min-h-screen bg-[#05070A]">
-      <section className="gx-hero pt-32 pb-8">
+
+      {/* Referral discount banner */}
+      {referralCode && referralDiscount && (
+        <div className="fixed top-0 left-0 right-0 z-50 bg-[#FF1F23] text-white py-2 px-4 text-center">
+          <div className="flex items-center justify-center gap-2 text-sm font-medium">
+            <Gift className="w-4 h-4" />
+            <span>${referralDiscount} off your first protocol</span>
+            <span className="text-white/60 font-mono text-xs hidden sm:inline">| Code: {referralCode}</span>
+          </div>
+        </div>
+      )}
+
+      <section className={`gx-hero pb-8 ${referralCode ? "pt-44" : "pt-32"}`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
             Initialize Your <span className="text-[#FF1F23]">Protocol</span>
@@ -448,7 +488,6 @@ const Assessment = () => {
       {step === "results" && pipeline && (
         <section className="gx-section">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-6">
-            {/* Protocol header */}
             <div className="gx-card p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -467,9 +506,7 @@ const Assessment = () => {
               </div>
               <div className="flex flex-wrap gap-3 text-xs">
                 {pipeline.phases_completed.map((phase) => (
-                  <span key={phase} className="px-2 py-1 rounded bg-[#00E676]/10 text-[#00E676] font-mono">
-                    {phase}
-                  </span>
+                  <span key={phase} className="px-2 py-1 rounded bg-[#00E676]/10 text-[#00E676] font-mono">{phase}</span>
                 ))}
                 {trendSaved && (
                   <span className="px-2 py-1 rounded bg-[#009BFF]/10 text-[#009BFF] font-mono flex items-center gap-1">
@@ -479,7 +516,6 @@ const Assessment = () => {
               </div>
             </div>
 
-            {/* Safety gates */}
             {pipeline.safety_gates_activated.length > 0 && (
               <div className="gx-card p-6 border-l-4 border-[#FF9500]">
                 <div className="flex items-center gap-2 mb-4">
@@ -500,14 +536,11 @@ const Assessment = () => {
                   ))}
                 </div>
                 {pipeline.blocked_ingredients.length > 0 && (
-                  <p className="text-xs text-[#FF9500] mt-3 font-mono">
-                    Blocked ingredients: {pipeline.blocked_ingredients.join(", ")}
-                  </p>
+                  <p className="text-xs text-[#FF9500] mt-3 font-mono">Blocked ingredients: {pipeline.blocked_ingredients.join(", ")}</p>
                 )}
               </div>
             )}
 
-            {/* Drug-nutrient interactions */}
             {pipeline.interaction_warnings.length > 0 && (
               <div className="gx-card p-6 border-l-4 border-[#FF1F23]">
                 <div className="flex items-center gap-2 mb-4">
@@ -524,12 +557,8 @@ const Assessment = () => {
                         </span>
                         <span className="text-sm text-white">{int.product_name}</span>
                       </div>
-                      <p className="text-xs text-[#6B7A90]">
-                        {int.ingredient} interacts with {int.drug_class}: {int.mechanism}
-                      </p>
-                      {int.clinical_action && (
-                        <p className="text-xs text-[#FF9500] mt-1">{int.clinical_action}</p>
-                      )}
+                      <p className="text-xs text-[#6B7A90]">{int.ingredient} interacts with {int.drug_class}: {int.mechanism}</p>
+                      {int.clinical_action && <p className="text-xs text-[#FF9500] mt-1">{int.clinical_action}</p>}
                     </div>
                   ))}
                 </div>
@@ -577,9 +606,7 @@ const Assessment = () => {
                               <Package className="w-4 h-4 text-[#6B7A90]" />
                               <div>
                                 <p className="text-sm text-white font-medium">{item.product_name}</p>
-                                <p className="text-xs text-[#6B7A90]">
-                                  {INTENT_LABELS[item.intent_id] || item.intent_id.replace(/_/g, " ")}
-                                </p>
+                                <p className="text-xs text-[#6B7A90]">{INTENT_LABELS[item.intent_id] || item.intent_id.replace(/_/g, " ")}</p>
                               </div>
                             </div>
                             <span className="text-xs font-mono text-[#6B7A90]">{item.sku}</span>
@@ -592,7 +619,7 @@ const Assessment = () => {
               </div>
             </div>
 
-            {/* Biomarkers analyzed */}
+            {/* Biomarkers */}
             <details className="gx-card">
               <summary className="p-6 cursor-pointer flex items-center gap-2">
                 <Activity className="w-5 h-5 text-[#009BFF]" />
@@ -619,18 +646,20 @@ const Assessment = () => {
 
             {/* CTA */}
             <div className="text-center space-y-4 pt-4">
-              <p className="text-sm text-[#6B7A90]">Your protocol is saved. Shop your exact modules or subscribe to receive them monthly.</p>
+              {referralCode && referralDiscount ? (
+                <p className="text-sm text-[#6B7A90]">
+                  Your protocol is ready. Subscribe to receive modules monthly with your <span className="text-[#FF1F23] font-bold">${referralDiscount} referral discount</span>.
+                </p>
+              ) : (
+                <p className="text-sm text-[#6B7A90]">Your protocol is saved. Shop your exact modules or subscribe to receive them monthly.</p>
+              )}
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Link
-                  to="/shop"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-bold text-sm transition-all"
-                  style={{ backgroundColor: accentColor, color: "#fff" }}
-                >
+                <Link to="/shop" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-bold text-sm transition-all" style={{ backgroundColor: accentColor, color: "#fff" }}>
                   <ShoppingCart className="w-4 h-4" />
                   Shop Your {pipeline.sku_plan.length} Protocol Modules
                 </Link>
                 <Link to="/pricing" className="gx-btn-outline inline-flex items-center gap-2">
-                  Subscribe for Monthly Delivery <ArrowRight className="w-4 h-4" />
+                  {referralCode ? `Subscribe (-$${referralDiscount})` : "Subscribe for Monthly Delivery"} <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link to="/dashboard/trends" className="gx-btn-outline inline-flex items-center gap-2">
                   <TrendingUp className="w-4 h-4" /> Trends
@@ -647,7 +676,6 @@ const Assessment = () => {
         </section>
       )}
 
-      {/* Results fallback (no pipeline) */}
       {step === "results" && !pipeline && (
         <section className="gx-section">
           <div className="container mx-auto px-4 text-center max-w-lg">
@@ -666,7 +694,6 @@ const Assessment = () => {
         </section>
       )}
 
-      {/* How it works */}
       {(step === "profile" || step === "upload") && (
         <section className="gx-section-surface text-center">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
