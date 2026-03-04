@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Shield, CreditCard, Wallet } from "lucide-react";
+import { ArrowRight, Check, Star, Shield, CreditCard, Wallet, Loader2 } from "lucide-react";
+
+const API_BASE = "https://web-production-97b74.up.railway.app";
 
 const tiers = [
   {
@@ -11,6 +14,7 @@ const tiers = [
     features: ["OCR blood upload", "Protocol generation", "Basic modules", "3-window dosing schedule", "Protocol Box (welcome gift)", "Email support"],
     cta: "Start Essential",
     highlight: false,
+    tier_key: "essential",
   },
   {
     name: "Pro",
@@ -18,9 +22,10 @@ const tiers = [
     period: "/month",
     commitment: "3-month minimum",
     target: "Performance-focused adults, athletes",
-    features: ["Everything in Essential", "Expanded biomarker panel", "MAXync\u00b2 daily execution layer", "Quarterly retest reminders", "Trend dashboard", "Priority support"],
+    features: ["Everything in Essential", "Expanded biomarker panel", "MAXync\u00B2 daily execution layer", "Quarterly retest reminders", "Trend dashboard", "Priority support"],
     cta: "Start Pro",
     highlight: true,
+    tier_key: "pro",
   },
   {
     name: "Elite",
@@ -31,10 +36,80 @@ const tiers = [
     features: ["Everything in Pro", "White-label blood kit (when available)", "Advanced analytics", "Drug-nutrient interaction screening", "Dedicated account manager", "Early access to new modules"],
     cta: "Start Elite",
     highlight: false,
+    tier_key: "elite",
   },
 ];
 
 const Pricing = () => {
+  const [loadingTier, setLoadingTier] = useState<string | null>(null);
+  const [error, setError] = useState("");
+
+  const handleSubscribe = async (tierKey: string, tierName: string) => {
+    setLoadingTier(tierKey);
+    setError("");
+
+    // Determine OS environment from session or default
+    let osEnv = "MAXimo\u00B2";
+    try {
+      const raw = localStorage.getItem("gx_session");
+      if (raw) {
+        const session = JSON.parse(raw);
+        if (session.environment) osEnv = session.environment;
+      }
+    } catch {}
+
+    // Generate or retrieve user_id
+    let userId = "";
+    try {
+      userId = localStorage.getItem("gx_user_id") || "";
+      if (!userId) {
+        userId = `usr_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+        localStorage.setItem("gx_user_id", userId);
+      }
+    } catch {
+      userId = `usr_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/billing/create-checkout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          tier: tierKey,
+          os_environment: osEnv,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.checkout_url) {
+          window.location.href = data.checkout_url;
+          return;
+        }
+      }
+
+      // Fallback: if Stripe not yet configured, go to assessment
+      const errData = await res.json().catch(() => null);
+      const errMsg = errData?.detail || "";
+
+      if (errMsg.includes("not configured") || errMsg.includes("not installed")) {
+        // Stripe keys not set yet - fall back to assessment flow
+        try { sessionStorage.setItem("gx_tier", tierKey); } catch {}
+        window.location.href = "/assessment";
+        return;
+      }
+
+      setError("Could not start checkout. Please try again.");
+    } catch {
+      // Network error - fall back to assessment
+      try { sessionStorage.setItem("gx_tier", tierKey); } catch {}
+      window.location.href = "/assessment";
+    } finally {
+      setLoadingTier(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#05070A]">
       <section className="gx-hero pt-32 pb-16">
@@ -54,6 +129,12 @@ const Pricing = () => {
 
       <section className="gx-section">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {error && (
+            <div className="max-w-5xl mx-auto mb-6 p-3 rounded-lg bg-[#FF1F23]/10 border border-[#FF1F23]/30 text-center">
+              <p className="text-sm text-[#FF1F23]">{error}</p>
+            </div>
+          )}
+
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {tiers.map((tier) => (
               <div key={tier.name} className={`gx-card p-8 flex flex-col ${tier.highlight ? "ring-2 ring-[#FF1F23] relative" : ""}`}>
@@ -84,21 +165,30 @@ const Pricing = () => {
                   ))}
                 </div>
 
-                <Link
-                  to={`/checkout?tier=${tier.name.toLowerCase()}`}
-                  className={`text-center text-sm font-medium py-3 px-6 rounded-lg transition-colors mb-3 block ${
-                    tier.highlight ? "gx-btn-primary w-full justify-center" : "gx-btn-outline w-full justify-center"
+                <button
+                  onClick={() => handleSubscribe(tier.tier_key, tier.name)}
+                  disabled={loadingTier !== null}
+                  className={`text-center text-sm font-medium py-3 px-6 rounded-lg transition-colors mb-3 w-full flex items-center justify-center gap-2 ${
+                    tier.highlight
+                      ? "bg-[#FF1F23] text-white hover:bg-[#FF1F23]/90 disabled:opacity-50"
+                      : "border border-[#1A2030] text-[#6B7A90] hover:border-[#FF1F23] hover:text-white disabled:opacity-50"
                   }`}
                 >
-                  {tier.cta} <ArrowRight className="w-4 h-4 inline ml-1" />
-                </Link>
+                  {loadingTier === tier.tier_key ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Redirecting to checkout...
+                    </>
+                  ) : (
+                    <>
+                      {tier.cta} <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
 
-                <Link
-                  to="/shop"
-                  className="text-center text-xs py-2 px-3 rounded border border-[#1A2030] text-[#6B7A90] hover:border-[#6B7A90]/50 transition-colors block"
-                >
-                  Browse Individual Modules
-                </Link>
+                <p className="text-[10px] text-[#6B7A90]/40 text-center font-mono">
+                  Secure checkout via Stripe &middot; Cancel after 3 months
+                </p>
               </div>
             ))}
           </div>
@@ -157,7 +247,7 @@ const Pricing = () => {
           <Shield className="w-8 h-8 text-[#FF1F23] mx-auto" />
           <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Blood Does Not Negotiate</h2>
           <p className="text-[#6B7A90]">Every protocol is generated deterministically from your blood biomarker data. No commercial override. No ingredient gets into a protocol because it is profitable. It gets in because the blood data demands it.</p>
-          <Link to="/checkout?tier=pro" className="gx-btn-primary inline-flex items-center gap-2">
+          <Link to="/assessment" className="gx-btn-primary inline-flex items-center gap-2">
             Initialize Your Protocol <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
