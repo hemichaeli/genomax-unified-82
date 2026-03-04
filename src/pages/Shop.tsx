@@ -5,11 +5,11 @@ import { ArrowRight, ShoppingCart, Search, Loader2, ExternalLink, Shield, Packag
 const API_BASE = "https://web-production-97b74.up.railway.app";
 
 const SHOPIFY_STORES: Record<string, { url: string; cart: string }> = {
-  "MAXimo\u00B2": {
+  "MAXimo²": {
     url: "https://genomax-2.myshopify.com",
     cart: "https://genomax-2.myshopify.com/cart",
   },
-  "MAXima\u00B2": {
+  "MAXima²": {
     url: "https://fetkqh-60.myshopify.com",
     cart: "https://fetkqh-60.myshopify.com/cart",
   },
@@ -29,14 +29,18 @@ interface Product {
   module_code: string;
   product_name: string;
   os_environment: string;
-  category_prefix: string;
-  evidence_tier: number;
+  tier: string;            // "TIER 1" | "TIER 2"
+  biological_domain: string;
   shopify_handle?: string;
-  shopify_variant_id?: string;
   front_label_text?: string;
-  supliful_price?: number;
-  dosing_window?: string;
+  supplier_status?: string;
+  is_launch_v1?: boolean;
+  dosing_protocol?: string;
+  os_layer?: string;
 }
+
+/** Parse category prefix from module_code (first 3 chars) */
+const getCategoryPrefix = (module_code: string) => module_code.split("-")[0] || "";
 
 const CATEGORY_LABELS: Record<string, string> = {
   CAR: "Cardiovascular",
@@ -50,12 +54,6 @@ const CATEGORY_LABELS: Record<string, string> = {
   NEU: "Neuro & Cognitive",
 };
 
-const DOSING_LABELS: Record<string, { label: string; color: string }> = {
-  morning_fasted: { label: "AM Fasted", color: "#00AEEF" },
-  midday_with_food: { label: "Midday", color: "#FFD600" },
-  evening_before_sleep: { label: "PM", color: "#9B59B6" },
-};
-
 /** Read gx_session from localStorage; discard if older than 24h */
 const loadSession = (): GXSession | null => {
   try {
@@ -63,7 +61,7 @@ const loadSession = (): GXSession | null => {
     if (!raw) return null;
     const s = JSON.parse(raw) as GXSession;
     const age = Date.now() - (s.saved_at || 0);
-    if (age > 86400000) return null; // 24h expiry
+    if (age > 86400000) return null;
     return s;
   } catch {
     return null;
@@ -75,28 +73,27 @@ const Shop = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
-  const [envFilter, setEnvFilter] = useState<"all" | "MAXimo\u00B2" | "MAXima\u00B2">("all");
+  const [envFilter, setEnvFilter] = useState<"all" | "MAXimo²" | "MAXima²">("all");
   const [catFilter, setCatFilter] = useState("all");
   const [protocolOnly, setProtocolOnly] = useState(false);
   const [session, setSession] = useState<GXSession | null>(null);
 
-  // Load session on mount and auto-set environment filter
   useEffect(() => {
     const s = loadSession();
     if (s) {
       setSession(s);
-      setEnvFilter(s.environment as "MAXimo\u00B2" | "MAXima\u00B2");
+      setEnvFilter(s.environment as "MAXimo²" | "MAXima²");
     }
   }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/v1/catalog/wiring/products`);
+        const res = await fetch(`${API_BASE}/api/v1/launch-v1/products`);
         if (res.ok) {
           const data = await res.json();
-          const items = (data.products || data || []).filter(
-            (p: Product) => p.product_name && p.evidence_tier && p.evidence_tier <= 2
+          const items: Product[] = (data.products || []).filter(
+            (p: Product) => p.product_name && p.tier && (p.tier === "TIER 1" || p.tier === "TIER 2")
           );
           setProducts(items);
         } else {
@@ -119,13 +116,23 @@ const Shop = () => {
 
   const filtered = products.filter((p) => {
     if (envFilter !== "all" && p.os_environment !== envFilter) return false;
-    if (catFilter !== "all" && p.category_prefix !== catFilter) return false;
+    if (catFilter !== "all" && getCategoryPrefix(p.module_code) !== catFilter) return false;
     if (protocolOnly && !isInProtocol(p)) return false;
-    if (search && !p.product_name?.toLowerCase().includes(search.toLowerCase()) && !p.module_code?.toLowerCase().includes(search.toLowerCase())) return false;
+    if (search) {
+      const q = search.toLowerCase();
+      if (!p.product_name?.toLowerCase().includes(q) &&
+          !p.module_code?.toLowerCase().includes(q) &&
+          !p.biological_domain?.toLowerCase().includes(q)) return false;
+    }
     return true;
   });
 
-  const categories = [...new Set(products.map((p) => p.category_prefix))].sort();
+  const categories = [...new Set(products.map((p) => getCategoryPrefix(p.module_code)))].filter(Boolean).sort();
+  const shoppableCount = products.filter((p) => p.shopify_handle).length;
+  const totalCount = products.length;
+  const protocolMatchCount = session ? products.filter(isInProtocol).length : 0;
+  const accentColor = session?.gender === "female" ? "#E6007A" : "#00AEEF";
+  const envLabel = session?.gender === "female" ? "MAXima²" : "MAXimo²";
 
   const getProductUrl = (product: Product) => {
     const store = SHOPIFY_STORES[product.os_environment];
@@ -134,20 +141,6 @@ const Shop = () => {
     }
     return null;
   };
-
-  const getAddToCartUrl = (product: Product) => {
-    const store = SHOPIFY_STORES[product.os_environment];
-    if (store && product.shopify_variant_id) {
-      return `${store.cart}/add?id=${product.shopify_variant_id}&quantity=1`;
-    }
-    return null;
-  };
-
-  const shoppableCount = products.filter((p) => p.shopify_handle).length;
-  const totalCount = products.length;
-  const protocolMatchCount = session ? products.filter(isInProtocol).length : 0;
-  const accentColor = session?.gender === "female" ? "#E6007A" : "#00AEEF";
-  const envLabel = session?.gender === "female" ? "MAXima\u00B2" : "MAXimo\u00B2";
 
   return (
     <div className="min-h-screen bg-[#05070A]">
@@ -233,15 +226,15 @@ const Shop = () => {
             </div>
 
             <div className="flex gap-2">
-              {(["all", "MAXimo\u00B2", "MAXima\u00B2"] as const).map((env) => (
+              {(["all", "MAXimo²", "MAXima²"] as const).map((env) => (
                 <button
                   key={env}
                   onClick={() => setEnvFilter(env)}
                   className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
                     envFilter === env
-                      ? env === "MAXimo\u00B2"
+                      ? env === "MAXimo²"
                         ? "border-[#00AEEF] bg-[#00AEEF]/10 text-[#00AEEF]"
-                        : env === "MAXima\u00B2"
+                        : env === "MAXima²"
                         ? "border-[#E6007A] bg-[#E6007A]/10 text-[#E6007A]"
                         : "border-[#FF1F23] bg-[#FF1F23]/10 text-[#FF1F23]"
                       : "border-[#1A2030] text-[#6B7A90] hover:border-[#6B7A90]/50"
@@ -268,7 +261,7 @@ const Shop = () => {
         </div>
       </section>
 
-      {/* Products */}
+      {/* Products grid */}
       <section className="gx-section">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? (
@@ -287,9 +280,8 @@ const Shop = () => {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filtered.map((product) => {
                 const productUrl = getProductUrl(product);
-                const cartUrl = getAddToCartUrl(product);
-                const dosingInfo = product.dosing_window ? DOSING_LABELS[product.dosing_window] : null;
                 const inProtocol = isInProtocol(product);
+                const catPrefix = getCategoryPrefix(product.module_code);
 
                 return (
                   <div
@@ -300,7 +292,6 @@ const Shop = () => {
                         : "hover:border-[#FF1F23]/30"
                     }`}
                   >
-                    {/* Protocol badge */}
                     {inProtocol && (
                       <div className="absolute -top-2 left-4 flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#00E676] text-[#05070A]">
                         <CheckCircle2 className="w-2.5 h-2.5" />
@@ -310,41 +301,27 @@ const Shop = () => {
 
                     <div className="flex items-start justify-between mb-3 mt-1">
                       <span className={`text-xs font-mono px-2 py-0.5 rounded ${
-                        product.os_environment === "MAXimo\u00B2"
+                        product.os_environment === "MAXimo²"
                           ? "bg-[#00AEEF]/10 text-[#00AEEF]"
                           : "bg-[#E6007A]/10 text-[#E6007A]"
                       }`}>
                         {product.os_environment}
                       </span>
-                      <div className="flex items-center gap-1.5">
-                        {dosingInfo && (
-                          <span className="text-xs font-mono px-1.5 py-0.5 rounded" style={{ background: `${dosingInfo.color}10`, color: dosingInfo.color }}>
-                            <Clock className="w-2.5 h-2.5 inline mr-0.5" />{dosingInfo.label}
-                          </span>
-                        )}
-                        <span className={`text-xs font-mono px-2 py-0.5 rounded ${
-                          product.evidence_tier === 1
-                            ? "bg-[#00E676]/10 text-[#00E676]"
-                            : "bg-[#009BFF]/10 text-[#009BFF]"
-                        }`}>
-                          TIER {product.evidence_tier}
-                        </span>
-                      </div>
+                      <span className={`text-xs font-mono px-2 py-0.5 rounded ${
+                        product.tier === "TIER 1"
+                          ? "bg-[#00E676]/10 text-[#00E676]"
+                          : "bg-[#009BFF]/10 text-[#009BFF]"
+                      }`}>
+                        {product.tier}
+                      </span>
                     </div>
 
                     <h3 className="text-sm font-bold text-white mb-1 flex-1">{product.product_name}</h3>
-                    <p className="text-xs text-[#6B7A90] mb-1">{CATEGORY_LABELS[product.category_prefix] || product.category_prefix}</p>
+                    <p className="text-xs text-[#6B7A90] mb-1">{CATEGORY_LABELS[catPrefix] || product.biological_domain}</p>
                     <p className="text-xs text-[#6B7A90]/50 font-mono mb-3">{product.module_code}</p>
 
-                    {product.front_label_text && (
-                      <p className="text-xs text-[#6B7A90] mb-3 line-clamp-2">{product.front_label_text}</p>
-                    )}
-
-                    {product.supliful_price && (
-                      <div className="mb-3">
-                        <span className="text-lg font-bold text-white">${product.supliful_price.toFixed(2)}</span>
-                        <span className="text-xs text-[#6B7A90] ml-1">/module</span>
-                      </div>
+                    {product.os_layer && (
+                      <p className="text-[10px] text-[#6B7A90]/40 font-mono mb-2 uppercase">{product.os_layer} Layer</p>
                     )}
 
                     {productUrl ? (
@@ -358,7 +335,7 @@ const Shop = () => {
                           View <ExternalLink className="w-3 h-3" />
                         </a>
                         <a
-                          href={cartUrl || productUrl}
+                          href={productUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex-1 justify-center flex items-center gap-2 text-xs px-3 py-2 rounded-lg font-bold transition-colors"
@@ -388,11 +365,10 @@ const Shop = () => {
             </div>
           )}
 
-          {/* Empty state for protocol-only filter */}
           {!loading && !error && filtered.length === 0 && protocolOnly && (
             <div className="text-center py-20">
               <Package className="w-10 h-10 text-[#6B7A90]/30 mx-auto mb-4" />
-              <p className="text-sm text-[#6B7A90] mb-2">No protocol modules found in catalog with shopify handles yet.</p>
+              <p className="text-sm text-[#6B7A90] mb-2">No protocol modules found in catalog yet.</p>
               <p className="text-xs text-[#6B7A90]/60 mb-6">Your protocol modules will appear here as products are published to Shopify.</p>
               <button
                 onClick={() => setProtocolOnly(false)}
