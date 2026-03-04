@@ -13,6 +13,8 @@ import CheckoutSuccess from "./pages/CheckoutSuccess";
 import Maximo from "./pages/Maximo";
 import Maxima from "./pages/Maxima";
 import MAXync from "./pages/MAXync";
+import MAXyncDashboard from "./pages/MAXyncDashboard";
+import SubscriptionDashboard from "./pages/SubscriptionDashboard";
 import Compare from "./pages/Compare";
 import Assessment from "./pages/Assessment";
 import About from "./pages/About";
@@ -61,6 +63,8 @@ const App = () => (
               <Route path="/referral" element={<ReferralProgram />} />
               <Route path="/dashboard/referrals" element={<ReferralDashboard />} />
               <Route path="/dashboard/trends" element={<TrendDashboard />} />
+              <Route path="/dashboard/maxync" element={<MAXyncDashboard />} />
+              <Route path="/dashboard/subscription" element={<SubscriptionDashboard />} />
               <Route path="/ref/:code" element={<ReferralLanding />} />
               <Route path="/manifesto" element={<Manifesto />} />
               <Route path="/learn" element={<Learn />} />
