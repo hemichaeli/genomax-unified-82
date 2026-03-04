@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ShoppingCart, Search, Loader2, Shield, Package, Clock, CheckCircle2, Dna, X, Minus, Plus } from "lucide-react";
 
 const API_BASE = "https://web-production-97b74.up.railway.app";
 
+// Shopify Storefront API config (public tokens, safe for client-side)
 const STOREFRONT_CONFIG: Record<string, { domain: string; token: string }> = {
-  "MAXimo\u00b2": {
+  "MAXimo\u00B2": {
     domain: "genomax-2.myshopify.com",
     token: "9f024b81187b1ca3324ae326bd5bc7fd",
   },
-  "MAXima\u00b2": {
+  "MAXima\u00B2": {
     domain: "fetkqh-60.myshopify.com",
     token: "1bb6d8709944e7cd1ae59137ced719b3",
   },
@@ -42,7 +43,6 @@ interface Product {
 interface CartItem {
   product: Product;
   quantity: number;
-  variantId?: string;
 }
 
 const getCategoryPrefix = (module_code: string) => module_code.split("-")[0] || "";
@@ -72,41 +72,61 @@ const loadSession = (): GXSession | null => {
   }
 };
 
-/** Query Shopify Storefront API for variant ID by handle */
-async function fetchVariantId(handle: string, osEnv: string): Promise<string | null> {
-  const config = STOREFRONT_CONFIG[osEnv];
-  if (!config || !handle) return null;
+/** Create a Shopify Storefront checkout via GraphQL */
+async function createStorefrontCheckout(
+  environment: string,
+  handles: string[]
+): Promise<string | null> {
+  const config = STOREFRONT_CONFIG[environment];
+  if (!config || handles.length === 0) return null;
 
-  try {
-    const res = await fetch(`https://${config.domain}/api/2024-01/graphql.json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Shopify-Storefront-Access-Token": config.token,
-      },
-      body: JSON.stringify({
-        query: `{
-          productByHandle(handle: "${handle}") {
-            variants(first: 1) {
-              edges { node { id } }
+  // First, fetch variant IDs for the given handles
+  const variantIds: string[] = [];
+  for (const handle of handles) {
+    try {
+      const query = `{
+        productByHandle(handle: "${handle}") {
+          variants(first: 1) {
+            edges {
+              node {
+                id
+              }
             }
           }
-        }`,
-      }),
-    });
-    const data = await res.json();
-    return data?.data?.productByHandle?.variants?.edges?.[0]?.node?.id || null;
-  } catch {
-    return null;
+        }
+      }`;
+      const res = await fetch(`https://${config.domain}/api/2024-01/graphql.json`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Shopify-Storefront-Access-Token": config.token,
+        },
+        body: JSON.stringify({ query }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const vid = data?.data?.productByHandle?.variants?.edges?.[0]?.node?.id;
+        if (vid) variantIds.push(vid);
+      }
+    } catch {
+      // Skip products that fail to resolve
+    }
   }
-}
 
-/** Create Shopify checkout via Storefront API */
-async function createCheckout(items: { variantId: string; quantity: number }[], osEnv: string): Promise<string | null> {
-  const config = STOREFRONT_CONFIG[osEnv];
-  if (!config) return null;
+  if (variantIds.length === 0) return null;
 
-  const lineItems = items.map((i) => `{variantId: "${i.variantId}", quantity: ${i.quantity}}`).join(", ");
+  // Create checkout with all variants
+  const lineItems = variantIds.map((id) => `{ variantId: "${id}", quantity: 1 }`).join(", ");
+  const mutation = `mutation {
+    checkoutCreate(input: { lineItems: [${lineItems}] }) {
+      checkout {
+        webUrl
+      }
+      checkoutUserErrors {
+        message
+      }
+    }
+  }`;
 
   try {
     const res = await fetch(`https://${config.domain}/api/2024-01/graphql.json`, {
@@ -115,20 +135,14 @@ async function createCheckout(items: { variantId: string; quantity: number }[], 
         "Content-Type": "application/json",
         "X-Shopify-Storefront-Access-Token": config.token,
       },
-      body: JSON.stringify({
-        query: `mutation {
-          checkoutCreate(input: { lineItems: [${lineItems}] }) {
-            checkout { webUrl }
-            checkoutUserErrors { message }
-          }
-        }`,
-      }),
+      body: JSON.stringify({ query: mutation }),
     });
-    const data = await res.json();
-    return data?.data?.checkoutCreate?.checkout?.webUrl || null;
-  } catch {
-    return null;
-  }
+    if (res.ok) {
+      const data = await res.json();
+      return data?.data?.checkoutCreate?.checkout?.webUrl || null;
+    }
+  } catch {}
+  return null;
 }
 
 const Shop = () => {
@@ -136,7 +150,7 @@ const Shop = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
-  const [envFilter, setEnvFilter] = useState<"all" | "MAXimo\u00b2" | "MAXima\u00b2">("all");
+  const [envFilter, setEnvFilter] = useState<"all" | "MAXimo\u00B2" | "MAXima\u00B2">("all");
   const [catFilter, setCatFilter] = useState("all");
   const [protocolOnly, setProtocolOnly] = useState(false);
   const [session, setSession] = useState<GXSession | null>(null);
@@ -148,7 +162,7 @@ const Shop = () => {
     const s = loadSession();
     if (s) {
       setSession(s);
-      setEnvFilter(s.environment as "MAXimo\u00b2" | "MAXima\u00b2");
+      setEnvFilter(s.environment as "MAXimo\u00B2" | "MAXima\u00B2");
     }
   }, []);
 
@@ -180,59 +194,56 @@ const Shop = () => {
     return false;
   };
 
-  const isInCart = (product: Product): boolean => {
-    return cart.some((c) => c.product.module_code === product.module_code);
-  };
-
-  const addToCart = useCallback((product: Product) => {
+  const addToCart = (product: Product) => {
     setCart((prev) => {
       const existing = prev.find((c) => c.product.module_code === product.module_code);
       if (existing) return prev;
       return [...prev, { product, quantity: 1 }];
     });
-  }, []);
+    setCartOpen(true);
+  };
 
-  const removeFromCart = useCallback((moduleCode: string) => {
+  const removeFromCart = (moduleCode: string) => {
     setCart((prev) => prev.filter((c) => c.product.module_code !== moduleCode));
-  }, []);
+  };
+
+  const isInCart = (moduleCode: string) => cart.some((c) => c.product.module_code === moduleCode);
 
   const handleCheckout = async () => {
     if (cart.length === 0) return;
     setCheckingOut(true);
 
-    // Group by os_environment
-    const byEnv: Record<string, CartItem[]> = {};
+    // Group cart items by OS environment
+    const byEnv: Record<string, string[]> = {};
     for (const item of cart) {
+      if (!item.product.shopify_handle) continue;
       const env = item.product.os_environment;
       if (!byEnv[env]) byEnv[env] = [];
-      byEnv[env].push(item);
+      byEnv[env].push(item.product.shopify_handle);
     }
 
-    // Process each environment's cart
-    for (const [env, items] of Object.entries(byEnv)) {
-      // Fetch variant IDs for items that need them
-      const withVariants: { variantId: string; quantity: number }[] = [];
-      for (const item of items) {
-        if (!item.product.shopify_handle) continue;
-        const variantId = await fetchVariantId(item.product.shopify_handle, env);
-        if (variantId) {
-          withVariants.push({ variantId, quantity: item.quantity });
-        }
-      }
-
-      if (withVariants.length > 0) {
-        const checkoutUrl = await createCheckout(withVariants, env);
-        if (checkoutUrl) {
-          window.location.href = checkoutUrl;
-          return;
-        }
+    // Create checkout for each environment (most users will only have one)
+    const envKeys = Object.keys(byEnv);
+    for (const env of envKeys) {
+      const url = await createStorefrontCheckout(env, byEnv[env]);
+      if (url) {
+        window.open(url, "_blank");
       }
     }
 
-    // Fallback: if Storefront API fails, use subscription checkout
     setCheckingOut(false);
-    setCartOpen(false);
-    window.location.href = "/checkout?tier=essential";
+  };
+
+  const addProtocolToCart = () => {
+    if (!session) return;
+    const protocolProducts = products.filter(
+      (p) => isInProtocol(p) && p.shopify_handle && !isInCart(p.module_code)
+    );
+    setCart((prev) => [
+      ...prev,
+      ...protocolProducts.map((p) => ({ product: p, quantity: 1 })),
+    ]);
+    setCartOpen(true);
   };
 
   const filtered = products.filter((p) => {
@@ -253,11 +264,12 @@ const Shop = () => {
   const totalCount = products.length;
   const protocolMatchCount = session ? products.filter(isInProtocol).length : 0;
   const accentColor = session?.gender === "female" ? "#E6007A" : "#00AEEF";
-  const envLabel = session?.gender === "female" ? "MAXima\u00b2" : "MAXimo\u00b2";
-  const cartTotal = cart.length;
+  const envLabel = session?.gender === "female" ? "MAXima\u00B2" : "MAXimo\u00B2";
+  const cartCount = cart.length;
 
   return (
     <div className="min-h-screen bg-[#05070A]">
+      {/* Hero */}
       <section className="gx-hero pt-32 pb-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="gx-safety-badge mx-auto w-fit mb-4">
@@ -304,6 +316,13 @@ const Shop = () => {
               </div>
               <div className="flex items-center gap-3">
                 <button
+                  onClick={addProtocolToCart}
+                  className="text-xs px-3 py-1.5 rounded-full border transition-colors flex items-center gap-1.5 bg-[#00E676] text-[#05070A] border-[#00E676] font-bold hover:bg-[#00E676]/90"
+                >
+                  <ShoppingCart className="w-3 h-3" />
+                  Add All Protocol Modules to Cart
+                </button>
+                <button
                   onClick={() => setProtocolOnly((v) => !v)}
                   className={`text-xs px-3 py-1.5 rounded-full border transition-colors flex items-center gap-1.5 ${
                     protocolOnly
@@ -315,16 +334,13 @@ const Shop = () => {
                   <CheckCircle2 className="w-3 h-3" />
                   {protocolOnly ? "Showing protocol only" : "Show protocol only"}
                 </button>
-                <Link to="/assessment" className="text-xs text-[#6B7A90] hover:text-white underline underline-offset-2">
-                  Rerun assessment
-                </Link>
               </div>
             </div>
           </div>
         </section>
       )}
 
-      {/* Filters + Cart button */}
+      {/* Filters + cart button */}
       <section className="border-b border-[#1A2030]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-wrap items-center gap-4">
@@ -340,15 +356,15 @@ const Shop = () => {
             </div>
 
             <div className="flex gap-2">
-              {(["all", "MAXimo\u00b2", "MAXima\u00b2"] as const).map((env) => (
+              {(["all", "MAXimo\u00B2", "MAXima\u00B2"] as const).map((env) => (
                 <button
                   key={env}
                   onClick={() => setEnvFilter(env)}
                   className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
                     envFilter === env
-                      ? env === "MAXimo\u00b2"
+                      ? env === "MAXimo\u00B2"
                         ? "border-[#00AEEF] bg-[#00AEEF]/10 text-[#00AEEF]"
-                        : env === "MAXima\u00b2"
+                        : env === "MAXima\u00B2"
                         ? "border-[#E6007A] bg-[#E6007A]/10 text-[#E6007A]"
                         : "border-[#FF1F23] bg-[#FF1F23]/10 text-[#FF1F23]"
                       : "border-[#1A2030] text-[#6B7A90] hover:border-[#6B7A90]/50"
@@ -372,16 +388,15 @@ const Shop = () => {
 
             <span className="text-xs text-[#6B7A90] font-mono">{filtered.length} modules</span>
 
-            {/* Cart button */}
             <button
               onClick={() => setCartOpen(true)}
-              className="relative ml-auto flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-[#FF1F23]/40 text-[#FF1F23] hover:bg-[#FF1F23]/10 transition-colors"
+              className="ml-auto relative flex items-center gap-2 text-xs px-4 py-2 rounded-lg bg-[#FF1F23] text-white font-bold hover:bg-[#FF1F23]/90 transition-colors"
             >
               <ShoppingCart className="w-4 h-4" />
               Cart
-              {cartTotal > 0 && (
-                <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-[#FF1F23] text-white text-[10px] font-bold flex items-center justify-center">
-                  {cartTotal}
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-white text-[#FF1F23] text-[10px] font-bold flex items-center justify-center">
+                  {cartCount}
                 </span>
               )}
             </button>
@@ -389,7 +404,7 @@ const Shop = () => {
         </div>
       </section>
 
-      {/* Cart drawer */}
+      {/* Cart slide-over */}
       {cartOpen && (
         <div className="fixed inset-0 z-50 flex justify-end">
           <div className="absolute inset-0 bg-black/60" onClick={() => setCartOpen(false)} />
@@ -398,7 +413,7 @@ const Shop = () => {
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-lg font-bold text-white" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
                   <ShoppingCart className="w-5 h-5 inline mr-2" />
-                  Cart ({cartTotal})
+                  Cart ({cartCount})
                 </h2>
                 <button onClick={() => setCartOpen(false)} className="text-[#6B7A90] hover:text-white">
                   <X className="w-5 h-5" />
@@ -409,23 +424,27 @@ const Shop = () => {
                 <div className="text-center py-12">
                   <Package className="w-10 h-10 text-[#6B7A90]/30 mx-auto mb-3" />
                   <p className="text-sm text-[#6B7A90]">Your cart is empty.</p>
-                  <p className="text-xs text-[#6B7A90]/50 mt-2">Add modules from the catalog.</p>
+                  <p className="text-xs text-[#6B7A90]/60 mt-1">Add modules from the catalog or your protocol.</p>
                 </div>
               ) : (
                 <>
                   <div className="space-y-3 mb-6">
                     {cart.map((item) => (
-                      <div key={item.product.module_code} className="flex items-center gap-3 bg-[#05070A] rounded-lg p-3">
+                      <div key={item.product.module_code} className="flex items-center gap-3 p-3 rounded-lg border border-[#1A2030] bg-[#05070A]">
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm text-white font-medium truncate">{item.product.product_name}</p>
-                          <p className="text-xs text-[#6B7A90] font-mono">{item.product.module_code}</p>
-                          <span className={`text-[10px] font-mono ${
-                            item.product.os_environment === "MAXimo\u00b2" ? "text-[#00AEEF]" : "text-[#E6007A]"
-                          }`}>{item.product.os_environment}</span>
+                          <p className="text-sm font-medium text-white truncate">{item.product.product_name}</p>
+                          <p className="text-[10px] text-[#6B7A90] font-mono">{item.product.module_code}</p>
+                          <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${
+                            item.product.os_environment === "MAXimo\u00B2"
+                              ? "bg-[#00AEEF]/10 text-[#00AEEF]"
+                              : "bg-[#E6007A]/10 text-[#E6007A]"
+                          }`}>
+                            {item.product.os_environment}
+                          </span>
                         </div>
                         <button
                           onClick={() => removeFromCart(item.product.module_code)}
-                          className="text-[#6B7A90] hover:text-[#FF1F23] transition-colors"
+                          className="text-[#6B7A90] hover:text-[#FF1F23] transition-colors flex-shrink-0"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -435,18 +454,29 @@ const Shop = () => {
 
                   <button
                     onClick={handleCheckout}
-                    disabled={checkingOut}
-                    className="w-full py-3 rounded-lg bg-[#FF1F23] text-white font-bold text-sm flex items-center justify-center gap-2 transition-opacity disabled:opacity-50"
+                    disabled={checkingOut || cart.filter((c) => c.product.shopify_handle).length === 0}
+                    className="w-full py-3 rounded-lg bg-[#FF1F23] text-white font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#FF1F23]/90 transition-colors disabled:opacity-50"
                   >
                     {checkingOut ? (
-                      <><Loader2 className="w-4 h-4 animate-spin" /> Creating checkout...</>
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Creating checkout...
+                      </>
                     ) : (
-                      <><ShoppingCart className="w-4 h-4" /> Checkout ({cartTotal} modules)</>
+                      <>
+                        Checkout ({cart.filter((c) => c.product.shopify_handle).length} modules) <ArrowRight className="w-4 h-4" />
+                      </>
                     )}
                   </button>
 
-                  <p className="text-[10px] text-[#6B7A90]/40 text-center mt-3">
-                    Secure checkout powered by Shopify. Fulfilled by Supliful under FDA cGMP standards.
+                  {cart.some((c) => !c.product.shopify_handle) && (
+                    <p className="text-[10px] text-[#6B7A90]/50 text-center mt-2 font-mono">
+                      {cart.filter((c) => !c.product.shopify_handle).length} module(s) not yet available for individual purchase
+                    </p>
+                  )}
+
+                  <p className="text-[10px] text-[#6B7A90]/40 text-center mt-3 font-mono">
+                    Secure checkout via Shopify &middot; Fulfilled by Supliful
                   </p>
                 </>
               )}
@@ -474,7 +504,7 @@ const Shop = () => {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filtered.map((product) => {
                 const inProtocol = isInProtocol(product);
-                const inCart = isInCart(product);
+                const inCart = isInCart(product.module_code);
                 const catPrefix = getCategoryPrefix(product.module_code);
 
                 return (
@@ -495,7 +525,7 @@ const Shop = () => {
 
                     <div className="flex items-start justify-between mb-3 mt-1">
                       <span className={`text-xs font-mono px-2 py-0.5 rounded ${
-                        product.os_environment === "MAXimo\u00b2"
+                        product.os_environment === "MAXimo\u00B2"
                           ? "bg-[#00AEEF]/10 text-[#00AEEF]"
                           : "bg-[#E6007A]/10 text-[#E6007A]"
                       }`}>
@@ -523,21 +553,21 @@ const Shop = () => {
                         {inCart ? (
                           <button
                             onClick={() => removeFromCart(product.module_code)}
-                            className="w-full flex items-center justify-center gap-2 text-xs px-3 py-2.5 rounded-lg font-bold border border-[#00E676]/40 text-[#00E676] hover:bg-[#00E676]/10 transition-colors"
+                            className="w-full flex items-center justify-center gap-2 text-xs px-3 py-2 rounded-lg font-bold border border-[#6B7A90]/30 text-[#6B7A90] hover:border-[#FF1F23] hover:text-[#FF1F23] transition-colors"
                           >
-                            <CheckCircle2 className="w-3.5 h-3.5" /> In Cart - Remove
+                            <X className="w-3 h-3" /> Remove from Cart
                           </button>
                         ) : (
                           <button
                             onClick={() => addToCart(product)}
-                            className="w-full flex items-center justify-center gap-2 text-xs px-3 py-2.5 rounded-lg font-bold transition-colors"
+                            className="w-full flex items-center justify-center gap-2 text-xs px-3 py-2 rounded-lg font-bold transition-colors"
                             style={
                               inProtocol
                                 ? { backgroundColor: "#00E676", color: "#05070A" }
                                 : { backgroundColor: "#FF1F23", color: "#fff" }
                             }
                           >
-                            <ShoppingCart className="w-3.5 h-3.5" /> Add to Cart
+                            <ShoppingCart className="w-3 h-3" /> Add to Cart
                           </button>
                         )}
                       </div>
@@ -586,7 +616,7 @@ const Shop = () => {
                 Your protocol updates every quarter as your biomarkers change. Subscribe to receive your exact modules on autopilot.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/checkout?tier=pro" className="gx-btn-primary inline-flex items-center gap-2">
+                <Link to="/pricing" className="gx-btn-primary inline-flex items-center gap-2">
                   Subscribe Now <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link to="/assessment" className="gx-btn-outline inline-flex items-center gap-2">
@@ -609,8 +639,8 @@ const Shop = () => {
                 <Link to="/assessment" className="gx-btn-primary inline-flex items-center gap-2">
                   Initialize Protocol <ArrowRight className="w-4 h-4" />
                 </Link>
-                <Link to="/checkout?tier=pro" className="gx-btn-outline inline-flex items-center gap-2">
-                  Subscribe Now
+                <Link to="/pricing" className="gx-btn-outline inline-flex items-center gap-2">
+                  View Subscription Tiers
                 </Link>
               </div>
             </>
