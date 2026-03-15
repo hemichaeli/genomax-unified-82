@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { CheckCircle2, ArrowRight, Package, Calendar, BarChart3, Gift, Users, Pill } from "lucide-react";
+import { CheckCircle2, ArrowRight, Package, Calendar, BarChart3, Gift, Users, Pill, TrendingUp } from "lucide-react";
 
 const API_BASE = "https://web-production-97b74.up.railway.app";
 
@@ -12,7 +12,6 @@ const CheckoutSuccess = () => {
   const [referralDiscount, setReferralDiscount] = useState(0);
 
   useEffect(() => {
-    // Load session gender
     try {
       const raw = localStorage.getItem("gx_session");
       if (raw) {
@@ -21,7 +20,6 @@ const CheckoutSuccess = () => {
       }
     } catch {}
 
-    // Track referral conversion if referral code exists
     try {
       const refCode = localStorage.getItem("gx_referral_code");
       const refDiscount = localStorage.getItem("gx_referral_discount");
@@ -29,17 +27,12 @@ const CheckoutSuccess = () => {
         setReferralApplied(true);
         setReferralDiscount(refDiscount ? parseFloat(refDiscount) : 20);
 
-        // Fire conversion tracking (non-blocking)
         fetch(`${API_BASE}/api/v1/referrals/track`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            referral_code: refCode,
-            event: "subscribed",
-          }),
+          body: JSON.stringify({ referral_code: refCode, event: "subscribed" }),
         }).catch(() => {});
 
-        // Clear referral data after successful conversion
         localStorage.removeItem("gx_referral_code");
         localStorage.removeItem("gx_referral_discount");
         localStorage.removeItem("gx_referral_referrer");
@@ -66,7 +59,6 @@ const CheckoutSuccess = () => {
             Your <span style={{ color: accentColor }}>{osEnv}</span> subscription is now active. The Biological Operating System is running.
           </p>
 
-          {/* Referral discount confirmation */}
           {referralApplied && (
             <div className="inline-flex items-center gap-2 bg-[#00E676]/10 border border-[#00E676]/25 rounded-full px-4 py-2 mb-8">
               <Gift className="w-4 h-4 text-[#00E676]" />
@@ -94,10 +86,10 @@ const CheckoutSuccess = () => {
                   desc: "Take your modules at the prescribed dosing windows. MAXync\u00b2 will send reminders for each window.",
                 },
                 {
-                  icon: <BarChart3 className="w-5 h-5 text-[#FFD600]" />,
+                  icon: <TrendingUp className="w-5 h-5 text-[#FFD600]" />,
                   step: "3",
                   title: "Retest at Month 3",
-                  desc: "Upload new blood work at 90 days. The Bloodwork Engine recalibrates your protocol based on measured changes.",
+                  desc: "Upload new blood work at 90 days. Your Trend Dashboard shows exactly what changed — biomarker by biomarker.",
                 },
               ].map((item) => (
                 <div key={item.step} className="flex gap-4">
@@ -117,15 +109,15 @@ const CheckoutSuccess = () => {
           </div>
 
           {/* Quick actions */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6 flex-wrap">
             <Link to="/assessment" className="gx-btn-primary inline-flex items-center gap-2">
               Upload Blood Work <ArrowRight className="w-4 h-4" />
             </Link>
             <Link to="/dashboard/maxync" className="gx-btn-outline inline-flex items-center gap-2">
               <Calendar className="w-4 h-4" /> MAXync&#178; Tracker
             </Link>
-            <Link to="/dashboard/subscription" className="gx-btn-outline inline-flex items-center gap-2">
-              Manage Subscription
+            <Link to="/dashboard/trends" className="gx-btn-outline inline-flex items-center gap-2">
+              <BarChart3 className="w-4 h-4" /> Trend Dashboard
             </Link>
           </div>
 
