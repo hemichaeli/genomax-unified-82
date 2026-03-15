@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield, Beaker, Clock, Activity, Check, Package, Camera, Hash, Users, Share2, Wallet } from "lucide-react";
+import { ArrowRight, Shield, Beaker, Clock, Activity, Check, Package, Camera, Hash, Users, Share2, Wallet, TrendingUp, TrendingDown, Minus, BarChart2, RefreshCw } from "lucide-react";
 
 const Home = () => {
   return (
@@ -29,7 +29,6 @@ const Home = () => {
               Read the Science
             </Link>
           </div>
-          {/* HSA/FSA badge under CTAs */}
           <div className="flex justify-center">
             <Link to="/pricing" className="inline-flex items-center gap-1.5 text-xs text-[#00E676]/70 hover:text-[#00E676] transition-colors">
               <Wallet className="w-3 h-3" />
@@ -172,8 +171,135 @@ const Home = () => {
         </div>
       </section>
 
-      {/* #MyBioOS UGC Gallery */}
+      {/* ── TREND DASHBOARD SECTION ─────────────────────────────────────── */}
       <section className="gx-section-surface">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+
+            {/* Visual mockup */}
+            <div className="gx-card p-6 order-2 md:order-1">
+              <div className="flex items-center justify-between mb-5">
+                <div>
+                  <p className="text-xs font-mono text-[#FF1F23] tracking-wider mb-0.5">TREND DASHBOARD</p>
+                  <p className="text-sm font-bold text-white">Session 1 → Session 2</p>
+                </div>
+                <span className="text-xs font-mono text-[#6B7A90] bg-[#0D1117] px-2 py-1 rounded">90 days apart</span>
+              </div>
+
+              {/* Summary row */}
+              <div className="grid grid-cols-3 gap-3 mb-5">
+                {[
+                  { label: "Improved", value: "7", color: "#00E676" },
+                  { label: "Stable", value: "4", color: "#6B7A90" },
+                  { label: "Rate", value: "64%", color: "#FFD600" },
+                ].map((s) => (
+                  <div key={s.label} className="bg-[#0D1117] rounded-lg p-3 text-center">
+                    <div className="font-mono text-xl font-bold" style={{ color: s.color }}>{s.value}</div>
+                    <div className="text-[10px] text-[#6B7A90] mt-0.5">{s.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Biomarker comparison rows */}
+              <div className="space-y-2">
+                {[
+                  { name: "Vitamin D", old: "22 ng/mL", new: "51 ng/mL", status: "improved", pct: "+132%" },
+                  { name: "Ferritin", old: "9 ng/mL", new: "24 ng/mL", status: "improved", pct: "+167%" },
+                  { name: "Homocysteine", old: "14 µmol/L", new: "8 µmol/L", status: "improved", pct: "-43%" },
+                  { name: "TSH", old: "2.1 mIU/L", new: "2.0 mIU/L", status: "stable", pct: "0%" },
+                ].map((row) => {
+                  const isImproved = row.status === "improved";
+                  const Icon = isImproved ? TrendingUp : Minus;
+                  const color = isImproved ? "#00E676" : "#6B7A90";
+                  return (
+                    <div key={row.name} className="flex items-center justify-between bg-[#0D1117] rounded-lg px-3 py-2.5">
+                      <div className="flex items-center gap-2">
+                        <Icon className="w-3.5 h-3.5 flex-shrink-0" style={{ color }} />
+                        <span className="text-xs text-white">{row.name}</span>
+                      </div>
+                      <div className="flex items-center gap-3 text-xs">
+                        <span className="text-[#6B7A90] font-mono">{row.old}</span>
+                        <ArrowRight className="w-3 h-3 text-[#6B7A90]" />
+                        <span className="font-bold font-mono" style={{ color }}>{row.new}</span>
+                        <span
+                          className="px-1.5 py-0.5 rounded text-[10px] font-mono"
+                          style={{ background: `${color}15`, color }}
+                        >
+                          {row.pct}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-[#1A2030] text-center">
+                <p className="text-[10px] font-mono text-[#6B7A90]/50">GenoMAX&#178; | Blood does not negotiate.</p>
+              </div>
+            </div>
+
+            {/* Copy */}
+            <div className="order-1 md:order-2">
+              <div className="gx-safety-badge w-fit mb-4">
+                <BarChart2 className="w-3 h-3" />
+                <span>Built Into Every Protocol</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>
+                Your Biology,<br />
+                <span className="text-[#00E676]">Measured Over Time.</span>
+              </h2>
+              <p className="text-[#6B7A90] mb-6">
+                Most supplements are taken on faith. GenoMAX&#178; is the only protocol system that quantifies its own results. Retest at 90 days. Watch your biomarkers move. Know exactly what changed and why.
+              </p>
+              <div className="space-y-4 mb-8">
+                {[
+                  {
+                    icon: TrendingUp,
+                    color: "#00E676",
+                    title: "Before / After Comparison",
+                    desc: "Session-by-session biomarker delta with improvement rate calculation.",
+                  },
+                  {
+                    icon: BarChart2,
+                    color: "#009BFF",
+                    title: "Biomarker Trend Charts",
+                    desc: "Sparklines across all sessions. See the trajectory, not just the snapshot.",
+                  },
+                  {
+                    icon: RefreshCw,
+                    color: "#FFD600",
+                    title: "Shareable Improvement Card",
+                    desc: "Generate a #MyBioOS card showing your top biomarker improvements.",
+                  },
+                ].map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={item.title} className="flex items-start gap-4">
+                      <div
+                        className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                        style={{ background: `${item.color}15` }}
+                      >
+                        <Icon className="w-4 h-4" style={{ color: item.color }} />
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-white">{item.title}</p>
+                        <p className="text-xs text-[#6B7A90] mt-0.5">{item.desc}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <Link to="/dashboard/trends" className="gx-btn-outline inline-flex items-center gap-2">
+                View Trend Dashboard <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* ── END TREND DASHBOARD SECTION ──────────────────────────────────── */}
+
+      {/* #MyBioOS UGC Gallery */}
+      <section className="gx-section">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-[#FF1F23]/10 border border-[#FF1F23]/20 rounded-full px-4 py-1.5 mb-4">
@@ -188,7 +314,6 @@ const Home = () => {
             </p>
           </div>
 
-          {/* UGC Preview Grid - placeholder cards until real UGC is available */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-5xl mx-auto mb-8">
             {[
               { type: "unboxing", env: "MAXimo\u00B2", color: "#00AEEF", metric: "Protocol Box", label: "Day 1" },
@@ -242,7 +367,7 @@ const Home = () => {
       </section>
 
       {/* How It Works */}
-      <section className="gx-section">
+      <section className="gx-section-surface">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-12" style={{ fontFamily: "'Inter Tight', sans-serif" }}>How It Works</h2>
           <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
@@ -250,7 +375,7 @@ const Home = () => {
               { step: "01", title: "Blood Work", desc: "Upload existing results or order a kit. The Bloodwork Engine needs your data." },
               { step: "02", title: "41 Biomarkers", desc: "Processed through 31 safety gates across 3 tiers. No shortcuts. No overrides." },
               { step: "03", title: "Your Protocol", desc: "Gender-specific modules with chronobiology-based dosing: morning, midday, evening." },
-              { step: "04", title: "Track + Retest", desc: "Quarterly retesting shows measurable improvement. Your protocol evolves with your biology." },
+              { step: "04", title: "Track + Retest", desc: "Quarterly retesting shows measurable improvement. Your Trend Dashboard tracks every biomarker shift." },
             ].map((item) => (
               <div key={item.step} className="gx-card p-6">
                 <div className="font-mono text-2xl font-bold text-[#FF1F23] mb-3">{item.step}</div>
@@ -268,7 +393,7 @@ const Home = () => {
       </section>
 
       {/* Bottom CTA */}
-      <section className="gx-section-surface text-center">
+      <section className="gx-section text-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Inter Tight', sans-serif" }}>Blood Does Not Negotiate.</h2>
           <p className="text-[#6B7A90] mb-6">Neither should your supplement protocol.</p>
