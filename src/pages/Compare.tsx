@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, X, Minus } from "lucide-react";
 
 const competitors = [
-  { name: "GenoMAX\u00B2", price: "$89-169/mo", blood: true, gender: true, safety: "31 gates", timing: true, dna: "REJECTED", box: true },
-  { name: "Bioniq", price: "$150/mo", blood: true, gender: false, safety: "Unknown", timing: false, dna: "Optional", box: false },
-  { name: "Rootine", price: "$70/mo", blood: true, gender: false, safety: "Unknown", timing: false, dna: "Yes ($115)", box: false },
-  { name: "Persona", price: "$66-92/mo", blood: false, gender: false, safety: "Drug interactions", timing: false, dna: "No", box: false },
-  { name: "InsideTracker", price: "$119-489", blood: true, gender: false, safety: "Basic", timing: false, dna: "Optional", box: false },
-  { name: "Thorne", price: "$100-350/test", blood: true, gender: false, safety: "Basic", timing: false, dna: "No", box: false },
+  { name: "GenoMAX\u00B2", price: "$89-169/mo", blood: true, gender: true, safety: "31 gates", timing: true, dna: "REJECTED", box: true, trends: true },
+  { name: "Bioniq", price: "$150/mo", blood: true, gender: false, safety: "Unknown", timing: false, dna: "Optional", box: false, trends: false },
+  { name: "Rootine", price: "$70/mo", blood: true, gender: false, safety: "Unknown", timing: false, dna: "Yes ($115)", box: false, trends: false },
+  { name: "Persona", price: "$66-92/mo", blood: false, gender: false, safety: "Drug interactions", timing: false, dna: "No", box: false, trends: false },
+  { name: "InsideTracker", price: "$119-489", blood: true, gender: false, safety: "Basic", timing: false, dna: "Optional", box: false, trends: "partial" },
+  { name: "Thorne", price: "$100-350/test", blood: true, gender: false, safety: "Basic", timing: false, dna: "No", box: false, trends: false },
 ];
 
 const Compare = () => (
@@ -59,6 +59,18 @@ const Compare = () => (
               <tr className="border-b border-[#1A2030]/50">
                 <td className="py-3 px-3 text-[#6B7A90]">DNA Testing</td>
                 {competitors.map((c) => <td key={c.name} className={`py-3 px-3 text-center text-xs ${c.dna === "REJECTED" ? "text-[#FF1F23] font-bold font-mono" : "text-[#6B7A90]"}`}>{c.dna}</td>)}
+              </tr>
+              <tr className="border-b border-[#1A2030]/50">
+                <td className="py-3 px-3 text-[#6B7A90]">Biomarker Trend Tracking</td>
+                {competitors.map((c) => (
+                  <td key={c.name} className="py-3 px-3 text-center">
+                    {c.trends === true
+                      ? <Check className="w-4 h-4 text-[#00E676] mx-auto" />
+                      : c.trends === "partial"
+                      ? <Minus className="w-4 h-4 text-[#FFD600] mx-auto" />
+                      : <X className="w-4 h-4 text-[#FF1F23] mx-auto" />}
+                  </td>
+                ))}
               </tr>
               <tr>
                 <td className="py-3 px-3 text-[#6B7A90]">Protocol Box</td>
